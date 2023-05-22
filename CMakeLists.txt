@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(myactuator_rmd_driver)
 
-option(PYTHON_BINDINGS "PYTHON_BINDINGS" OFF)
+option(BUILD_TESTING "Build unit and integration tests" OFF)
+option(PYTHON_BINDINGS "Building Python bindings" OFF)
 
 if(NOT UNIX)
   message(FATAL_ERROR "Currently this driver only supports Linux operating systems!")
