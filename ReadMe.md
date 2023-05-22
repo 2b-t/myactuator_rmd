@@ -7,4 +7,9 @@ Author: [Tobit Flatscher](https://github.com/2b-t) (May 2023)
 
 
 ## 0. Overview
-This repository holds a **CAN driver for the [MyActuator RMD actuator series](https://www.myactuator.com/rmd-x)** written in modern C++ using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html) as well as the [Boost ASIO networking library](https://www.boost.org/doc/libs/1_82_0/doc/html/boost_asio.html).
+This repository holds a **CAN driver for the [MyActuator RMD actuator series](https://www.myactuator.com/rmd-x)** written in modern C++ using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html) as well as the [Boost ASIO networking library](https://www.boost.org/doc/libs/1_82_0/doc/html/boost_asio.html). The driver is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
+
+```
+WORK IN PROGRESS:
+This driver is currently under development in is not yet functional!
+```
