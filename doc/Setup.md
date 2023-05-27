@@ -33,7 +33,7 @@ The configuration procedure is discussed in [this video by the company](https://
 
 ## 2. Testing the actuator
 
-After having connected the actuator you can test it on Linux through the [**SocketCAN command line tools**](https://github.com/linux-can/can-utils). An introduction to it can be found [here](https://blog.mbedded.ninja/programming/operating-systems/linux/how-to-use-socketcan-with-the-command-line-in-linux/) as well as [here](https://sgframework.readthedocs.io/en/latest/cantutorial.html). On Ubuntu you can install the command-line tools with `sudo apt-get install can-utils`.
+Under Linux we can use [SocketCAN](https://www.kernel.org/doc/html/v5.9/networking/can.html) as part of the Linux kernel for communicating with the actuator. Examples written in C displaying its usage, including receive filters, can be found [here](https://github.com/craigpeacock/CAN-Examples). Additionally there are command line tools available for it, the [**SocketCAN command line tools**](https://github.com/linux-can/can-utils), that on Ubuntu can be installed with `sudo apt-get install can-utils`. An introduction to them can be found [here](https://blog.mbedded.ninja/programming/operating-systems/linux/how-to-use-socketcan-with-the-command-line-in-linux/) as well as [here](https://sgframework.readthedocs.io/en/latest/cantutorial.html).
 
 After having connected your actuator through the USB adapter you should be able to see it with
 
@@ -49,7 +49,7 @@ Then continue to **configure the CAN interface** with
 $ sudo ip link set can0 up type can bitrate 500000
 ```
 
-where the interface name must correspond to the previously outputted one and the baud rate has to correspond to the one configured for your drive through the Assistant 3.0 GUI previously.
+where the interface name (in our case `can0`) must correspond to the previously outputted one and the baud rate has to correspond to the one configured for your drive through the Assistant 3.0 GUI previously.
 
 Finally you can **send commands** to the corresponding CAN device, specifying its **hexadecimal address** (again configured in the Assistant 3.0, in my case `141`) and the **command**. The following command will send the actuator to the 360 degree position
 
@@ -78,5 +78,29 @@ Alternatively to the SocketCAN command line tools you might use a graphic user i
 
 
 ## 3. Debugging this driver
+
+For testing purposes SocketCAN also supports [a virtual CAN driver](https://www.kernel.org/doc/Documentation/networking/can.txt). It can be enabled with
+
+```bash
+$ sudo modprobe vcan
+$ sudo ip link add dev vcan0 type vcan
+$ sudo ifconfig vcan0 up
+```
+
+where `vcan0` is the name of the virtual CAN device.
+
+Finally you can test the virtual CAN interface `vcan0` by opening two terminals, one for monitoring the received data
+
+```bash
+$ cansniffer vcan0
+```
+
+and the other for sending it
+
+```bash
+$ cansend vcan0 141#a400f40100000000
+```
+
+This feature is used for unit testing of this driver.
 
 This driver is based on the [RMD-X Servo Motor Control Protocol V3.8](https://www.myactuator.com/_files/ugd/cab28a_0d661f6bcbc94a0882ceed465e4039ce.docx). In order to debug it, it might be helpful to get familiar with [CANbus errors](https://www.csselectronics.com/pages/can-bus-errors-intro-tutorial).
