@@ -10,14 +10,17 @@ endif()
 
 include(ConfigExtras.cmake)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 include_directories(
   include/
 )
 
 add_library(myactuator_rmd_driver_obj OBJECT
   src/can/exceptions.cpp
-  src/can/frame.cpp
-  src/can/interface.cpp
+  src/can/node.cpp
+  src/can/output.cpp
   src/driver.cpp
 )
 add_library(myactuator_rmd_driver 
@@ -25,12 +28,15 @@ add_library(myactuator_rmd_driver
 )
 
 set(MYACTUATOR_RMD_DRIVER_LIBRARIES ${Boost_SYSTEM_LIBRARY})
-target_link_libraries(myactuator_rmd_driver_obj ${MYACTUATOR_RMD_DRIVER_LIBRARIES})
 target_link_libraries(myactuator_rmd_driver ${MYACTUATOR_RMD_DRIVER_LIBRARIES})
 
+add_executable(driver
+  $<TARGET_OBJECTS:myactuator_rmd_driver_obj>
+  src/main.cpp
+)
+target_link_libraries(driver ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd_driver)
+
 if(PYTHON_BINDINGS)
-  find_package(Python REQUIRED COMPONENTS Interpreter Development)
-  find_package(pybind11 CONFIG REQUIRED)
   pybind11_add_module(pymyactuator_rmd_driver bindings/myactuator_rmd_driver.cpp)
   set_target_properties(pymyactuator_rmd_driver PROPERTIES OUTPUT_NAME myactuator_rmd_driver)
 endif()

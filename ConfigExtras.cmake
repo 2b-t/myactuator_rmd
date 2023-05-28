@@ -6,10 +6,15 @@ else()
   message(WARNING "Ament CMake not found!")
 endif()
 
-find_package(Boost 1.40.0 REQUIRED COMPONENTS system thread)
+find_package(Boost 1.40.0 REQUIRED COMPONENTS program_options system thread)
 if(NOT Boost_FOUND)
   message(FATAL_ERROR "Boost libraries not found!")
 else()
   message(STATUS "Boost version " ${Boost_VERSION} " detected.")
+endif()
+
+if(PYTHON_BINDINGS)
+  find_package(Python REQUIRED COMPONENTS Interpreter Development)
+  find_package(pybind11 CONFIG REQUIRED)
 endif()
 

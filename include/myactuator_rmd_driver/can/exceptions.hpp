@@ -11,10 +11,20 @@
 #pragma once
 
 #include <stdexcept>
+#include <system_error>
 
 
 namespace myactuator_rmd_driver {
   namespace can {
+
+    /**\class SocketException
+    *  \brief
+    *     Exception class for errors with Linux CAN Socket
+    */
+    class SocketException: public std::system_error {
+      public:
+        using std::system_error::system_error;
+    };
 
   }
 }

@@ -10,14 +10,17 @@
 #define MYACTUATOR_RMD_DRIVER__DRIVER
 #pragma once
 
-#include "myactuator_rmd_driver/can/interface.hpp"
+#include <string>
+
+#include "myactuator_rmd_driver/can/node.hpp"
 
 
 namespace myactuator_rmd_driver {
 
-  class Driver: public can::Interface {
+  class Driver: protected can::Node {
     public:
-      constexpr Driver() {
+      Driver(std::string const& ifname)
+      : can::Node{ifname} {
         return;
       }
   };
