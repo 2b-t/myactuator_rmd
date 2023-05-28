@@ -7,10 +7,58 @@ Author: [Tobit Flatscher](https://github.com/2b-t) (May 2023)
 
 
 ## 0. Overview
-This repository holds a **CAN driver for the [MyActuator RMD actuator series](https://www.myactuator.com/rmd-x)** written in modern C++ using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html) as well as the [Boost ASIO networking library](https://www.boost.org/doc/libs/1_82_0/doc/html/boost_asio.html). The driver is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
+This repository holds a **CAN driver for the [MyActuator RMD actuator series](https://www.myactuator.com/rmd-x)** written in modern C++17 using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html). The driver is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
 
 ```
 WORK IN PROGRESS:
 This driver is currently under development and is not yet functional!
+```
+
+
+
+## 1. Building
+
+For building this driver open a new terminal inside this folder and execute the following commands
+
+```bash
+$ mkdir build
+$ cd build
+$ cmake .. -DPYTHON_BINDINGS=on
+$ make -j $(nproc)
+```
+
+The flag `PYTHON_BINDINGS` (defaults to `off`) builds the Python bindings additionally to the C++ library. In case you are only interested in using the C++ library feel free to leave it off.
+
+
+
+## 2. Using the Python bindings
+
+For importing the Python bindings open a new terminal inside the `build` folder after having build the driver:
+
+```bash
+$ python3
+>>> from myactuator_rmd_driver import Driver
+```
+
+Now you can continue to create a driver for a particular network interface and drive and control it through the Python API.
+
+
+
+## 3. Automated tests
+
+The tests can be build by passing the additional flag `-DBUILD_TESTING=on` to CMake. After building the driver with the additional flag you will have to bring the virtual CAN interface up with:
+
+```bash
+$ sudo modprobe vcan
+$ sudo ip link add dev vcan_test type vcan
+$ sudo ifconfig vcan_test up
+```
+
+Additionally there is a flag `SETUP_TEST_IFNAME` that - if set to `on` - automatically sets up the virtual CAN interface for you but this requires the following command to be run as `sudo`.
+
+Finally you can launch the test with the following command:
+
+```bash
+$ ctest
 ```
 
