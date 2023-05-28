@@ -1,0 +1,4 @@
+# See https://stackoverflow.com/a/37748933
+
+set(CTEST_CUSTOM_PRE_TEST "modprobe vcan; ip link add dev ${VCAN_IFNAME} type vcan; ifconfig ${VCAN_IFNAME} up")
+set(CTEST_CUSTOM_POST_TEST "ifconfig ${VCAN_IFNAME} down; ip link delete ${VCAN_IFNAME}")

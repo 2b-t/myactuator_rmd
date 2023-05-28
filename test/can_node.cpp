@@ -1,5 +1,5 @@
 /**
- * \file main.cpp
+ * \file can_node.cpp
  * \mainpage
  *    Test program for testing Linux SocketCAN communication
  * \author
@@ -18,7 +18,7 @@
 #include "myactuator_rmd_driver/can/output.hpp"
 
 
-void removeSubstr(std::string& str, std::string const& substr) { 
+void removeSubstr(std::string& str, std::string const& substr) noexcept { 
   std::string::size_type n {substr.length()};
   for (std::string::size_type i = str.find(substr); i != std::string::npos; i = str.find(substr)) {
     str.erase(i, n);
