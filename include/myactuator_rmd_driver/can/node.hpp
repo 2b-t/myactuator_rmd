@@ -39,7 +39,7 @@ namespace myactuator_rmd_driver {
         Node& operator = (Node&&) = default;
         ~Node();
 
-        /**\fn setReadFilter
+        /**\fn setRecvFilter
          * \brief
          *    Set a filter for receiving CAN frames only for specific IDs
          * 
@@ -48,7 +48,7 @@ namespace myactuator_rmd_driver {
          * \param[in] is_invert
          *    Invert the CAN id. If set to true all messages of the given ID are discarded
         */
-        void setReadFilter(std::uint32_t const& can_id, bool const is_invert = false);
+        void setRecvFilter(std::uint32_t const& can_id, bool const is_invert = false);
 
         /**\fn read
          * \brief
@@ -61,13 +61,13 @@ namespace myactuator_rmd_driver {
         std::array<std::uint8_t,8> read() const;
 
         /**\fn write
-        * \brief
-        *    Write the given data to a CAN frame with the corresponding can_id and enqueue it
-        * 
-        * \param[in] data
-        *    The data to be sent
-        * \param[in] can_id
-        *   The CAN id that the data should be sent to
+         * \brief
+         *    Write the given data to a CAN frame with the corresponding can_id and enqueue it
+         * 
+         * \param[in] data
+         *    The data to be sent
+         * \param[in] can_id
+         *   The CAN id that the data should be sent to
         */
         void write(std::array<std::uint8_t,8> const& data, std::uint32_t const& can_id);
 

@@ -1,5 +1,5 @@
 /**
- * \file main.hpp
+ * \file main.cpp
  * \mainpage
  *    Test program for testing Linux SocketCAN communication
  * \author
@@ -65,13 +65,15 @@ int main(int argc, char** argv) {
   } else if (vm.count("receive") && !vm.count("send")) {
     if (vm.count("can_id")) {
       std::uint32_t const id {static_cast<std::uint32_t>(std::stoul(can_id, nullptr, 16))};
-      node.setReadFilter(id);
+      node.setRecvFilter(id);
     }
-    auto const d {node.read()};
-    for (int i = 0; i < d.size(); i++) {
-      std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(d.at(i)) << " ";
+    while (true) {
+      auto const d {node.read()};
+      for (int i = 0; i < d.size(); ++i) {
+        std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(d.at(i)) << " ";
+      }
+      std::cout << std::dec << std::endl;
     }
-    std::cout << std::dec << std::endl;
   } else {
     std::cerr << "Unknown combination of options!" << std::endl;
   }

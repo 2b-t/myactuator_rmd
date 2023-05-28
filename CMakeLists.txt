@@ -18,7 +18,6 @@ include_directories(
 )
 
 add_library(myactuator_rmd_driver_obj OBJECT
-  src/can/exceptions.cpp
   src/can/node.cpp
   src/can/output.cpp
   src/driver.cpp
@@ -37,7 +36,9 @@ add_executable(driver
 target_link_libraries(driver ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd_driver)
 
 if(PYTHON_BINDINGS)
+  set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS_INIT} -fPIC")
   pybind11_add_module(pymyactuator_rmd_driver bindings/myactuator_rmd_driver.cpp)
+  target_link_libraries(pymyactuator_rmd_driver PRIVATE myactuator_rmd_driver)
   set_target_properties(pymyactuator_rmd_driver PROPERTIES OUTPUT_NAME myactuator_rmd_driver)
 endif()
 

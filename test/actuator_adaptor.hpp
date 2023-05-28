@@ -10,13 +10,13 @@
 #define MYACTUATOR_RMD_DRIVER__TEST__ACTUATOR_ADAPTOR
 #pragma once
 
-#include "myactuator_rmd_driver/can/interface.hpp"
+#include "myactuator_rmd_driver/can/node.hpp"
 
 
 namespace myactuator_rmd_driver {
   namespace test {
 
-    class ActuatorAdaptor: public myactuator_rmd_driver::can::Interface {
+    class ActuatorAdaptor: public myactuator_rmd_driver::can::Node {
     };
 
   }
