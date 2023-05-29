@@ -25,9 +25,13 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
   m.doc() = "MyActuator RMD driver main module";
   pybind11::class_<myactuator_rmd_driver::Driver>(m, "Driver")
     .def(pybind11::init<std::string const&, std::uint32_t>())
-    .def("getVersionDate", &myactuator_rmd_driver::Driver::getVersionDate);
+    .def("getVersionDate", &myactuator_rmd_driver::Driver::getVersionDate)
+    .def("setPositionAbsolute", &myactuator_rmd_driver::Driver::setPositionAbsolute)
+    .def("stopMotor", &myactuator_rmd_driver::Driver::stopMotor)
+    .def("shutdownMotor", &myactuator_rmd_driver::Driver::shutdownMotor);
   pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
   pybind11::register_exception<myactuator_rmd_driver::ParsingException>(m, "ParsingException");
+  pybind11::register_exception<myactuator_rmd_driver::ValueRangeException>(m, "ValueRangeException");
 
   auto m_can = m.def_submodule("can", "Submodule for basic CAN communication");
   pybind11::class_<myactuator_rmd_driver::can::Frame>(m_can, "Frame")

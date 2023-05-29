@@ -24,5 +24,23 @@ namespace myactuator_rmd_driver {
     return response.getVersion();
   }
 
+  void Driver::setPositionAbsolute(float const position, float const max_speed) {
+    SetPositionAbsoluteRequest const request {position, max_speed};
+    sendRecv<SetPositionAbsoluteResponse>(request);
+    return;
+  }
+
+  void Driver::stopMotor() {
+    StopMotorRequest const request {};
+    sendRecv<StopMotorResponse>(request);
+    return;
+  }
+
+  void Driver::shutdownMotor() {
+    ShutdownMotorRequest const request {};
+    sendRecv<ShutdownMotorResponse>(request);
+    return;
+  }
+
 }
 

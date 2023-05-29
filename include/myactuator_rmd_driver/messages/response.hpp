@@ -40,6 +40,7 @@ namespace myactuator_rmd_driver {
   class VersionDateResponse: public Response {
     public:
       VersionDateResponse(std::array<std::uint8_t,8> const& data);
+      VersionDateResponse() = delete;
       VersionDateResponse(VersionDateResponse const&) = default;
       VersionDateResponse& operator = (VersionDateResponse const&) = default;
       VersionDateResponse(VersionDateResponse&&) = default;
@@ -53,6 +54,36 @@ namespace myactuator_rmd_driver {
     std::memcpy(&version, &data_[4], sizeof(std::uint32_t));
     return version;
   }
+
+  class StopMotorResponse: public Response {
+    public:
+      StopMotorResponse(std::array<std::uint8_t,8> const& data);
+      StopMotorResponse() = delete;
+      StopMotorResponse(StopMotorResponse const&) = default;
+      StopMotorResponse& operator = (StopMotorResponse const&) = default;
+      StopMotorResponse(StopMotorResponse&&) = default;
+      StopMotorResponse& operator = (StopMotorResponse&&) = default;
+  };
+
+  class ShutdownMotorResponse: public Response {
+    public:
+      ShutdownMotorResponse(std::array<std::uint8_t,8> const& data);
+      ShutdownMotorResponse() = delete;
+      ShutdownMotorResponse(ShutdownMotorResponse const&) = default;
+      ShutdownMotorResponse& operator = (ShutdownMotorResponse const&) = default;
+      ShutdownMotorResponse(ShutdownMotorResponse&&) = default;
+      ShutdownMotorResponse& operator = (ShutdownMotorResponse&&) = default;
+  };
+
+  class SetPositionAbsoluteResponse: public Response {
+    public:
+      SetPositionAbsoluteResponse(std::array<std::uint8_t,8> const& data);
+      SetPositionAbsoluteResponse() = delete;
+      SetPositionAbsoluteResponse(SetPositionAbsoluteResponse const&) = default;
+      SetPositionAbsoluteResponse& operator = (SetPositionAbsoluteResponse const&) = default;
+      SetPositionAbsoluteResponse(SetPositionAbsoluteResponse&&) = default;
+      SetPositionAbsoluteResponse& operator = (SetPositionAbsoluteResponse&&) = default;
+  };
 
 }
 

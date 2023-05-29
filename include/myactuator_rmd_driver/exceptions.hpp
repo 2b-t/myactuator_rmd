@@ -33,6 +33,15 @@ namespace myactuator_rmd_driver {
       using Exception::Exception;
   };
 
+  /**\class ValueRangeException
+   * \brief
+   *    Exception class for values that are outside their expected range
+  */
+  class ValueRangeException: public Exception {
+    public:
+      using Exception::Exception;
+  };
+
 }
 
 #endif // MYACTUATOR_RMD_DRIVER__EXCEPTIONS

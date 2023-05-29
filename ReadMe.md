@@ -33,16 +33,19 @@ The flag `PYTHON_BINDINGS` (defaults to `off`) builds the Python bindings additi
 
 ## 2. Using the Python bindings
 
-For importing the Python bindings open a new terminal inside the `build` folder after having build the driver:
+For importing the Python bindings open a new terminal inside the `build` folder after having build the driver. Load the library and continue to create a driver for a particular network interface and drive and control it through the Python API.
 
 ```bash
 $ python3
+Python 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
 >>> from myactuator_rmd_driver import Driver
->>> d = Driver("can0", 1)
->>> d.getVersionDate()
+>>> driver = Driver("can0", 1)
+2023020601
+>>> driver.getVersionDate()
+>>> driver.setPositionAbsolute(180.0, 500.0)
+>>> driver.shutdownMotor()
 ```
-
-Now you can continue to create a driver for a particular network interface and drive and control it through the Python API.
 
 
 
