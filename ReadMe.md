@@ -11,7 +11,7 @@ This repository holds a **CAN driver for the [MyActuator RMD actuator series](ht
 
 ```
 WORK IN PROGRESS:
-This driver is currently under development and is not yet functional!
+This driver is currently under development and is not yet fully functional!
 ```
 
 
@@ -38,6 +38,8 @@ For importing the Python bindings open a new terminal inside the `build` folder 
 ```bash
 $ python3
 >>> from myactuator_rmd_driver import Driver
+>>> d = Driver("can0", 1)
+>>> d.getVersionDate()
 ```
 
 Now you can continue to create a driver for a particular network interface and drive and control it through the Python API.
