@@ -15,17 +15,19 @@
 #include "myactuator_rmd_driver/can/exceptions.hpp"
 #include "myactuator_rmd_driver/can/frame.hpp"
 #include "myactuator_rmd_driver/can/node.hpp"
+#include "myactuator_rmd_driver/messages/request.hpp"
 #include "myactuator_rmd_driver/driver.hpp"
+#include "myactuator_rmd_driver/exceptions.hpp"
 
 
 PYBIND11_MODULE(myactuator_rmd_driver, m) {
 
   m.doc() = "MyActuator RMD driver main module";
   pybind11::class_<myactuator_rmd_driver::Driver>(m, "Driver")
-    .def(pybind11::init<std::string const&, std::uint32_t>());
-  // TODO(tobit): Add exceptions
-  // TODO(tobit): Add requests
-  // TODO(tobit): Add responses
+    .def(pybind11::init<std::string const&, std::uint32_t>())
+    .def("getVersionDate", &myactuator_rmd_driver::Driver::getVersionDate);
+  pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
+  pybind11::register_exception<myactuator_rmd_driver::ParsingException>(m, "ParsingException");
 
   auto m_can = m.def_submodule("can", "Submodule for basic CAN communication");
   pybind11::class_<myactuator_rmd_driver::can::Frame>(m_can, "Frame")
