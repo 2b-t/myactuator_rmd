@@ -15,7 +15,6 @@
 #include <boost/program_options.hpp>
 
 #include "myactuator_rmd_driver/can/node.hpp"
-#include "myactuator_rmd_driver/can/output.hpp"
 
 
 void removeSubstr(std::string& str, std::string const& substr) noexcept { 
@@ -61,14 +60,15 @@ int main(int argc, char** argv) {
     for (std::size_t i = 0; i < data.size()/2; ++i) {
       arr.at(i) = static_cast<std::uint8_t>(std::stoul(data.substr(2*i, 2), nullptr, 16));
     }
-    node.write(arr, id);
+    node.write(id, arr);
   } else if (vm.count("receive") && !vm.count("send")) {
     if (vm.count("can_id")) {
       std::uint32_t const id {static_cast<std::uint32_t>(std::stoul(can_id, nullptr, 16))};
       node.setRecvFilter(id);
     }
     while (true) {
-      auto const d {node.read()};
+      auto const frame {node.read()};
+      auto const d {frame.getData()};
       for (int i = 0; i < d.size(); ++i) {
         std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(d.at(i)) << " ";
       }

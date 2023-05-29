@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <string>
 
+#include "myactuator_rmd_driver/messages/definitions.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
 
@@ -22,7 +23,7 @@ namespace myactuator_rmd_driver {
    * \brief
    *    Driver for commanding the MyActuator RMD actuator series
   */
-  class Driver: public Node<0x140,0x240> {
+  class Driver: public Node<Offset::request,Offset::response> {
     public:
       /**\fn Driver
        * \brief
@@ -30,10 +31,10 @@ namespace myactuator_rmd_driver {
        * 
        * \param[in] ifname
        *    The name of the network interface that should communicated over
-       * \param[in] id
-       *    The CAN id of the node
+       * \param[in] actuator_id
+       *    The actuator id [1, 32]
       */
-      Driver(std::string const& ifname, std::uint32_t const id);
+      Driver(std::string const& ifname, std::uint32_t const actuator_id);
       Driver() = delete;
       Driver(Driver const&) = delete;
       Driver& operator = (Driver const&) = default;
@@ -47,6 +48,7 @@ namespace myactuator_rmd_driver {
        * \return
        *    The version date of the firmware on the actuator, e.g. '20220206'
       */
+      [[nodiscard]]
       std::uint32_t getVersionDate();
   };
 

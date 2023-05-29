@@ -10,10 +10,11 @@
 #define MYACTUATOR_RMD_DRIVER__TEST__MOCK__ACTUATOR_ADAPTOR
 #pragma once
 
-#include <array>
 #include <cstdint>
 #include <string>
 
+#include "myactuator_rmd_driver/messages/definitions.hpp"
+#include "myactuator_rmd_driver/messages/response.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
 
@@ -24,14 +25,14 @@ namespace myactuator_rmd_driver {
      * \brief
      *    Counter-part to the driver and parent class of the mock
     */
-    class ActuatorAdaptor: protected myactuator_rmd_driver::Node<0x240,0x140> {
+    class ActuatorAdaptor: protected myactuator_rmd_driver::Node<Offset::response,Offset::request> {
       public:
         void handleRequest();
 
-        virtual std::array<std::uint8_t,8> getVersionDate() const = 0;
+        virtual myactuator_rmd_driver::VersionDateResponse getVersionDate() const = 0;
 
       protected:
-        ActuatorAdaptor(std::string const& ifname, std::uint32_t const id);
+        ActuatorAdaptor(std::string const& ifname, std::uint32_t const actuator_id);
         ActuatorAdaptor() = delete;
         ActuatorAdaptor(ActuatorAdaptor const&) = delete;
         ActuatorAdaptor& operator = (ActuatorAdaptor const&) = default;

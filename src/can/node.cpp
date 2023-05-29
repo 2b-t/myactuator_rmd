@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <cstring>
 #include <cerrno>
+#include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <system_error>
@@ -21,8 +23,28 @@
 #include <unistd.h>
 
 #include "myactuator_rmd_driver/can/exceptions.hpp"
-#include "myactuator_rmd_driver/can/output.hpp"
+#include "myactuator_rmd_driver/can/frame.hpp"
 
+
+/**\fn operator <<
+ * \brief
+ *    Output stream operator for a Linux SocketCAN CAN frame
+ *
+ * \param[in,out] os
+ *    The output stream that should be written to
+ * \param[in] frame
+ *    The CAN frame that should be written to the output stream
+ * \return
+ *    The output stream containing information about the CAN frame
+*/
+std::ostream& operator << (std::ostream& os, struct ::can_frame const& frame) noexcept {
+  os << "id: " << "0x" << std::hex << std::setfill('0') << std::setw(3) << frame.can_id << ", data: ";
+  for (int i = 0; i < frame.len; i++) {
+    os << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(frame.data[i]) << " ";
+  }
+  os << std::dec;
+  return os;
+}
 
 namespace myactuator_rmd_driver {
   namespace can {
@@ -100,7 +122,7 @@ namespace myactuator_rmd_driver {
       return;
     }
 
-    std::array<std::uint8_t,8> Node::read() const {
+    Frame Node::read() const {
       struct ::can_frame frame {};
       if (::read(socket_, &frame, sizeof(struct ::can_frame)) < 0) {
         throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Could not read CAN frame");
@@ -134,10 +156,15 @@ namespace myactuator_rmd_driver {
       }
       std::array<std::uint8_t,8> data {};
       std::copy(std::begin(frame.data), std::end(frame.data), std::begin(data));
-      return data;
+      Frame const f {frame.can_id, data};
+      return f;
     }
 
-    void Node::write(std::array<std::uint8_t,8> const& data, std::uint32_t const can_id) {
+    void Node::write(Frame const& frame) {
+      return write(frame.getCanId(), frame.getData());
+    }
+
+    void Node::write(std::uint32_t const can_id, std::array<std::uint8_t,8> const& data) {
       struct ::can_frame frame {};
       frame.can_id = can_id;
       frame.len = 8;

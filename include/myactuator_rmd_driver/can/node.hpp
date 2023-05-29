@@ -14,13 +14,16 @@
 #include <cstdint>
 #include <string>
 
+#include "myactuator_rmd_driver/can/frame.hpp"
+
 
 namespace myactuator_rmd_driver {
   namespace can {
 
     /**\class Node
      *  \brief
-     *     Base class for sending basic CAN frames over SocketCAN
+     *     Base class for sending and receiving basic CAN frames over SocketCAN with a default 8*uint8 length
+     *     in a blocking manner
     */
     class Node {
       public:
@@ -41,7 +44,7 @@ namespace myactuator_rmd_driver {
 
         /**\fn setLoopback
          * \brief
-         *    Set the socket to also receive its own messages
+         *    Set the socket to also receive its own messages, this can be desirable for debugging
          * 
          * \param[in] is_loopback
          *    If set to true the node will also receive its own messages
@@ -55,30 +58,40 @@ namespace myactuator_rmd_driver {
          * \param[in] can_id
          *    The CAN id that should be accepted (discarded if \p is_invert set to true)
          * \param[in] is_invert
-         *    Invert the CAN id. If set to true all messages of the given ID are discarded
+         *    Invert the CAN id filter: If set to true all messages of the given ID are discarded
         */
         void setRecvFilter(std::uint32_t const& can_id, bool const is_invert = false);
 
         /**\fn read
          * \brief
          *    Blocking read a CAN frame
+         *    Only CAN frames that a receive filter was set for can be read
          * 
          * \return
          *    The read CAN frame if any
         */
         [[nodiscard]]
-        std::array<std::uint8_t,8> read() const;
+        Frame read() const;
+
+        /**\fn write
+         * \brief
+         *   Write the given CAN frame by calling the implementation below
+         * 
+         * \param[in] frame
+         *    The CAN frame to be written
+        */
+        void write(Frame const& frame);
 
         /**\fn write
          * \brief
          *    Write the given data to a CAN frame with the corresponding can_id and enqueue it
          * 
-         * \param[in] data
-         *    The data to be sent
          * \param[in] can_id
          *   The CAN id that the data should be sent to
+         * \param[in] data
+         *    The data to be sent
         */
-        void write(std::array<std::uint8_t,8> const& data, std::uint32_t const can_id);
+        void write(std::uint32_t const can_id, std::array<std::uint8_t,8> const& data);
 
       protected:
         std::string ifname_;

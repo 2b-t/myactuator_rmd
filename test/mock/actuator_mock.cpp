@@ -9,8 +9,8 @@
 namespace myactuator_rmd_driver {
   namespace test {
 
-    ActuatorMock::ActuatorMock(std::string const& ifname, std::uint32_t const id)
-    : ActuatorAdaptor{ifname, id} {
+    ActuatorMock::ActuatorMock(std::string const& ifname, std::uint32_t const actuator_id)
+    : ActuatorAdaptor{ifname, actuator_id} {
       return;
     }
 

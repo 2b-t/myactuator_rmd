@@ -15,6 +15,7 @@
 
 #include <gmock/gmock.h>
 
+#include "myactuator_rmd_driver/messages/response.hpp"
 #include "actuator_adaptor.hpp"
 
 
@@ -27,14 +28,14 @@ namespace myactuator_rmd_driver {
     */
     class ActuatorMock: public ActuatorAdaptor {
       public:
-        ActuatorMock(std::string const& ifname, std::uint32_t const id);
+        ActuatorMock(std::string const& ifname, std::uint32_t const actuator_id);
         ActuatorMock() = delete;
         ActuatorMock(ActuatorMock const&) = delete;
         ActuatorMock& operator = (ActuatorMock const&) = default;
         ActuatorMock(ActuatorMock&&) = default;
         ActuatorMock& operator = (ActuatorMock&&) = default;
 
-        MOCK_METHOD((std::array<std::uint8_t,8>), getVersionDate, (), (const, override));
+        MOCK_METHOD(myactuator_rmd_driver::VersionDateResponse, getVersionDate, (), (const, override));
     };
 
   }

@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(ament_cmake)
 if(ament_cmake_FOUND)
-message(STATUS "Ament CMake detected.")
+  message(STATUS "Ament CMake detected.")
 else()
   message(WARNING "Ament CMake not found!")
 endif()
@@ -26,7 +26,9 @@ include_directories(
 
 add_library(myactuator_rmd_driver_obj OBJECT
   src/can/node.cpp
-  src/can/output.cpp
+  src/messages/message.cpp
+  src/messages/request.cpp
+  src/messages/response.cpp
   src/driver.cpp
 )
 add_library(myactuator_rmd_driver 

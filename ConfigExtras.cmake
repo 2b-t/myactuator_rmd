@@ -4,4 +4,3 @@ if(PYTHON_BINDINGS)
   find_package(Python REQUIRED COMPONENTS Interpreter Development)
   find_package(pybind11 CONFIG REQUIRED)
 endif()
-
