@@ -39,7 +39,7 @@ namespace myactuator_rmd_driver {
   template <CommandType C>
   constexpr Request<C>::Request(std::array<std::uint8_t,8> const& data) noexcept
   : Message{data} {
-    data_[0] = C;
+    data_[0] = static_cast<std::uint8_t>(C);
     return;
   }
 

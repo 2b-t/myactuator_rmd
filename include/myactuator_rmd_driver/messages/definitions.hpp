@@ -29,7 +29,7 @@ namespace myactuator_rmd_driver {
    * \brief
    *    Strongly typed enum for all supported command types
   */
-  enum CommandType: std::uint8_t {
+  enum class CommandType: std::uint8_t {
     READ_PID_PARAMETER = 0x30,
     WRITE_PID_PARAMETER_TO_RAM = 0x31,
     WRITE_PID_PARAMETERS_TO_ROM = 0x32,
@@ -66,6 +66,15 @@ namespace myactuator_rmd_driver {
     // FUNCTION_CONTROL = 0x20,
     // CAN_ID_SETTING = 0x79
   };
+
+  // Comparison operators for convenient usage
+  constexpr bool operator == (std::uint8_t const i, CommandType const& c) noexcept {
+    return i == static_cast<std::uint8_t>(c);
+  }
+
+  constexpr bool operator != (std::uint8_t const i, CommandType const& c) noexcept {
+    return i != static_cast<std::uint8_t>(c);
+  }
 
 }
 
