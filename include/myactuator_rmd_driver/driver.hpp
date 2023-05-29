@@ -10,19 +10,44 @@
 #define MYACTUATOR_RMD_DRIVER__DRIVER
 #pragma once
 
+#include <cstdint>
 #include <string>
 
-#include "myactuator_rmd_driver/can/node.hpp"
+#include "myactuator_rmd_driver/node.hpp"
 
 
 namespace myactuator_rmd_driver {
 
-  class Driver: protected can::Node {
+  /**\class Driver
+   * \brief
+   *    Driver for commanding the MyActuator RMD actuator series
+  */
+  class Driver: public Node<0x140,0x240> {
     public:
-      Driver(std::string const& ifname)
-      : can::Node{ifname} {
-        return;
-      }
+      /**\fn Driver
+       * \brief
+       *    Class constructor
+       * 
+       * \param[in] ifname
+       *    The name of the network interface that should communicated over
+       * \param[in] id
+       *    The CAN id of the node
+      */
+      Driver(std::string const& ifname, std::uint32_t const id);
+      Driver() = delete;
+      Driver(Driver const&) = delete;
+      Driver& operator = (Driver const&) = default;
+      Driver(Driver&&) = default;
+      Driver& operator = (Driver&&) = default;
+
+      /**\fn getVersionDate
+       * \brief
+       *    Reads the version date of the actuator firmware
+       * 
+       * \return
+       *    The version date of the firmware on the actuator, e.g. '20220206'
+      */
+      std::uint32_t getVersionDate();
   };
 
 }

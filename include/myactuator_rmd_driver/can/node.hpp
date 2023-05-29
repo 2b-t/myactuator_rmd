@@ -39,6 +39,15 @@ namespace myactuator_rmd_driver {
         Node& operator = (Node&&) = default;
         ~Node();
 
+        /**\fn setLoopback
+         * \brief
+         *    Set the socket to also receive its own messages
+         * 
+         * \param[in] is_loopback
+         *    If set to true the node will also receive its own messages
+        */
+        void setLoopback(bool const is_loopback);
+
         /**\fn setRecvFilter
          * \brief
          *    Set a filter for receiving CAN frames only for specific IDs
@@ -69,7 +78,7 @@ namespace myactuator_rmd_driver {
          * \param[in] can_id
          *   The CAN id that the data should be sent to
         */
-        void write(std::array<std::uint8_t,8> const& data, std::uint32_t const& can_id);
+        void write(std::array<std::uint8_t,8> const& data, std::uint32_t const can_id);
 
       protected:
         std::string ifname_;

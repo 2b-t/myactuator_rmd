@@ -6,6 +6,7 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
+#include <cstdint>
 #include <string>
 
 #include <pybind11/pybind11.h>
@@ -19,6 +20,8 @@
 PYBIND11_MODULE(myactuator_rmd_driver, m) {
 
   m.doc() = "MyActuator RMD driver main module";
+  pybind11::class_<myactuator_rmd_driver::Driver>(m, "Driver")
+    .def(pybind11::init<std::string const&, std::uint32_t>());
 
   auto m_can = m.def_submodule("can", "Submodule for basic CAN communication");
   pybind11::register_exception<myactuator_rmd_driver::can::SocketException>(m_can, "SocketException");
@@ -38,9 +41,6 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .def("setRecvFilter", &myactuator_rmd_driver::can::Node::setRecvFilter)
     .def("read", &myactuator_rmd_driver::can::Node::read)
     .def("write", &myactuator_rmd_driver::can::Node::write);
-
-  pybind11::class_<myactuator_rmd_driver::Driver>(m, "Driver")
-    .def(pybind11::init<std::string const&>());
 
 }
 

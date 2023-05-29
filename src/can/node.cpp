@@ -78,6 +78,14 @@ namespace myactuator_rmd_driver {
       return;
     }
 
+    void Node::setLoopback(bool const is_loopback) {
+      int const recv_own_msgs {static_cast<int>(is_loopback)};
+      if (::setsockopt(socket_, SOL_CAN_RAW, CAN_RAW_RECV_OWN_MSGS, &recv_own_msgs, sizeof(int)) < 0) {
+        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Could not configure loopback");
+      }
+      return;
+    }
+
     void Node::setRecvFilter(std::uint32_t const& can_id, bool const is_invert) {
       struct ::can_filter filter[1] {};
       if (is_invert) {
@@ -129,7 +137,7 @@ namespace myactuator_rmd_driver {
       return data;
     }
 
-    void Node::write(std::array<std::uint8_t,8> const& data, std::uint32_t const& can_id) {
+    void Node::write(std::array<std::uint8_t,8> const& data, std::uint32_t const can_id) {
       struct ::can_frame frame {};
       frame.can_id = can_id;
       frame.len = 8;
