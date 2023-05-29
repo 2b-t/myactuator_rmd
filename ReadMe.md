@@ -41,8 +41,8 @@ Python 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from myactuator_rmd_driver import Driver
 >>> driver = Driver("can0", 1)
-2023020601
 >>> driver.getVersionDate()
+2023020601
 >>> driver.setPositionAbsolute(180.0, 500.0)
 >>> driver.shutdownMotor()
 ```
