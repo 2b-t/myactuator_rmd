@@ -1,8 +1,8 @@
 # MyActuator RMD-series CAN driver
 
-Author: [Tobit Flatscher](https://github.com/2b-t) (May 2023)
+Author: [Tobit Flatscher](https://github.com/2b-t) (May - June 2023)
 
-[![C++17 Standard](https://img.shields.io/badge/Standard-C++17-yellow.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/std/the-standard) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://github.com/2b-t/myactuator_rmd_driver/actions/workflows/run-tests.yml/badge.svg)](https://github.com/2b-t/myactuator_rmd_driver/actions/workflows/run-tests.yml) [![C++17 Standard](https://img.shields.io/badge/Standard-C++17-yellow.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/std/the-standard) [![Python 3](https://img.shields.io/badge/Python-3-yellow.svg?style=flat&logo=python)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
 
