@@ -84,7 +84,7 @@ For testing purposes SocketCAN also supports [a virtual CAN driver](https://www.
 ```bash
 $ sudo modprobe vcan
 $ sudo ip link add dev vcan0 type vcan
-$ sudo ifconfig vcan0 up
+$ sudo ip link set up vcan0
 ```
 
 where `vcan0` is the name of the virtual CAN device.

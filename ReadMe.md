@@ -56,7 +56,7 @@ The tests can be build by passing the additional flag `-DBUILD_TESTING=on` to CM
 ```bash
 $ sudo modprobe vcan
 $ sudo ip link add dev vcan_test type vcan
-$ sudo ifconfig vcan_test up
+$ sudo ip link set up vcan_test
 ```
 
 Additionally there is a flag `SETUP_TEST_IFNAME` that - if set to `on` - automatically sets up the virtual CAN interface for you but this requires the following command to be run as `sudo`.
