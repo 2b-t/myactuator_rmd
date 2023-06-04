@@ -1,8 +1,7 @@
 /**
  * \file frame.hpp
  * \mainpage
- *    Contains base class for a CAN data frame
- *    This frame replaces the Linux CAN frame struct in order to be portable
+ *    Contains class for a data frame in the CAN bus protocol
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
@@ -18,6 +17,11 @@
 namespace myactuator_rmd_driver {
   namespace can {
 
+    /**\class Frame
+     * \brief
+     *    Class for a frame of the CAN bus protocol, see https://en.wikipedia.org/wiki/CAN_bus
+     *    This class replaces the Linux SocketCAN frame struct in order to be more portable
+    */
     class Frame {
       public:
         /**\fn Frame
@@ -36,18 +40,18 @@ namespace myactuator_rmd_driver {
         Frame(Frame&&) = default;
         Frame& operator = (Frame&&) = default;
 
-        /**\fn getCanId
+        /**\fn getId
          * \brief
-         *    Getter for the message CAN id
+         *    Getter for the frame CAN id
          * 
          * \return
-         *    The CAN id of the message
+         *    The destination frame id of the CAN frame
         */
-        inline constexpr std::uint32_t getCanId() const noexcept;
+        inline constexpr std::uint32_t getId() const noexcept;
 
         /**\fn getData
          * \brief
-         *    Getter for data to e transmitted to CAN node
+         *    Getter for data to be transmitted to CAN node
          * 
          * \return
          *    The data to be transmitted to the CAN node
@@ -64,7 +68,7 @@ namespace myactuator_rmd_driver {
       return;
     }
 
-    constexpr std::uint32_t Frame::getCanId() const noexcept {
+    constexpr std::uint32_t Frame::getId() const noexcept {
       return can_id_;
     }
       
@@ -74,6 +78,5 @@ namespace myactuator_rmd_driver {
 
   }
 }
-
 
 #endif // MYACTUATOR_RMD_DRIVER__CAN__FRAME

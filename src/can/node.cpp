@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
@@ -24,79 +25,23 @@
 
 #include "myactuator_rmd_driver/can/exceptions.hpp"
 #include "myactuator_rmd_driver/can/frame.hpp"
+#include "myactuator_rmd_driver/can/utilities.hpp"
 
-
-/**\fn operator <<
- * \brief
- *    Output stream operator for a Linux SocketCAN CAN frame
- *
- * \param[in,out] os
- *    The output stream that should be written to
- * \param[in] frame
- *    The CAN frame that should be written to the output stream
- * \return
- *    The output stream containing information about the CAN frame
-*/
-std::ostream& operator << (std::ostream& os, struct ::can_frame const& frame) noexcept {
-  os << "id: " << "0x" << std::hex << std::setfill('0') << std::setw(3) << frame.can_id << ", data: ";
-  for (int i = 0; i < frame.len; i++) {
-    os << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(frame.data[i]) << " ";
-  }
-  os << std::dec;
-  return os;
-}
 
 namespace myactuator_rmd_driver {
   namespace can {
 
-    Node::Node(std::string const& ifname)
-    : ifname_{ifname} {
-      socket_ = ::socket(PF_CAN, SOCK_RAW, CAN_RAW);
-      if (socket_ < 0) {
-        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error creating socket");
-      }
-
-      struct ::ifreq ifr {};
-      std::strcpy(ifr.ifr_name, ifname.c_str());
-      if (::ioctl(socket_, SIOCGIFINDEX, &ifr) < 0) {
-        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error manipulating device parameters");
-      }
-
-      struct ::sockaddr_can addr {};
-      addr.can_family = AF_CAN;
-      addr.can_ifindex = ifr.ifr_ifindex;
-      if (::bind(socket_, reinterpret_cast<struct ::sockaddr*>(&addr), sizeof(addr)) < 0) {
-        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error assigning address to socket");
-      }
-
-      // We will only receive error frames if we explicitly set them
-      // See https://github.com/linux-can/can-utils/blob/master/include/linux/can/error.h
-      ::can_err_mask_t const err_mask {(CAN_ERR_TX_TIMEOUT | CAN_ERR_LOSTARB | CAN_ERR_CRTL | CAN_ERR_PROT | CAN_ERR_TRX | 
-                                  CAN_ERR_ACK | CAN_ERR_BUSOFF | CAN_ERR_BUSERROR | CAN_ERR_RESTARTED)};
-      if (::setsockopt(socket_, SOL_CAN_RAW, CAN_RAW_ERR_FILTER, &err_mask, sizeof(::can_err_mask_t)) < 0) {
-        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting error acknowledgement");
-      }
-
-      // Set a receive time-out for the socket
-      struct ::timeval recv_timeout {};
-      recv_timeout.tv_sec = 1;
-      recv_timeout.tv_usec = 0;
-      if (::setsockopt(socket_, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&recv_timeout), sizeof(struct ::timeval)) < 0) {
-        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting socket timeout");
-      }
-      // Set a send time-out for the socket
-      struct ::timeval send_timeout {};
-      send_timeout.tv_sec = 1;
-      send_timeout.tv_usec = 0;
-      if (::setsockopt(socket_, SOL_SOCKET, SO_SNDTIMEO, reinterpret_cast<const char*>(&send_timeout), sizeof(struct ::timeval)) < 0) {
-        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting socket timeout");
-      }
-
+    Node::Node(std::string const& ifname, std::chrono::microseconds const& send_timeout, std::chrono::microseconds const& receive_timeout)
+    : ifname_{}, socket_{-1} {
+      initSocket(ifname);
+      setSendTimeout(send_timeout);
+      setRecvTimeout(receive_timeout);
+      setErrorFilters(true);
       return;
     }
 
     Node::~Node() {
-      ::close(socket_);
+      closeSocket();
       return;
     }
 
@@ -118,6 +63,35 @@ namespace myactuator_rmd_driver {
       filter[0].can_mask = CAN_SFF_MASK;
       if (::setsockopt(socket_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter, sizeof(filter)) < 0) {
         throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Could not configure read filter");
+      }
+      return;
+    }
+
+    void Node::setSendTimeout(std::chrono::microseconds const& timeout) {
+      struct ::timeval const send_timeout {myactuator_rmd_driver::toTimeval(timeout)};
+      if (::setsockopt(socket_, SOL_SOCKET, SO_SNDTIMEO, reinterpret_cast<const char*>(&send_timeout), sizeof(struct ::timeval)) < 0) {
+        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting socket timeout");
+      }
+      return;
+    } 
+
+    void Node::setRecvTimeout(std::chrono::microseconds const& timeout) {
+      struct ::timeval const recv_timeout {myactuator_rmd_driver::toTimeval(timeout)};
+      if (::setsockopt(socket_, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&recv_timeout), sizeof(struct ::timeval)) < 0) {
+        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting socket timeout");
+      }
+      return;
+    } 
+
+    void Node::setErrorFilters(bool const is_signal_errors) {
+      // See https://github.com/linux-can/can-utils/blob/master/include/linux/can/error.h
+      ::can_err_mask_t err_mask {};
+      if (is_signal_errors) {
+        err_mask = (CAN_ERR_TX_TIMEOUT | CAN_ERR_LOSTARB | CAN_ERR_CRTL | CAN_ERR_PROT | CAN_ERR_TRX | 
+                    CAN_ERR_ACK | CAN_ERR_BUSOFF | CAN_ERR_BUSERROR | CAN_ERR_RESTARTED);
+      }
+      if (::setsockopt(socket_, SOL_CAN_RAW, CAN_RAW_ERR_FILTER, &err_mask, sizeof(::can_err_mask_t)) < 0) {
+        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting error acknowledgement");
       }
       return;
     }
@@ -161,7 +135,7 @@ namespace myactuator_rmd_driver {
     }
 
     void Node::write(Frame const& frame) {
-      return write(frame.getCanId(), frame.getData());
+      return write(frame.getId(), frame.getData());
     }
 
     void Node::write(std::uint32_t const can_id, std::array<std::uint8_t,8> const& data) {
@@ -174,6 +148,33 @@ namespace myactuator_rmd_driver {
         ss << frame;
         throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Could not write CAN frame '" + ss.str() + "'");
       }
+      return;
+    }
+
+    void Node::initSocket(std::string const& ifname) {
+      ifname_ = ifname;
+      socket_ = ::socket(PF_CAN, SOCK_RAW, CAN_RAW);
+      if (socket_ < 0) {
+        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error creating socket");
+      }
+
+      struct ::ifreq ifr {};
+      std::strcpy(ifr.ifr_name, ifname.c_str());
+      if (::ioctl(socket_, SIOCGIFINDEX, &ifr) < 0) {
+        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error manipulating device parameters");
+      }
+
+      struct ::sockaddr_can addr {};
+      addr.can_family = AF_CAN;
+      addr.can_ifindex = ifr.ifr_ifindex;
+      if (::bind(socket_, reinterpret_cast<struct ::sockaddr*>(&addr), sizeof(addr)) < 0) {
+        throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error assigning address to socket");
+      }
+      return;
+    }
+
+    void Node::closeSocket() noexcept {
+      ::close(socket_);
       return;
     }
 

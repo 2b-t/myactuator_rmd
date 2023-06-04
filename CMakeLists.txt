@@ -58,6 +58,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
 
     set(MYACTUATOR_RMD_DRIVER_TEST_LIBRARIES ${MYACTUATOR_RMD_DRIVER_LIBRARIES} gmock gtest pthread)
     add_library(myactuator_rmd_driver_test_obj OBJECT
+      test/can/utilities_test.cpp
       test/mock/actuator_adaptor.cpp
       test/mock/actuator_mock.cpp
       test/driver_actuator_test.cpp

@@ -36,7 +36,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
   auto m_can = m.def_submodule("can", "Submodule for basic CAN communication");
   pybind11::class_<myactuator_rmd_driver::can::Frame>(m_can, "Frame")
     .def(pybind11::init<std::uint32_t const, std::array<std::uint8_t,8> const&>())
-    .def("getCanId", &myactuator_rmd_driver::can::Frame::getCanId)
+    .def("getId", &myactuator_rmd_driver::can::Frame::getId)
     .def("getData", &myactuator_rmd_driver::can::Frame::getData);
   pybind11::class_<myactuator_rmd_driver::can::Node>(m_can, "Node")
     .def(pybind11::init<std::string const&>())
