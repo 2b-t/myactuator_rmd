@@ -1,0 +1,48 @@
+name: Tests
+
+on:
+  push:
+    paths:
+      - 'bindings/**'
+      - 'include/**'
+      - 'src/**'
+      - 'test/**'
+  schedule:
+    - cron: "0 12 1 * *"
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    env:
+      VCAN_IFNAME: vcan_test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+          sudo apt-get install -y can-utils iproute2 linux-modules-extra-$(uname -r)
+          sudo apt-get install -y python3 python3-pybind11
+          sudo apt-get install -y libboost-all-dev google-mock googletest
+      - name: Create build folder
+        run: mkdir ${GITHUB_WORKSPACE}/build
+      - name: Run CMake
+        run: cmake -B ${GITHUB_WORKSPACE}/build -S ${GITHUB_WORKSPACE} -D PYTHON_BINDINGS=on -D BUILD_TESTING=on
+      - name: Compile with Make
+        run: make -j $(nproc) -C ${GITHUB_WORKSPACE}/build
+      - name: Set-up virtual CAN interface for loopback tests
+        run: |
+          sudo modprobe vcan
+          sudo ip link add dev ${VCAN_IFNAME} type vcan
+          sudo ip link set up ${VCAN_IFNAME}
+      - name: Run tests
+        run: (cd ${GITHUB_WORKSPACE}/build && ctest)
+      - name: Remove virtual CAN interface
+        run: |
+          sudo ip link set down ${VCAN_IFNAME}
+          sudo ip link delete ${VCAN_IFNAME}
+
