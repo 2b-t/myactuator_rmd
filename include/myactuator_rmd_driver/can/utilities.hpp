@@ -58,10 +58,10 @@ namespace myactuator_rmd_driver {
   template <class Rep, class Period>
   [[nodiscard]]
   struct ::timeval toTimeval(std::chrono::duration<Rep, Period> const& duration) noexcept {
-    auto const usec {static_cast<std::uint64_t>((std::micro::den*Period::num*duration.count())/Period::den)};
+    auto const usec {std::chrono::duration_cast<std::chrono::duration<Rep, std::micro>>(duration)};
     struct ::timeval t {};
-    t.tv_sec = static_cast<long int>(usec/std::micro::den);
-    t.tv_usec = static_cast<long int>(usec%std::micro::den);
+    t.tv_sec = static_cast<long int>(usec.count()/std::micro::den);
+    t.tv_usec = static_cast<long int>(usec.count())%std::micro::den;
     return t;
   }
 
