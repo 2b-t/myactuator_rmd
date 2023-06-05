@@ -12,10 +12,11 @@
 
 #include <array>
 #include <cstdint>
+#include <string>
 
 #include <gmock/gmock.h>
 
-#include "myactuator_rmd_driver/messages/response.hpp"
+#include "myactuator_rmd_driver/messages/responses/version_date_response.hpp"
 #include "actuator_adaptor.hpp"
 
 
@@ -24,10 +25,19 @@ namespace myactuator_rmd_driver {
 
     /**\class ActuatorMock
      * \brief
-     *    Mock of the real actuator
+     *    Mock of the real actuator that can be used for testing the driver over a (virtual) CAN network interface
     */
     class ActuatorMock: public ActuatorAdaptor {
       public:
+        /**\fn ActuatorMock
+         * \brief
+         *    Class constructor
+         * 
+         * \param[in] ifname
+         *    The name of the (virtual) CAN network interface that should be used as a loopback device
+         * \param[in] actuator_id
+         *    The actuator id for driver and actuator
+        */
         ActuatorMock(std::string const& ifname, std::uint32_t const actuator_id);
         ActuatorMock() = delete;
         ActuatorMock(ActuatorMock const&) = delete;
@@ -35,6 +45,7 @@ namespace myactuator_rmd_driver {
         ActuatorMock(ActuatorMock&&) = default;
         ActuatorMock& operator = (ActuatorMock&&) = default;
 
+        // Register all the virtual methods of the adaptor as mock methods so we can control their behavior
         MOCK_METHOD(myactuator_rmd_driver::VersionDateResponse, getVersionDate, (), (const, override));
     };
 

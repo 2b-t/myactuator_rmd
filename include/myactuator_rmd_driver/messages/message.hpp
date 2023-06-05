@@ -16,6 +16,10 @@
 
 namespace myactuator_rmd_driver {
 
+  /**\class Message
+   * \brief
+   *    Base class for any message exchanged between the driver and the actuator
+  */
   class Message {
     public:
       /**\fn getData
@@ -25,7 +29,8 @@ namespace myactuator_rmd_driver {
        * \param[in] data
        *    The data to be transmitted to the CAN node
       */
-      std::array<std::uint8_t,8> const& getData() const noexcept;
+      [[nodiscard]]
+      constexpr std::array<std::uint8_t,8> const& getData() const noexcept;
 
     protected:
       /**\fn Message
@@ -47,12 +52,15 @@ namespace myactuator_rmd_driver {
       std::array<std::uint8_t,8> data_;
   };
 
+  constexpr std::array<std::uint8_t,8> const& Message::getData() const noexcept {
+    return data_;
+  }
+
   constexpr Message::Message(std::array<std::uint8_t,8> const& data) noexcept
   : data_{data} {
     return;
   }
 
 }
-
 
 #endif // MYACTUATOR_RMD_DRIVER__MESSAGES__MESSAGE

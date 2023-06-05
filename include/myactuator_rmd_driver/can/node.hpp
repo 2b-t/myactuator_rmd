@@ -38,9 +38,11 @@ namespace myactuator_rmd_driver {
          *    The send timeout for the underlying socket
          * \param[in] receive_timeout
          *    The receive timeout for the underlying socket
+         * \param[in] is_signal_errors
+         *    Boolean flags indicating whether error frames should be received or not
         */
         Node(std::string const& ifname, std::chrono::microseconds const& send_timeout = std::chrono::seconds(1), 
-             std::chrono::microseconds const& receive_timeout = std::chrono::seconds(1));
+             std::chrono::microseconds const& receive_timeout = std::chrono::seconds(1), bool const is_signal_errors = true);
         Node() = delete;
         Node(Node const&) = delete;
         Node& operator = (Node const&) = default;
@@ -90,25 +92,25 @@ namespace myactuator_rmd_driver {
          * \brief
          *    Set error filters for the socket. We will only receive error frames if we explicitly activate it!
          * 
-         * \param[in] timeout
-         *    Timeout that the socket should be set to for receiving frames
+         * \param[in] is_signal_errors
+         *    Boolean flags indicating whether errors should be received or not
         */
         void setErrorFilters(bool const is_signal_errors);
 
         /**\fn read
          * \brief
-         *    Blocking read a CAN frame
+         *    Read a CAN frame in a blocking manner
          *    Only CAN frames that a receive filter was set for can be read
          * 
          * \return
-         *    The read CAN frame if any
+         *    The read CAN frame
         */
         [[nodiscard]]
         Frame read() const;
 
         /**\fn write
          * \brief
-         *   Write the given CAN frame by calling the implementation below
+         *   Write the given CAN frame
          * 
          * \param[in] frame
          *    The CAN frame to be written

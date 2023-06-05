@@ -26,7 +26,7 @@ namespace myactuator_rmd_driver {
 
   /**\class ParsingException
    * \brief
-   *    Exception class for driver parsing error
+   *    Exception class for driver protocol parsing error
   */
   class ParsingException: public Exception {
     public:

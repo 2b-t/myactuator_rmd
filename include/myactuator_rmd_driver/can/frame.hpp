@@ -47,7 +47,8 @@ namespace myactuator_rmd_driver {
          * \return
          *    The destination frame id of the CAN frame
         */
-        inline constexpr std::uint32_t getId() const noexcept;
+        [[nodiscard]]
+        constexpr std::uint32_t getId() const noexcept;
 
         /**\fn getData
          * \brief
@@ -56,7 +57,8 @@ namespace myactuator_rmd_driver {
          * \return
          *    The data to be transmitted to the CAN node
         */
-        inline constexpr std::array<std::uint8_t,8> const& getData() const noexcept;
+        [[nodiscard]]
+        constexpr std::array<std::uint8_t,8> const& getData() const noexcept;
 
       protected:
         std::uint32_t can_id_;

@@ -11,8 +11,6 @@
 #pragma once
 
 #include <chrono>
-#include <cstdint>
-#include <iomanip>
 #include <ostream>
 #include <ratio>
 
@@ -31,14 +29,7 @@
  * \return
  *    The output stream containing information about the CAN frame
 */
-inline std::ostream& operator << (std::ostream& os, struct ::can_frame const& frame) noexcept {
-  os << "id: " << "0x" << std::hex << std::setfill('0') << std::setw(3) << frame.can_id << ", data: ";
-  for (int i = 0; i < frame.len; i++) {
-    os << std::hex << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(frame.data[i]) << " ";
-  }
-  os << std::dec;
-  return os;
-}
+std::ostream& operator << (std::ostream& os, struct ::can_frame const& frame) noexcept;
 
 namespace myactuator_rmd_driver {
 
@@ -59,10 +50,10 @@ namespace myactuator_rmd_driver {
   [[nodiscard]]
   constexpr struct ::timeval toTimeval(std::chrono::duration<Rep, Period> const& duration) noexcept {
     auto const usec {std::chrono::duration_cast<std::chrono::duration<Rep, std::micro>>(duration)};
-    struct ::timeval t {};
-    t.tv_sec = static_cast<::time_t>(usec.count()/std::micro::den);
-    t.tv_usec = static_cast<long int>(usec.count())%std::micro::den;
-    return t;
+    struct ::timeval tv {};
+    tv.tv_sec = static_cast<::time_t>(usec.count()/std::micro::den);
+    tv.tv_usec = static_cast<long int>(usec.count())%std::micro::den;
+    return tv;
   }
 
 }

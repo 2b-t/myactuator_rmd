@@ -1,13 +1,14 @@
 /**
  * \file can_node.cpp
  * \mainpage
- *    Test program for testing Linux SocketCAN communication
+ *    Manual test program for testing Linux SocketCAN communication
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
 
 #include <array>
 #include <cstdint>
+#include <cstdlib>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -17,6 +18,15 @@
 #include "myactuator_rmd_driver/can/node.hpp"
 
 
+/**\fn removeSubstr
+ * \brief
+ *    Remove any occurance of \p substr from \p str
+ * 
+ * \param[in,out] str
+ *    The string that the substring should be removed from
+ * \param[in] substr
+ *    The substring that should be removed
+*/
 void removeSubstr(std::string& str, std::string const& substr) noexcept { 
   std::string::size_type n {substr.length()};
   for (std::string::size_type i = str.find(substr); i != std::string::npos; i = str.find(substr)) {

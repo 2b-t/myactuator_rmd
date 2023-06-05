@@ -1,18 +1,17 @@
-#include "myactuator_rmd_driver/messages/request.hpp"
+#include "myactuator_rmd_driver/messages/requests/set_position_absolute_request.hpp"
 
-#include <array>
 #include <cstdint>
 #include <cstring>
 #include <string>
 
-#include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/message.hpp"
+#include "myactuator_rmd_driver/messages/request.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
 
 
 namespace myactuator_rmd_driver {
 
-  SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed) {
+  SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed)
+  : Request{} {
     if ((position < 0.0) || (position > 360.0)) {
       throw ValueRangeException("Position value '" + std::to_string(position) + "' out of range [0.0, 360.0]");
     }

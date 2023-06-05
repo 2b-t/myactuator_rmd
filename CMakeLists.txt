@@ -26,9 +26,11 @@ include_directories(
 
 add_library(myactuator_rmd_driver_obj OBJECT
   src/can/node.cpp
-  src/messages/message.cpp
-  src/messages/request.cpp
-  src/messages/response.cpp
+  src/can/utilities.cpp
+  src/messages/requests/set_position_absolute_request.cpp
+  src/messages/responses/shutdown_motor_response.cpp
+  src/messages/responses/stop_motor_response.cpp
+  src/messages/responses/version_date_response.cpp
   src/driver.cpp
 )
 add_library(myactuator_rmd_driver 
@@ -61,7 +63,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
       test/can/utilities_test.cpp
       test/mock/actuator_adaptor.cpp
       test/mock/actuator_mock.cpp
-      test/driver_actuator_test.cpp
+      test/mock/driver_actuator_test.cpp
+      test/driver_test.cpp
     )
     add_executable(run_tests
       $<TARGET_OBJECTS:myactuator_rmd_driver_obj>

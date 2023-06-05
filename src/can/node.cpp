@@ -31,12 +31,13 @@
 namespace myactuator_rmd_driver {
   namespace can {
 
-    Node::Node(std::string const& ifname, std::chrono::microseconds const& send_timeout, std::chrono::microseconds const& receive_timeout)
+    Node::Node(std::string const& ifname, std::chrono::microseconds const& send_timeout, std::chrono::microseconds const& receive_timeout,
+               bool const is_signal_errors)
     : ifname_{}, socket_{-1} {
       initSocket(ifname);
       setSendTimeout(send_timeout);
       setRecvTimeout(receive_timeout);
-      setErrorFilters(true);
+      setErrorFilters(is_signal_errors);
       return;
     }
 
@@ -107,7 +108,7 @@ namespace myactuator_rmd_driver {
         std::ostringstream ss {};
         ss << frame;
         if (frame.can_id & CAN_ERR_TX_TIMEOUT) {
-          throw TxTimeoutError("");
+          throw TxTimeoutError("Send timeout");
         } else if (frame.can_id & CAN_ERR_LOSTARB) {
           throw LostArbitrationError("CAN frame '" + ss.str() + "'");
         } else if (frame.can_id & CAN_ERR_CRTL) {
@@ -117,13 +118,13 @@ namespace myactuator_rmd_driver {
         } else if (frame.can_id & CAN_ERR_TRX) {
           throw TransceiverStatusError("CAN frame '" + ss.str() + "'");
         } else if (frame.can_id & CAN_ERR_ACK) {
-          throw NoAcknowledgeError("");
+          throw NoAcknowledgeError("No acknowledgement from receiver");
         } else if (frame.can_id & CAN_ERR_BUSOFF) {
-          throw BusOffError("");
+          throw BusOffError("Bus off");
         } else if (frame.can_id & CAN_ERR_BUSERROR) {
-          throw BusError("");
+          throw BusError("Bus error");
         } else if (frame.can_id & CAN_ERR_RESTARTED) {
-          throw ControllerRestartedError("");
+          throw ControllerRestartedError("Controller restarted");
         } else {
           throw Exception("Unknown CAN protocol error: CAN frame '" + ss.str() + "'");
         }

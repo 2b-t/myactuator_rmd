@@ -23,7 +23,7 @@ For building this driver open a new terminal inside this folder and execute the 
 ```bash
 $ mkdir build
 $ cd build
-$ cmake .. -DPYTHON_BINDINGS=on
+$ cmake .. -D PYTHON_BINDINGS=on
 $ make -j $(nproc)
 ```
 
@@ -51,7 +51,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ## 3. Automated tests
 
-The tests can be build by passing the additional flag `-DBUILD_TESTING=on` to CMake. After building the driver with the additional flag you will have to bring the virtual CAN interface up with:
+The tests can be build by passing the additional flag `-D BUILD_TESTING=on` to CMake. After building the driver with the additional flag you will have to bring the virtual CAN interface up with:
 
 ```bash
 $ sudo modprobe vcan
@@ -66,4 +66,3 @@ Finally you can launch the test with the following command:
 ```bash
 $ ctest
 ```
-

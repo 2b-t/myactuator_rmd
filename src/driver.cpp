@@ -5,8 +5,14 @@
 #include <string>
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/request.hpp"
-#include "myactuator_rmd_driver/messages/response.hpp"
+#include "myactuator_rmd_driver/messages/requests/set_position_absolute_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/shutdown_motor_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/stop_motor_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/version_date_request.hpp"
+#include "myactuator_rmd_driver/messages/responses/set_position_absolute_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/shutdown_motor_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/stop_motor_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/version_date_response.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
@@ -43,4 +49,3 @@ namespace myactuator_rmd_driver {
   }
 
 }
-
