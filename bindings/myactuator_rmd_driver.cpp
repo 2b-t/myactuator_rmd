@@ -18,6 +18,7 @@
 #include "myactuator_rmd_driver/messages/request.hpp"
 #include "myactuator_rmd_driver/driver.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
+#include "myactuator_rmd_driver/feedback.hpp"
 
 
 PYBIND11_MODULE(myactuator_rmd_driver, m) {
@@ -29,6 +30,12 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .def("setPositionAbsolute", &myactuator_rmd_driver::Driver::setPositionAbsolute)
     .def("stopMotor", &myactuator_rmd_driver::Driver::stopMotor)
     .def("shutdownMotor", &myactuator_rmd_driver::Driver::shutdownMotor);
+  pybind11::class_<myactuator_rmd_driver::Feedback>(m, "Feedback")
+    .def(pybind11::init<float const, float const, float const, float const>())
+    .def("getTemperature", &myactuator_rmd_driver::Feedback::getTemperature)
+    .def("getTorqueCurrent", &myactuator_rmd_driver::Feedback::getTorqueCurrent)
+    .def("getShaftSpeed", &myactuator_rmd_driver::Feedback::getShaftSpeed)
+    .def("getShaftAngle", &myactuator_rmd_driver::Feedback::getShaftAngle);
   pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
   pybind11::register_exception<myactuator_rmd_driver::ParsingException>(m, "ParsingException");
   pybind11::register_exception<myactuator_rmd_driver::ValueRangeException>(m, "ValueRangeException");

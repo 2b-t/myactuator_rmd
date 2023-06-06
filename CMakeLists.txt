@@ -28,7 +28,7 @@ add_library(myactuator_rmd_driver_obj OBJECT
   src/can/node.cpp
   src/can/utilities.cpp
   src/messages/requests/set_position_absolute_request.cpp
-  src/messages/responses/set_position_absolute_response.cpp
+  src/messages/responses/feedback_response.cpp
   src/messages/responses/shutdown_motor_response.cpp
   src/messages/responses/stop_motor_response.cpp
   src/messages/responses/version_date_response.cpp

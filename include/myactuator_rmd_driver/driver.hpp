@@ -14,6 +14,7 @@
 #include <string>
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
+#include "myactuator_rmd_driver/feedback.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
 
@@ -60,7 +61,7 @@ namespace myactuator_rmd_driver {
        * \param[in] max_speed
        *    The maximum speed for the motion in degree per second [0.0, 1320.0]
       */
-      void setPositionAbsolute(float const position, float const max_speed = 500.0);
+      Feedback setPositionAbsolute(float const position, float const max_speed = 500.0);
 
       /**\fn stopMotor
        * \brief

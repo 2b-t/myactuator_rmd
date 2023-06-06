@@ -14,8 +14,9 @@
 #include <cstdint>
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/response.hpp"
+#include "myactuator_rmd_driver/messages/responses/feedback_response.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
+#include "myactuator_rmd_driver/feedback.hpp"
 
 
 namespace myactuator_rmd_driver {
@@ -24,7 +25,7 @@ namespace myactuator_rmd_driver {
    * \brief
    *    Response to request for setting the absolute position of the actuator with a given maximum speed
   */
-  class SetPositionAbsoluteResponse: public Response {
+  class SetPositionAbsoluteResponse: public FeedbackResponse {
     public:
       /**\fn SetPositionAbsoluteResponse
        * \brief
@@ -39,50 +40,10 @@ namespace myactuator_rmd_driver {
       SetPositionAbsoluteResponse& operator = (SetPositionAbsoluteResponse const&) = default;
       SetPositionAbsoluteResponse(SetPositionAbsoluteResponse&&) = default;
       SetPositionAbsoluteResponse& operator = (SetPositionAbsoluteResponse&&) = default;
-
-      /**\fn getTemperature
-       * \brief
-       *    Get the temperature
-       * 
-       * \return
-       *    Temperature of the actuator in degree Celsius with a resolution of 1 deg C
-      */
-      [[nodiscard]]
-      float getTemperature() const noexcept;
-
-      /**\fn getTorqueCurrent
-       * \brief
-       *    Get the torque current
-       * 
-       * \return
-       *    Torque current of the actuator in Ampere with a resolution of 0.01A
-      */
-      [[nodiscard]]
-      float getTorqueCurrent() const noexcept;
-
-      /**\fn getShaftSpeed
-       * \brief
-       *    Get the speed of the shaft
-       * 
-       * \return
-       *    The current shaft speed in degree per second with a resolution of 1dps
-      */
-      [[nodiscard]]
-      float getShaftSpeed() const noexcept;
-
-      /**\fn getShaftAngle
-       * \brief
-       *    Get the shaft angle
-       * 
-       * \return
-       *    The current shaft angle in degrees with a resolution of 1 deg and a maximum range of 32767
-      */
-      [[nodiscard]]
-      float getShaftAngle() const noexcept;
   };
 
   constexpr SetPositionAbsoluteResponse::SetPositionAbsoluteResponse(std::array<std::uint8_t,8> const& data)
-  : Response{data} {
+  : FeedbackResponse{data} {
     if (data[0] != CommandType::ABSOLUTE_POSITION_CLOSED_LOOP_CONTROL) {
       throw ParsingException("Unexpected response to set absolute position request!");
     }

@@ -77,6 +77,7 @@ namespace myactuator_rmd_driver {
        *    The parsed response message
       */
       template <typename RESPONSE_TYPE, typename REQUEST_TYPE>
+      [[nodiscard]]
       inline RESPONSE_TYPE sendRecv(REQUEST_TYPE const& request);
 
     private:
