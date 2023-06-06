@@ -16,6 +16,7 @@
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
 #include "myactuator_rmd_driver/messages/response.hpp"
+#include "myactuator_rmd_driver/exceptions.hpp"
 
 
 namespace myactuator_rmd_driver {
@@ -33,7 +34,7 @@ namespace myactuator_rmd_driver {
        * \param[in] data
        *    The data to be transmitted to the driver
       */
-      VersionDateResponse(std::array<std::uint8_t,8> const& data);
+      constexpr VersionDateResponse(std::array<std::uint8_t,8> const& data);
       VersionDateResponse() = delete;
       VersionDateResponse(VersionDateResponse const&) = default;
       VersionDateResponse& operator = (VersionDateResponse const&) = default;
@@ -48,13 +49,15 @@ namespace myactuator_rmd_driver {
        *    The version date as an integer number
       */
       [[nodiscard]]
-      constexpr std::uint32_t getVersion() const noexcept;
+      std::uint32_t getVersion() const noexcept;
   };
 
-  constexpr std::uint32_t VersionDateResponse::getVersion() const noexcept {
-    std::uint32_t version {};
-    std::memcpy(&version, &data_[4], sizeof(std::uint32_t));
-    return version;
+  constexpr VersionDateResponse::VersionDateResponse(std::array<std::uint8_t,8> const& data)
+  : Response{data} {
+    if ((data[0] != CommandType::SYSTEM_SOFTWARE_VERSION_DATE) || (data[1] != 0x00) || (data[2] != 0x00) || (data[3] != 0x00)) {
+      throw ParsingException("Unexpected response to version date request!");
+    }
+    return;
   }
 
 }

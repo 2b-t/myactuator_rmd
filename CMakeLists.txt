@@ -28,6 +28,7 @@ add_library(myactuator_rmd_driver_obj OBJECT
   src/can/node.cpp
   src/can/utilities.cpp
   src/messages/requests/set_position_absolute_request.cpp
+  src/messages/responses/set_position_absolute_response.cpp
   src/messages/responses/shutdown_motor_response.cpp
   src/messages/responses/stop_motor_response.cpp
   src/messages/responses/version_date_response.cpp
@@ -61,6 +62,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     set(MYACTUATOR_RMD_DRIVER_TEST_LIBRARIES ${MYACTUATOR_RMD_DRIVER_LIBRARIES} gmock gtest pthread)
     add_library(myactuator_rmd_driver_test_obj OBJECT
       test/can/utilities_test.cpp
+      test/messages/requests/set_position_absolute_request_test.cpp
+      test/messages/responses/set_position_absolute_response_test.cpp
       test/mock/actuator_adaptor.cpp
       test/mock/actuator_mock.cpp
       test/mock/driver_actuator_test.cpp

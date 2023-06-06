@@ -32,12 +32,45 @@ namespace myactuator_rmd_driver {
        *    The maximum speed for the motion in degree per second [0.0, 1320.0]
       */
       SetPositionAbsoluteRequest(float const position, float const max_speed);
+      /**\fn SetPositionAbsoluteRequest
+       * \brief
+       *    Class constructor
+       * 
+       * \param[in] data
+       *    The data to be transmitted to the driver
+      */
+      constexpr SetPositionAbsoluteRequest(std::array<std::uint8_t,8> const& data);
       SetPositionAbsoluteRequest() = delete;
       SetPositionAbsoluteRequest(SetPositionAbsoluteRequest const&) = default;
       SetPositionAbsoluteRequest& operator = (SetPositionAbsoluteRequest const&) = default;
       SetPositionAbsoluteRequest(SetPositionAbsoluteRequest&&) = default;
       SetPositionAbsoluteRequest& operator = (SetPositionAbsoluteRequest&&) = default;
+
+      /**\fn getMaxSpeed
+       * \brief
+       *    Get the maximum speed
+       * 
+       * \return
+       *    The maximum speed for the motion in degree per second [0.0, 1320.0]
+      */
+      [[nodiscard]]
+      float getMaxSpeed() const noexcept;
+
+      /**\fn getPosition
+       * \brief
+       *    Get the position
+       * 
+       * \return
+       *    The position set-point in degree [0.00, 360.00]
+      */
+      [[nodiscard]]
+      float getPosition() const noexcept;
   };
+
+  constexpr SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(std::array<std::uint8_t,8> const& data)
+  : Request{data} {
+    return;
+  }
 
 }
 
