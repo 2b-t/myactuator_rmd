@@ -16,7 +16,6 @@
 #include "myactuator_rmd_driver/messages/definitions.hpp"
 #include "myactuator_rmd_driver/messages/responses/feedback_response.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
-#include "myactuator_rmd_driver/feedback.hpp"
 
 
 namespace myactuator_rmd_driver {

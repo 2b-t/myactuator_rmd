@@ -27,7 +27,9 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
   pybind11::class_<myactuator_rmd_driver::Driver>(m, "Driver")
     .def(pybind11::init<std::string const&, std::uint32_t>())
     .def("getVersionDate", &myactuator_rmd_driver::Driver::getVersionDate)
-    .def("setPositionAbsolute", &myactuator_rmd_driver::Driver::setPositionAbsolute)
+    .def("sendTorqueSetpoint", &myactuator_rmd_driver::Driver::sendTorqueSetpoint)
+    .def("sendVelocitySetpoint", &myactuator_rmd_driver::Driver::sendVelocitySetpoint)
+    .def("sendPositionAbsoluteSetpoint", &myactuator_rmd_driver::Driver::sendPositionAbsoluteSetpoint)
     .def("stopMotor", &myactuator_rmd_driver::Driver::stopMotor)
     .def("shutdownMotor", &myactuator_rmd_driver::Driver::shutdownMotor);
   pybind11::class_<myactuator_rmd_driver::Feedback>(m, "Feedback")
@@ -36,6 +38,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .def("getTorqueCurrent", &myactuator_rmd_driver::Feedback::getTorqueCurrent)
     .def("getShaftSpeed", &myactuator_rmd_driver::Feedback::getShaftSpeed)
     .def("getShaftAngle", &myactuator_rmd_driver::Feedback::getShaftAngle);
+
   pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
   pybind11::register_exception<myactuator_rmd_driver::ParsingException>(m, "ParsingException");
   pybind11::register_exception<myactuator_rmd_driver::ValueRangeException>(m, "ValueRangeException");

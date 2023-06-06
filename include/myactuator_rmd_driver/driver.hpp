@@ -52,7 +52,29 @@ namespace myactuator_rmd_driver {
       [[nodiscard]]
       std::uint32_t getVersionDate();
 
-      /**\fn setPositionAbsolute
+      /**\fn sendTorqueSetpoint
+       * \brief
+       *    Send a torque set-point to the actuator by specifying the current
+       *
+       * \param[in] current
+       *    The current set-point in Ampere [-20.00, 20.00]
+       * \return
+       *    Feedback control message containing actuator position, velocity, torque and temperature
+      */
+      Feedback sendTorqueSetpoint(float const current);
+
+      /**\fn sendVelocitySetpoint
+       * \brief
+       *    Send a velocity set-point to the actuator
+       *
+       * \param[in] speed
+       *    The speed set-point in degree per second [-1320.00, 1320.00]
+       * \return
+       *    Feedback control message containing actuator position, velocity, torque and temperature
+      */
+      Feedback sendVelocitySetpoint(float const speed);
+
+      /**\fn sendPositionAbsoluteSetpoint
        * \brief
        *    Send an absolute position set-point to the actuator additionally specifying a maximum velocity
        *
@@ -60,8 +82,10 @@ namespace myactuator_rmd_driver {
        *    The position set-point in degree [0.00, 360.00]
        * \param[in] max_speed
        *    The maximum speed for the motion in degree per second [0.0, 1320.0]
+       * \return
+       *    Feedback control message containing actuator position, velocity, torque and temperature
       */
-      Feedback setPositionAbsolute(float const position, float const max_speed = 500.0);
+      Feedback sendPositionAbsoluteSetpoint(float const position, float const max_speed = 500.0);
 
       /**\fn stopMotor
        * \brief

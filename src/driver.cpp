@@ -6,10 +6,14 @@
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
 #include "myactuator_rmd_driver/messages/requests/set_position_absolute_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/set_torque_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/set_velocity_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/shutdown_motor_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/stop_motor_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/version_date_request.hpp"
 #include "myactuator_rmd_driver/messages/responses/set_position_absolute_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/set_torque_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/set_velocity_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/shutdown_motor_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/stop_motor_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/version_date_response.hpp"
@@ -30,7 +34,19 @@ namespace myactuator_rmd_driver {
     return response.getVersion();
   }
 
-  Feedback Driver::setPositionAbsolute(float const position, float const max_speed) {
+  Feedback Driver::sendTorqueSetpoint(float const current) {
+    SetTorqueRequest const request {current};
+    auto const response {sendRecv<SetTorqueResponse>(request)};
+    return response.getFeedback();
+  }
+
+  Feedback Driver::sendVelocitySetpoint(float const speed) {
+    SetVelocityRequest const request {speed};
+    auto const response {sendRecv<SetVelocityResponse>(request)};
+    return response.getFeedback();
+  }
+
+  Feedback Driver::sendPositionAbsoluteSetpoint(float const position, float const max_speed) {
     SetPositionAbsoluteRequest const request {position, max_speed};
     auto const response {sendRecv<SetPositionAbsoluteResponse>(request)};
     return response.getFeedback();

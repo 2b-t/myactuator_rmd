@@ -23,8 +23,14 @@ namespace myactuator_rmd_driver {
        * \brief
        *    Class constructor
        * 
-       * \param[in] data
-       *    Data containing the temperature, torque current and shaft speed
+       * \param[in] temperature
+       *    The temperature of the actuator
+       * \param[in] current
+       *    The current currently used by the actuator
+       * \param[in] shaft_speed
+       *    The output shaft velocity
+       * \param[in] shaft_angle
+       *    The output shaft angle
       */
       constexpr Feedback(float const temperature, float const current, float const shaft_speed, float const shaft_angle) noexcept;
       Feedback() = delete;
