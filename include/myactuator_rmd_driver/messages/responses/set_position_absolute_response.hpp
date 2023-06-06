@@ -47,7 +47,7 @@ namespace myactuator_rmd_driver {
        * \return
        *    Temperature of the actuator in degree Celsius with a resolution of 1 deg C
       */
-      [[noexcept]]
+      [[nodiscard]]
       float getTemperature() const noexcept;
 
       /**\fn getTorqueCurrent
@@ -57,7 +57,7 @@ namespace myactuator_rmd_driver {
        * \return
        *    Torque current of the actuator in Ampere with a resolution of 0.01A
       */
-      [[noexcept]]
+      [[nodiscard]]
       float getTorqueCurrent() const noexcept;
 
       /**\fn getShaftSpeed
@@ -67,7 +67,7 @@ namespace myactuator_rmd_driver {
        * \return
        *    The current shaft speed in degree per second with a resolution of 1dps
       */
-      [[noexcept]]
+      [[nodiscard]]
       float getShaftSpeed() const noexcept;
 
       /**\fn getShaftAngle
@@ -77,7 +77,7 @@ namespace myactuator_rmd_driver {
        * \return
        *    The current shaft angle in degrees with a resolution of 1 deg and a maximum range of 32767
       */
-      [[noexcept]]
+      [[nodiscard]]
       float getShaftAngle() const noexcept;
   };
 
