@@ -34,17 +34,17 @@ std::ostream& operator << (std::ostream& os, struct ::can_frame const& frame) no
 namespace myactuator_rmd_driver {
 
   /**\fn toTimeval
-  * \brief
-  *    Function for converting any std::chrono::duration to a Linux timeval struct
-  *
-  * \tparam Rep
-  *    Arithmetic type representing the number of ticks
-  * \tparam Period
-  *    An std::ratio representing the tick period
-  * \param[in] duration
-  *    The duration that should be converted to a Linux timeval struct
-  * \return
-  *    The duration as a Linux timeval struct
+   * \brief
+   *    Function for converting any std::chrono::duration to a Linux timeval struct
+   *
+   * \tparam Rep
+   *    Arithmetic type representing the number of ticks
+   * \tparam Period
+   *    An std::ratio representing the tick period
+   * \param[in] duration
+   *    The duration that should be converted to a Linux timeval struct
+   * \return
+   *    The duration as a Linux timeval struct
   */
   template <class Rep, class Period>
   [[nodiscard]]
