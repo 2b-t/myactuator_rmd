@@ -51,7 +51,7 @@ namespace myactuator_rmd_driver {
        *    Get the maximum speed
        * 
        * \return
-       *    The maximum speed for the motion in degree per second [0.0, 1320.0]
+       *    The maximum speed for the motion in degree per second [-1320.0, 1320.0]
       */
       [[nodiscard]]
       float getMaxSpeed() const noexcept;
@@ -61,7 +61,7 @@ namespace myactuator_rmd_driver {
        *    Get the position
        * 
        * \return
-       *    The position set-point in degree [0.00, 360.00]
+       *    The position set-point in degree [-360.00, 360.00]
       */
       [[nodiscard]]
       float getPosition() const noexcept;

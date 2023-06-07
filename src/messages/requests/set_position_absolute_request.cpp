@@ -12,10 +12,10 @@ namespace myactuator_rmd_driver {
 
   SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed)
   : Request{} {
-    if ((position < 0.0f) || (position > 360.0f)) {
+    if ((position < -360.0f) || (position > 360.0f)) {
       throw ValueRangeException("Position value '" + std::to_string(position) + "' out of range [0.0, 360.0]");
     }
-    if ((max_speed < 0.0f) || (max_speed > 1320.0f)) {
+    if ((max_speed < -1320.0f) || (max_speed > 1320.0f)) {
       throw ValueRangeException("Maximum speed value '" + std::to_string(max_speed) + "' out of range [0.0, 1320.0]");
     }
     auto const v {static_cast<std::uint16_t>(max_speed)};

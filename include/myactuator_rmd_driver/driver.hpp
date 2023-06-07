@@ -79,9 +79,9 @@ namespace myactuator_rmd_driver {
        *    Send an absolute position set-point to the actuator additionally specifying a maximum velocity
        *
        * \param[in] position
-       *    The position set-point in degree [0.00, 360.00]
+       *    The position set-point in degree [-360.00, 360.00]
        * \param[in] max_speed
-       *    The maximum speed for the motion in degree per second [0.0, 1320.0]
+       *    The maximum speed for the motion in degree per second [-1320.0, 1320.0]
        * \return
        *    Feedback control message containing actuator position, velocity, torque and temperature
       */
