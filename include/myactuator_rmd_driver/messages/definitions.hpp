@@ -67,13 +67,19 @@ namespace myactuator_rmd_driver {
     CAN_ID_SETTING = 0x79
   };
 
-  // Comparison operators for convenient usage
-  constexpr bool operator == (std::uint8_t const i, CommandType const& c) noexcept {
+  // Symmetric comparison operators
+  constexpr bool operator == (CommandType const& c, std::uint8_t const i) noexcept {
     return i == static_cast<std::uint8_t>(c);
   }
+  constexpr bool operator == (std::uint8_t const i, CommandType const& c) noexcept {
+    return operator == (c, i);
+  }
 
+  constexpr bool operator != (CommandType const& c, std::uint8_t const i) noexcept {
+    return !(operator == (c, i));
+  }
   constexpr bool operator != (std::uint8_t const i, CommandType const& c) noexcept {
-    return i != static_cast<std::uint8_t>(c);
+    return operator != (c, i);
   }
 
 }
