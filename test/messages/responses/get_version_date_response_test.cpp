@@ -1,7 +1,7 @@
 /**
- * \file driver_test.cpp
+ * \file get_version_date_response_test.cpp
  * \mainpage
- *    Test the communication between the driver and the actuator with a mock
+ *    Test parsing of get version date response
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
@@ -10,16 +10,15 @@
 #include <gtest/gtest.h>
 
 #include "myactuator_rmd_driver/messages/responses/get_version_date_response.hpp"
-#include "mock/driver_actuator_test.hpp"
+#include "myactuator_rmd_driver/feedback.hpp"
 
 
 namespace myactuator_rmd_driver {
   namespace test {
 
-    TEST_F(DriverActuatorTest, getVersionDate) {
+    TEST(GetVersionDateResponseTest, parsing) {
       myactuator_rmd_driver::GetVersionDateResponse const response {{0xB2, 0x00, 0x00, 0x00, 0x2E, 0x89, 0x34, 0x01}};
-      EXPECT_CALL(actuator_, getVersionDate).WillOnce(::testing::Return(response));
-      auto const version {driver_.getVersionDate()};
+      auto const version {response.getVersion()};
       EXPECT_EQ(version, 20220206);
     }
 

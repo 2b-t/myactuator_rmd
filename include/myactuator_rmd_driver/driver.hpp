@@ -52,6 +52,16 @@ namespace myactuator_rmd_driver {
       [[nodiscard]]
       std::uint32_t getVersionDate();
 
+      /**\fn getMotorModel
+       * \brief
+       *    Reads the motor model currently in use by the actuator
+       * 
+       * \return
+       *    The motor model string currently in use by the actuator, e.g. 'X8S2V10'
+      */
+      [[nodiscard]]
+      std::string getMotorModel();
+
       /**\fn sendTorqueSetpoint
        * \brief
        *    Send a torque set-point to the actuator by specifying the current

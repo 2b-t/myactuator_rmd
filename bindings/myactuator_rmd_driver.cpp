@@ -27,6 +27,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
   pybind11::class_<myactuator_rmd_driver::Driver>(m, "Driver")
     .def(pybind11::init<std::string const&, std::uint32_t>())
     .def("getVersionDate", &myactuator_rmd_driver::Driver::getVersionDate)
+    .def("getMotorModel", &myactuator_rmd_driver::Driver::getMotorModel)
     .def("sendTorqueSetpoint", &myactuator_rmd_driver::Driver::sendTorqueSetpoint)
     .def("sendVelocitySetpoint", &myactuator_rmd_driver::Driver::sendVelocitySetpoint)
     .def("sendPositionAbsoluteSetpoint", &myactuator_rmd_driver::Driver::sendPositionAbsoluteSetpoint)

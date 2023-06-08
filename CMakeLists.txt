@@ -31,9 +31,10 @@ add_library(myactuator_rmd_driver_obj OBJECT
   src/messages/requests/set_torque_request.cpp
   src/messages/requests/set_velocity_request.cpp
   src/messages/responses/feedback_response.cpp
+  src/messages/responses/get_motor_model_response.cpp
+  src/messages/responses/get_version_date_response.cpp
   src/messages/responses/shutdown_motor_response.cpp
   src/messages/responses/stop_motor_response.cpp
-  src/messages/responses/version_date_response.cpp
   src/driver.cpp
 )
 add_library(myactuator_rmd_driver 
@@ -67,6 +68,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
       test/messages/requests/set_position_absolute_request_test.cpp
       test/messages/requests/set_torque_request_test.cpp
       test/messages/requests/set_velocity_request_test.cpp
+      test/messages/responses/get_motor_model_response_test.cpp
+      test/messages/responses/get_version_date_response_test.cpp
       test/messages/responses/set_position_absolute_response_test.cpp
       test/messages/responses/set_torque_response_test.cpp
       test/messages/responses/set_velocity_response_test.cpp

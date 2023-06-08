@@ -16,7 +16,7 @@
 
 #include <gmock/gmock.h>
 
-#include "myactuator_rmd_driver/messages/responses/version_date_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/get_version_date_response.hpp"
 #include "actuator_adaptor.hpp"
 
 
@@ -46,7 +46,7 @@ namespace myactuator_rmd_driver {
         ActuatorMock& operator = (ActuatorMock&&) = default;
 
         // Register all the virtual methods of the adaptor as mock methods so we can control their behavior
-        MOCK_METHOD(myactuator_rmd_driver::VersionDateResponse, getVersionDate, (), (const, override));
+        MOCK_METHOD(myactuator_rmd_driver::GetVersionDateResponse, getVersionDate, (), (const, override));
     };
 
   }

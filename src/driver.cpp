@@ -5,18 +5,20 @@
 #include <string>
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
+#include "myactuator_rmd_driver/messages/requests/get_motor_model_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/get_version_date_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/set_position_absolute_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/set_torque_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/set_velocity_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/shutdown_motor_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/stop_motor_request.hpp"
-#include "myactuator_rmd_driver/messages/requests/version_date_request.hpp"
+#include "myactuator_rmd_driver/messages/responses/get_motor_model_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/get_version_date_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/set_position_absolute_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/set_torque_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/set_velocity_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/shutdown_motor_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/stop_motor_response.hpp"
-#include "myactuator_rmd_driver/messages/responses/version_date_response.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
@@ -29,8 +31,14 @@ namespace myactuator_rmd_driver {
   }
 
   std::uint32_t Driver::getVersionDate() {
-    VersionDateRequest const request {};
-    auto const response {sendRecv<VersionDateResponse>(request)};
+    GetVersionDateRequest const request {};
+    auto const response {sendRecv<GetVersionDateResponse>(request)};
+    return response.getVersion();
+  }
+
+  std::string Driver::getMotorModel() {
+    GetMotorModelRequest const request {};
+    auto const response {sendRecv<GetMotorModelResponse>(request)};
     return response.getVersion();
   }
 

@@ -14,7 +14,7 @@
 #include <string>
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/responses/version_date_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/get_version_date_response.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
 
@@ -42,7 +42,7 @@ namespace myactuator_rmd_driver {
          *    The response that should be sent to the driver
         */
         [[nodiscard]]
-        virtual myactuator_rmd_driver::VersionDateResponse getVersionDate() const = 0;
+        virtual myactuator_rmd_driver::GetVersionDateResponse getVersionDate() const = 0;
 
       protected:
         /**\fn ActuatorAdaptor
