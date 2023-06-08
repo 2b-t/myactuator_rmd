@@ -6,7 +6,7 @@
 
 #include "myactuator_rmd_driver/can/frame.hpp"
 #include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/responses/get_version_date_response.hpp"
+#include "myactuator_rmd_driver/messages/responses.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
