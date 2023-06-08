@@ -30,8 +30,8 @@ namespace myactuator_rmd_driver {
    *    Strongly typed enum for all supported command types
   */
   enum class CommandType: std::uint8_t {
-    READ_PID_PARAMETER = 0x30,
-    WRITE_PID_PARAMETER_TO_RAM = 0x31,
+    READ_PID_PARAMETERS = 0x30,
+    WRITE_PID_PARAMETERS_TO_RAM = 0x31,
     WRITE_PID_PARAMETERS_TO_ROM = 0x32,
     READ_ACCELERATION = 0x42,
     WRITE_ACCELERATION_TO_RAM_AND_ROM = 0x43,
