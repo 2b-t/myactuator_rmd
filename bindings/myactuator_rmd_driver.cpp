@@ -41,7 +41,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .def("getShaftAngle", &myactuator_rmd_driver::Feedback::getShaftAngle);
 
   pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
-  pybind11::register_exception<myactuator_rmd_driver::ParsingException>(m, "ParsingException");
+  pybind11::register_exception<myactuator_rmd_driver::ProtocolException>(m, "ProtocolException");
   pybind11::register_exception<myactuator_rmd_driver::ValueRangeException>(m, "ValueRangeException");
 
   auto m_can = m.def_submodule("can", "Submodule for basic CAN communication");

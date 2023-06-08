@@ -55,7 +55,7 @@ namespace myactuator_rmd_driver {
   constexpr GetMotorModelResponse::GetMotorModelResponse(std::array<std::uint8_t,8> const& data)
   : Response{data} {
     if (data[0] != CommandType::READ_MOTOR_MODEL) {
-      throw ParsingException("Unexpected response to read motor model request!");
+      throw ProtocolException("Unexpected response to read motor model request!");
     }
     return;
   }

@@ -44,7 +44,7 @@ namespace myactuator_rmd_driver {
   constexpr SetTorqueResponse::SetTorqueResponse(std::array<std::uint8_t,8> const& data)
   : FeedbackResponse{data} {
     if (data[0] != CommandType::TORQUE_CLOSED_LOOP_CONTROL) {
-      throw ParsingException("Unexpected response to set torque request!");
+      throw ProtocolException("Unexpected response to set torque request!");
     }
     return;
   }

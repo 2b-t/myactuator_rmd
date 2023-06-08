@@ -55,7 +55,7 @@ namespace myactuator_rmd_driver {
   constexpr GetVersionDateResponse::GetVersionDateResponse(std::array<std::uint8_t,8> const& data)
   : Response{data} {
     if ((data[0] != CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE) || (data[1] != 0x00) || (data[2] != 0x00) || (data[3] != 0x00)) {
-      throw ParsingException("Unexpected response to read version date request!");
+      throw ProtocolException("Unexpected response to read version date request!");
     }
     return;
   }

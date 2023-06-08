@@ -24,11 +24,11 @@ namespace myactuator_rmd_driver {
       using std::runtime_error::runtime_error;
   };
 
-  /**\class ParsingException
+  /**\class ProtocolException
    * \brief
    *    Exception class for driver protocol parsing error
   */
-  class ParsingException: public Exception {
+  class ProtocolException: public Exception {
     public:
       using Exception::Exception;
   };

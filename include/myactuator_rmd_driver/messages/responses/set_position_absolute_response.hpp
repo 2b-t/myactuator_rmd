@@ -44,7 +44,7 @@ namespace myactuator_rmd_driver {
   constexpr SetPositionAbsoluteResponse::SetPositionAbsoluteResponse(std::array<std::uint8_t,8> const& data)
   : FeedbackResponse{data} {
     if (data[0] != CommandType::ABSOLUTE_POSITION_CLOSED_LOOP_CONTROL) {
-      throw ParsingException("Unexpected response to set absolute position request!");
+      throw ProtocolException("Unexpected response to set absolute position request!");
     }
     return;
   }

@@ -13,7 +13,7 @@ namespace myactuator_rmd_driver {
   StopMotorResponse::StopMotorResponse(std::array<std::uint8_t,8> const& data)
   : Response{data} {
     if (data[0] != CommandType::STOP_MOTOR) {
-      throw ParsingException("Unexpected response to stop motor request!");
+      throw ProtocolException("Unexpected response to stop motor request!");
     }
     return;
   }
