@@ -19,27 +19,19 @@ namespace myactuator_rmd_driver {
     TEST(SetPositionAbsoluteResponseTest, parsingPositiveValues) {
       myactuator_rmd_driver::SetPositionAbsoluteResponse const response {{0xA4, 0x32, 0x64, 0x00, 0xF4, 0x01, 0x2D, 0x00}};
       myactuator_rmd_driver::Feedback const feedback {response.getFeedback()};
-      auto const temperature {feedback.getTemperature()};
-      EXPECT_NEAR(temperature, 50.0f, 0.1f);
-      auto const current {feedback.getTorqueCurrent()};
-      EXPECT_NEAR(current, 1.0f, 0.1f);
-      auto const speed {feedback.getShaftSpeed()};
-      EXPECT_NEAR(speed, 500.0f, 0.1f);
-      auto const angle {feedback.getShaftAngle()};
-      EXPECT_NEAR(angle, 45.0f, 0.1f);
+      EXPECT_EQ(feedback.temperature, 50);
+      EXPECT_NEAR(feedback.current, 1.0f, 0.1f);
+      EXPECT_NEAR(feedback.shaft_speed, 500.0f, 0.1f);
+      EXPECT_NEAR(feedback.shaft_angle, 45.0f, 0.1f);
     }
 
     TEST(SetPositionAbsoluteResponseTest, parsingNegativeValues) {
       myactuator_rmd_driver::SetPositionAbsoluteResponse const response {{0xA4, 0x32, 0x9C, 0xFF, 0x0C, 0xFE, 0xD3, 0xFF}};
       myactuator_rmd_driver::Feedback const feedback {response.getFeedback()};
-      auto const temperature {feedback.getTemperature()};
-      EXPECT_NEAR(temperature, 50.0f, 0.1f);
-      auto const current {feedback.getTorqueCurrent()};
-      EXPECT_NEAR(current, -1.0f, 0.1f);
-      auto const speed {feedback.getShaftSpeed()};
-      EXPECT_NEAR(speed, -500.0f, 0.1f);
-      auto const angle {feedback.getShaftAngle()};
-      EXPECT_NEAR(angle, -45.0f, 0.1f);
+      EXPECT_EQ(feedback.temperature, 50);
+      EXPECT_NEAR(feedback.current, -1.0f, 0.1f);
+      EXPECT_NEAR(feedback.shaft_speed, -500.0f, 0.1f);
+      EXPECT_NEAR(feedback.shaft_angle, -45.0f, 0.1f);
     }
 
   }

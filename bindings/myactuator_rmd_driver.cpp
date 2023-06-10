@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include <string>
+#include <sstream>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -19,6 +20,7 @@
 #include "myactuator_rmd_driver/driver.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
 #include "myactuator_rmd_driver/feedback.hpp"
+#include "myactuator_rmd_driver/io.hpp"
 
 
 PYBIND11_MODULE(myactuator_rmd_driver, m) {
@@ -34,11 +36,16 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .def("stopMotor", &myactuator_rmd_driver::Driver::stopMotor)
     .def("shutdownMotor", &myactuator_rmd_driver::Driver::shutdownMotor);
   pybind11::class_<myactuator_rmd_driver::Feedback>(m, "Feedback")
-    .def(pybind11::init<float const, float const, float const, float const>())
-    .def("getTemperature", &myactuator_rmd_driver::Feedback::getTemperature)
-    .def("getTorqueCurrent", &myactuator_rmd_driver::Feedback::getTorqueCurrent)
-    .def("getShaftSpeed", &myactuator_rmd_driver::Feedback::getShaftSpeed)
-    .def("getShaftAngle", &myactuator_rmd_driver::Feedback::getShaftAngle);
+    .def(pybind11::init<int const, float const, float const, float const>())
+    .def_readonly("temperature", &myactuator_rmd_driver::Feedback::temperature)
+    .def_readonly("current", &myactuator_rmd_driver::Feedback::current)
+    .def_readonly("shaft_speed", &myactuator_rmd_driver::Feedback::shaft_speed)
+    .def_readonly("shaft_angle", &myactuator_rmd_driver::Feedback::shaft_angle)
+    .def("__repr__", [](myactuator_rmd_driver::Feedback const& feedback) -> std::string { 
+      std::ostringstream ss {};
+      ss << feedback;
+      return ss.str();
+    });
 
   pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
   pybind11::register_exception<myactuator_rmd_driver::ProtocolException>(m, "ProtocolException");
@@ -68,4 +75,3 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
   pybind11::register_exception<myactuator_rmd_driver::can::ControllerRestartedError>(m_can, "ControllerRestartedError");
 
 }
-

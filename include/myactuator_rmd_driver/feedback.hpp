@@ -1,7 +1,7 @@
 /**
  * \file feedback.hpp
  * \mainpage
- *    Contains class for closed-loop control feedback
+ *    Contains struct for closed-loop control feedback
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
@@ -23,88 +23,31 @@ namespace myactuator_rmd_driver {
        * \brief
        *    Class constructor
        * 
-       * \param[in] temperature
-       *    The temperature of the actuator
-       * \param[in] current
-       *    The current currently used by the actuator
-       * \param[in] shaft_speed
-       *    The output shaft velocity
-       * \param[in] shaft_angle
-       *    The output shaft angle
+       * \param[in] temperature_
+       *    The temperature of the actuator in degree Celsius with a resolution of 1 deg C
+       * \param[in] current_
+       *    The current currently used by the actuator in Ampere with a resolution of 0.01A
+       * \param[in] shaft_speed_
+       *    The output shaft velocity in degree per second with a resolution of 1dps
+       * \param[in] shaft_angle_
+       *    The output shaft angle in degrees with a resolution of 1 deg and a maximum range of 32767
       */
-      constexpr Feedback(float const temperature, float const current, float const shaft_speed, float const shaft_angle) noexcept;
+      constexpr Feedback(int const temperature_ = 0, float const current_ = 0.0f, float const shaft_speed_ = 0.0f, float const shaft_angle_ = 0.0f) noexcept;
       Feedback() = delete;
       Feedback(Feedback const&) = default;
       Feedback& operator = (Feedback const&) = default;
       Feedback(Feedback&&) = default;
       Feedback& operator = (Feedback&&) = default;
 
-      /**\fn getTemperature
-       * \brief
-       *    Get the temperature
-       * 
-       * \return
-       *    Temperature of the actuator in degree Celsius with a resolution of 1 deg C
-      */
-      [[nodiscard]]
-      constexpr float getTemperature() const noexcept;
-
-      /**\fn getTorqueCurrent
-       * \brief
-       *    Get the torque current
-       * 
-       * \return
-       *    Torque current of the actuator in Ampere with a resolution of 0.01A
-      */
-      [[nodiscard]]
-      constexpr float getTorqueCurrent() const noexcept;
-
-      /**\fn getShaftSpeed
-       * \brief
-       *    Get the speed of the shaft
-       * 
-       * \return
-       *    The current shaft speed in degree per second with a resolution of 1dps
-      */
-      [[nodiscard]]
-      constexpr float getShaftSpeed() const noexcept;
-
-      /**\fn getShaftAngle
-       * \brief
-       *    Get the shaft angle
-       * 
-       * \return
-       *    The current shaft angle in degrees with a resolution of 1 deg and a maximum range of 32767
-      */
-      [[nodiscard]]
-      constexpr float getShaftAngle() const noexcept;
-
-    protected:
-      float temperature_;
-      float current_;
-      float shaft_speed_;
-      float shaft_angle_;
+      int temperature;
+      float current;
+      float shaft_speed;
+      float shaft_angle;
   };
 
-  constexpr Feedback::Feedback(float const temperature, float const current, float const shaft_speed, float const shaft_angle) noexcept
-  : temperature_{temperature}, current_{current}, shaft_speed_{shaft_speed}, shaft_angle_{shaft_angle} {
+  constexpr Feedback::Feedback(int const temperature_, float const current_, float const shaft_speed_, float const shaft_angle_) noexcept
+  : temperature{temperature_}, current{current_}, shaft_speed{shaft_speed_}, shaft_angle{shaft_angle_} {
     return;
-  }
-
-  constexpr float Feedback::getTemperature() const noexcept {
-    return temperature_;
-  }
-
-  constexpr float Feedback::getTorqueCurrent() const noexcept {
-    return current_;
-  }
-
-  constexpr float Feedback::getShaftSpeed() const noexcept {
-    return shaft_speed_;
-  }
-
-  constexpr float Feedback::getShaftAngle() const noexcept {
-    return shaft_angle_;
   }
 
 }
