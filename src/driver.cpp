@@ -9,6 +9,7 @@
 #include "myactuator_rmd_driver/messages/responses.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
 #include "myactuator_rmd_driver/feedback.hpp"
+#include "myactuator_rmd_driver/gains.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
 
@@ -29,6 +30,24 @@ namespace myactuator_rmd_driver {
     GetMotorModelRequest const request {};
     auto const response {sendRecv<GetMotorModelResponse>(request)};
     return response.getVersion();
+  }
+
+  Gains Driver::getControllerGains() {
+    GetControllerGainsRequest const request {};
+    auto const response {sendRecv<GetControllerGainsResponse>(request)};
+    return response.getGains();
+  }
+
+  Gains Driver::setControllerGains(Gains const& gains, bool const is_persistent) {
+    if (is_persistent) {
+      SetControllerGainsPersistentlyRequest const request {gains};
+      auto const response {sendRecv<SetControllerGainsPersistentlyResponse>(request)};
+      return response.getGains();
+    } else {
+      SetControllerGainsRequest const request {gains};
+      auto const response {sendRecv<SetControllerGainsResponse>(request)};
+      return response.getGains();
+    }
   }
 
   Feedback Driver::sendTorqueSetpoint(float const current) {

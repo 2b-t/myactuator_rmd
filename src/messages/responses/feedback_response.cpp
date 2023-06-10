@@ -1,5 +1,7 @@
 #include "myactuator_rmd_driver/messages/responses/feedback_response.hpp"
 
+#include <cstdint>
+
 #include "myactuator_rmd_driver/feedback.hpp"
 
 

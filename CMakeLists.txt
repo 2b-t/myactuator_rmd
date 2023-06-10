@@ -65,9 +65,12 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     set(MYACTUATOR_RMD_DRIVER_TEST_LIBRARIES ${MYACTUATOR_RMD_DRIVER_LIBRARIES} gmock gtest pthread)
     add_library(myactuator_rmd_driver_test_obj OBJECT
       test/can/utilities_test.cpp
+      test/messages/requests/set_controller_gains_request_test.cpp
+      test/messages/requests/set_controller_gains_persistently_request_test.cpp
       test/messages/requests/set_position_absolute_request_test.cpp
       test/messages/requests/set_torque_request_test.cpp
       test/messages/requests/set_velocity_request_test.cpp
+      test/messages/responses/get_controller_gains_response_test.cpp
       test/messages/responses/get_motor_model_response_test.cpp
       test/messages/responses/get_version_date_response_test.cpp
       test/messages/responses/set_position_absolute_response_test.cpp

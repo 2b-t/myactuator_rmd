@@ -10,6 +10,9 @@
 #define MYACTUATOR_RMD_DRIVER__MESSAGES__REQUESTS
 #pragma once
 
+#include "myactuator_rmd_driver/messages/requests/get_controller_gains_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/set_controller_gains_request.hpp"
+#include "myactuator_rmd_driver/messages/requests/set_controller_gains_persistently_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/get_motor_model_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/get_version_date_request.hpp"
 #include "myactuator_rmd_driver/messages/requests/set_position_absolute_request.hpp"

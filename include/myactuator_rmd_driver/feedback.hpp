@@ -33,7 +33,6 @@ namespace myactuator_rmd_driver {
        *    The output shaft angle in degrees with a resolution of 1 deg and a maximum range of 32767
       */
       constexpr Feedback(int const temperature_ = 0, float const current_ = 0.0f, float const shaft_speed_ = 0.0f, float const shaft_angle_ = 0.0f) noexcept;
-      Feedback() = delete;
       Feedback(Feedback const&) = default;
       Feedback& operator = (Feedback const&) = default;
       Feedback(Feedback&&) = default;

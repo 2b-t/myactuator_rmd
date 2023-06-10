@@ -15,6 +15,7 @@
 
 #include "myactuator_rmd_driver/messages/definitions.hpp"
 #include "myactuator_rmd_driver/feedback.hpp"
+#include "myactuator_rmd_driver/gains.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
 
@@ -61,6 +62,29 @@ namespace myactuator_rmd_driver {
       */
       [[nodiscard]]
       std::string getMotorModel();
+
+      /**\fn getControllerGains
+       * \brief
+       *    Reads the currently used controller gains
+       * 
+       * \return
+       *    The currently used controller gains for current, speed and position as unsigned 8-bit integers
+      */
+      [[nodiscard]]
+      Gains getControllerGains();
+
+      /**\fn setControllerGains
+       * \brief
+       *    Write the currently used controller gains either to RAM (not persistent after reboot) or ROM (persistent)
+       * 
+       * \param[in] gains
+       *    The PI-gains for current, speed and position to be set
+       * \param[in] is_persistent
+       *    Boolean argument signaling whether the controller gains should be persistent after reboot of the actuator or not
+       * \return
+       *    The currently used controller gains for current, speed and position as unsigned 8-bit integers
+      */
+      Gains setControllerGains(Gains const& gains, bool const is_persistent = false);
 
       /**\fn sendTorqueSetpoint
        * \brief

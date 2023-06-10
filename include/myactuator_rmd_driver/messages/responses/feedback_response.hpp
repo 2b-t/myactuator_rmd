@@ -10,9 +10,6 @@
 #define MYACTUATOR_RMD_DRIVER__MESSAGES__RESPONSES__FEEDBACK_RESPONSE
 #pragma once
 
-#include <array>
-#include <cstdint>
-
 #include "myactuator_rmd_driver/messages/response.hpp"
 #include "myactuator_rmd_driver/feedback.hpp"
 
@@ -30,7 +27,7 @@ namespace myactuator_rmd_driver {
        *    Get the feedback
        * 
        * \return
-       *    Temperature of the actuator in degree Celsius with a resolution of 1 deg C
+       *    Feedback from the actuator
       */
       [[nodiscard]]
       Feedback getFeedback() const noexcept;

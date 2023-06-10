@@ -10,6 +10,9 @@
 #define MYACTUATOR_RMD_DRIVER__MESSAGES__RESPONSES
 #pragma once
 
+#include "myactuator_rmd_driver/messages/responses/get_controller_gains_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/set_controller_gains_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/set_controller_gains_persistently_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/get_motor_model_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/get_version_date_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/set_position_absolute_response.hpp"
