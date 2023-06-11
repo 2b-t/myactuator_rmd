@@ -1,4 +1,4 @@
-# MyActuator RMD-series CAN driver
+# MyActuator RMD-X-series CAN driver
 
 Author: [Tobit Flatscher](https://github.com/2b-t) (May - June 2023)
 
@@ -7,9 +7,7 @@ Author: [Tobit Flatscher](https://github.com/2b-t) (May - June 2023)
 
 
 ## 0. Overview
-This repository holds a **CAN driver for the [MyActuator RMD actuator series](https://www.myactuator.com/rmd-x)** written in modern C++17 using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html). The driver is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
-
-This driver is currently work in progress: It supports closed-loop position, velocity and torque control but does not allow to change the PID paramters yet.
+This repository holds a **CAN driver for the [MyActuator RMD X actuator series](https://www.myactuator.com/rmd-x)** written in modern C++17 using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html). The driver is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
 
 
 
