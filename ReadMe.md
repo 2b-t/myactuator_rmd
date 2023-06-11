@@ -2,7 +2,7 @@
 
 Author: [Tobit Flatscher](https://github.com/2b-t) (May - June 2023)
 
-[![Tests](https://github.com/2b-t/myactuator_rmd_driver/actions/workflows/run-tests.yml/badge.svg)](https://github.com/2b-t/myactuator_rmd_driver/actions/workflows/run-tests.yml) [![C++17 Standard](https://img.shields.io/badge/Standard-C++17-yellow.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/std/the-standard) [![Python 3](https://img.shields.io/badge/Python-3-yellow.svg?style=flat&logo=python)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://github.com/2b-t/myactuator_rmd/actions/workflows/run-tests.yml/badge.svg)](https://github.com/2b-t/myactuator_rmd/actions/workflows/run-tests.yml) [![C++17 Standard](https://img.shields.io/badge/Standard-C++17-yellow.svg?style=flat&logo=c%2B%2B)](https://isocpp.org/std/the-standard) [![Python 3](https://img.shields.io/badge/Python-3-yellow.svg?style=flat&logo=python)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
 
@@ -36,7 +36,7 @@ For importing the Python bindings open a new terminal inside the `build` folder 
 $ python3
 Python 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from myactuator_rmd_driver import Driver
+>>> from myactuator_rmd import Driver
 >>> driver = Driver("can0", 1)
 >>> driver.getVersionDate()
 2023020601

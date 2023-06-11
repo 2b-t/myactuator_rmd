@@ -1,11 +1,11 @@
-#include "myactuator_rmd_driver/protocol/responses/feedback_response.hpp"
+#include "myactuator_rmd/protocol/responses/feedback_response.hpp"
 
 #include <cstdint>
 
-#include "myactuator_rmd_driver/actuator_state/feedback.hpp"
+#include "myactuator_rmd/actuator_state/feedback.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
 
   Feedback FeedbackResponse::getStatus() const noexcept {
     auto const temperature {static_cast<int>(getAs<std::int8_t>(1))};

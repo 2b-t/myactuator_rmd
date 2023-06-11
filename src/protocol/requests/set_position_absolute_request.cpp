@@ -1,14 +1,14 @@
-#include "myactuator_rmd_driver/protocol/requests/set_position_absolute_request.hpp"
+#include "myactuator_rmd/protocol/requests/set_position_absolute_request.hpp"
 
 #include <cstdint>
 #include <cstring>
 #include <string>
 
-#include "myactuator_rmd_driver/protocol/requests/request.hpp"
-#include "myactuator_rmd_driver/exceptions.hpp"
+#include "myactuator_rmd/protocol/requests/request.hpp"
+#include "myactuator_rmd/exceptions.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
 
   SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed)
   : Request{} {

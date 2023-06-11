@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(myactuator_rmd_driver)
+project(myactuator_rmd)
 
 option(PYTHON_BINDINGS "Building Python bindings" OFF)
 option(BUILD_TESTING "Build unit and integration tests" OFF)
@@ -24,7 +24,7 @@ include_directories(
   include/
 )
 
-add_library(myactuator_rmd_driver_obj OBJECT
+add_library(myactuator_rmd_obj OBJECT
   src/can/node.cpp
   src/can/utilities.cpp
   src/protocol/requests/set_position_absolute_request.cpp
@@ -39,18 +39,18 @@ add_library(myactuator_rmd_driver_obj OBJECT
   src/protocol/responses/stop_motor_response.cpp
   src/driver.cpp
 )
-add_library(myactuator_rmd_driver 
-  $<TARGET_OBJECTS:myactuator_rmd_driver_obj>
+add_library(myactuator_rmd 
+  $<TARGET_OBJECTS:myactuator_rmd_obj>
 )
 
-set(MYACTUATOR_RMD_DRIVER_LIBRARIES ${Boost_SYSTEM_LIBRARY})
-target_link_libraries(myactuator_rmd_driver ${MYACTUATOR_RMD_DRIVER_LIBRARIES})
+set(MYACTUATOR_RMD_LIBRARIES ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(myactuator_rmd ${MYACTUATOR_RMD_LIBRARIES})
 
 if(PYTHON_BINDINGS)
   set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS_INIT} -fPIC")
-  pybind11_add_module(pymyactuator_rmd_driver bindings/myactuator_rmd_driver.cpp)
-  target_link_libraries(pymyactuator_rmd_driver PRIVATE myactuator_rmd_driver)
-  set_target_properties(pymyactuator_rmd_driver PROPERTIES OUTPUT_NAME myactuator_rmd_driver)
+  pybind11_add_module(pymyactuator_rmd bindings/myactuator_rmd.cpp)
+  target_link_libraries(pymyactuator_rmd PRIVATE myactuator_rmd)
+  set_target_properties(pymyactuator_rmd PROPERTIES OUTPUT_NAME myactuator_rmd)
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
@@ -59,13 +59,13 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   if (NOT GTest_FOUND)
     find_package(Boost 1.40.0 REQUIRED COMPONENTS program_options)
     add_executable(can_node
-      $<TARGET_OBJECTS:myactuator_rmd_driver_obj>
+      $<TARGET_OBJECTS:myactuator_rmd_obj>
       test/can_node.cpp
     )
-    target_link_libraries(can_node ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd_driver)
+    target_link_libraries(can_node ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd)
 
-    set(MYACTUATOR_RMD_DRIVER_TEST_LIBRARIES ${MYACTUATOR_RMD_DRIVER_LIBRARIES} gmock gtest pthread)
-    add_library(myactuator_rmd_driver_test_obj OBJECT
+    set(MYACTUATOR_RMD_TEST_LIBRARIES ${MYACTUATOR_RMD_LIBRARIES} gmock gtest pthread)
+    add_library(myactuator_rmd_test_obj OBJECT
       test/can/utilities_test.cpp
       test/protocol/requests/set_controller_gains_request_test.cpp
       test/protocol/requests/set_controller_gains_persistently_request_test.cpp
@@ -87,8 +87,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
       test/driver_test.cpp
     )
     add_executable(run_tests
-      $<TARGET_OBJECTS:myactuator_rmd_driver_obj>
-      $<TARGET_OBJECTS:myactuator_rmd_driver_test_obj>
+      $<TARGET_OBJECTS:myactuator_rmd_obj>
+      $<TARGET_OBJECTS:myactuator_rmd_test_obj>
       test/run_tests.cpp
     )
     target_compile_definitions(run_tests PUBLIC NDEBUG)
@@ -97,7 +97,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
       TEST_LIST noArgsTests
     )
     set_tests_properties(${noArgsTests} PROPERTIES TIMEOUT 10)
-    target_link_libraries(run_tests ${MYACTUATOR_RMD_DRIVER_TEST_LIBRARIES})
+    target_link_libraries(run_tests ${MYACTUATOR_RMD_TEST_LIBRARIES})
     if (SETUP_TEST_IFNAME)
       set(VCAN_IFNAME "vcan_test")
       configure_file("CTestCustom.cmake.in" ${CMAKE_BINARY_DIR}/CTestCustom.cmake)

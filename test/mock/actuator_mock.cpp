@@ -6,7 +6,7 @@
 #include "actuator_adaptor.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
   namespace test {
 
     ActuatorMock::ActuatorMock(std::string const& ifname, std::uint32_t const actuator_id)

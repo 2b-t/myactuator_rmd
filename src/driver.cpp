@@ -1,19 +1,19 @@
-#include "myactuator_rmd_driver/driver.hpp"
+#include "myactuator_rmd/driver.hpp"
 
 #include <cstdint>
 #include <string>
 
-#include "myactuator_rmd_driver/actuator_state/feedback.hpp"
-#include "myactuator_rmd_driver/actuator_state/gains.hpp"
-#include "myactuator_rmd_driver/actuator_state/motor_status_1.hpp"
-#include "myactuator_rmd_driver/actuator_state/motor_status_2.hpp"
-#include "myactuator_rmd_driver/protocol/node.hpp"
-#include "myactuator_rmd_driver/protocol/requests.hpp"
-#include "myactuator_rmd_driver/protocol/responses.hpp"
-#include "myactuator_rmd_driver/exceptions.hpp"
+#include "myactuator_rmd/actuator_state/feedback.hpp"
+#include "myactuator_rmd/actuator_state/gains.hpp"
+#include "myactuator_rmd/actuator_state/motor_status_1.hpp"
+#include "myactuator_rmd/actuator_state/motor_status_2.hpp"
+#include "myactuator_rmd/protocol/node.hpp"
+#include "myactuator_rmd/protocol/requests.hpp"
+#include "myactuator_rmd/protocol/responses.hpp"
+#include "myactuator_rmd/exceptions.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
 
   Driver::Driver(std::string const& ifname, std::uint32_t const actuator_id)
   : Node{ifname, actuator_id} {

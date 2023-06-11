@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD_DRIVER__TEST__DRIVER_ACTUATOR_TEST
-#define MYACTUATOR_RMD_DRIVER__TEST__DRIVER_ACTUATOR_TEST
+#ifndef MYACTUATOR_RMD__TEST__DRIVER_ACTUATOR_TEST
+#define MYACTUATOR_RMD__TEST__DRIVER_ACTUATOR_TEST
 #pragma once
 
 #include <cstdint>
@@ -16,11 +16,11 @@
 
 #include <gtest/gtest.h>
 
-#include "myactuator_rmd_driver/driver.hpp"
+#include "myactuator_rmd/driver.hpp"
 #include "actuator_mock.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
   namespace test {
 
     /**\class DriverActuatorTest
@@ -58,7 +58,7 @@ namespace myactuator_rmd_driver {
         void TearDown() override;
 
       protected:
-        myactuator_rmd_driver::Driver driver_;
+        myactuator_rmd::Driver driver_;
         ActuatorMock actuator_;
         std::thread mock_thread_;
     };
@@ -66,4 +66,4 @@ namespace myactuator_rmd_driver {
   }
 }
 
-#endif // MYACTUATOR_RMD_DRIVER__TEST__DRIVER_ACTUATOR_TEST
+#endif // MYACTUATOR_RMD__TEST__DRIVER_ACTUATOR_TEST

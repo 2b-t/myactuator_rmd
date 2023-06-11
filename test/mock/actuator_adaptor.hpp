@@ -6,19 +6,19 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD_DRIVER__TEST__MOCK__ACTUATOR_ADAPTOR
-#define MYACTUATOR_RMD_DRIVER__TEST__MOCK__ACTUATOR_ADAPTOR
+#ifndef MYACTUATOR_RMD__TEST__MOCK__ACTUATOR_ADAPTOR
+#define MYACTUATOR_RMD__TEST__MOCK__ACTUATOR_ADAPTOR
 #pragma once
 
 #include <cstdint>
 #include <string>
 
-#include "myactuator_rmd_driver/protocol/address_offset.hpp"
-#include "myactuator_rmd_driver/protocol/node.hpp"
-#include "myactuator_rmd_driver/protocol/responses.hpp"
+#include "myactuator_rmd/protocol/address_offset.hpp"
+#include "myactuator_rmd/protocol/node.hpp"
+#include "myactuator_rmd/protocol/responses.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
   namespace test {
 
     /**\class ActuatorAdaptor
@@ -26,7 +26,7 @@ namespace myactuator_rmd_driver {
      *    Counter-part to the driver and parent class of the mock that can be used for testing the driver
      *    over a (virtual) CAN network interface
     */
-    class ActuatorAdaptor: protected myactuator_rmd_driver::Node<AddressOffset::response,AddressOffset::request> {
+    class ActuatorAdaptor: protected myactuator_rmd::Node<AddressOffset::response,AddressOffset::request> {
       public:
         /**\fn handleRequest
          * \brief
@@ -42,7 +42,7 @@ namespace myactuator_rmd_driver {
          *    The response that should be sent to the driver
         */
         [[nodiscard]]
-        virtual myactuator_rmd_driver::GetVersionDateResponse getVersionDate() const = 0;
+        virtual myactuator_rmd::GetVersionDateResponse getVersionDate() const = 0;
 
       protected:
         /**\fn ActuatorAdaptor
@@ -65,4 +65,4 @@ namespace myactuator_rmd_driver {
   }
 }
 
-#endif // MYACTUATOR_RMD_DRIVER__TEST__MOCK__ACTUATOR_ADAPTOR
+#endif // MYACTUATOR_RMD__TEST__MOCK__ACTUATOR_ADAPTOR

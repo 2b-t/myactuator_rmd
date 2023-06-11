@@ -15,7 +15,7 @@
 
 #include <boost/program_options.hpp>
 
-#include "myactuator_rmd_driver/can/node.hpp"
+#include "myactuator_rmd/can/node.hpp"
 
 
 /**\fn removeSubstr
@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
     return EXIT_FAILURE;
   }
 
-  myactuator_rmd_driver::can::Node node {ifname};
+  myactuator_rmd::can::Node node {ifname};
   if (vm.count("send") && !vm.count("receive") && vm.count("can_id") && vm.count("data")) {
     std::uint32_t const id {static_cast<std::uint32_t>(std::stoul(can_id, nullptr, 16))};
     removeSubstr(data, "0x");

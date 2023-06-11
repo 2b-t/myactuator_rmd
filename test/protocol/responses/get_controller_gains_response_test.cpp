@@ -9,16 +9,16 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "myactuator_rmd_driver/actuator_state/gains.hpp"
-#include "myactuator_rmd_driver/protocol/responses/get_controller_gains_response.hpp"
+#include "myactuator_rmd/actuator_state/gains.hpp"
+#include "myactuator_rmd/protocol/responses/get_controller_gains_response.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
   namespace test {
 
     TEST(GetControllerGainsResponseTest, parsing) {
-      myactuator_rmd_driver::GetControllerGainsResponse const response {{0x30, 0x00, 0x55, 0x19, 0x55, 0x19, 0x55, 0x19}};
-      myactuator_rmd_driver::Gains const gains {response.getGains()};
+      myactuator_rmd::GetControllerGainsResponse const response {{0x30, 0x00, 0x55, 0x19, 0x55, 0x19, 0x55, 0x19}};
+      myactuator_rmd::Gains const gains {response.getGains()};
       EXPECT_EQ(gains.current.kp, 85);
       EXPECT_EQ(gains.current.ki, 25);
       EXPECT_EQ(gains.speed.kp, 85);

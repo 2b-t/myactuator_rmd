@@ -1,13 +1,13 @@
-#include "myactuator_rmd_driver/protocol/responses/get_motor_status_1_response.hpp"
+#include "myactuator_rmd/protocol/responses/get_motor_status_1_response.hpp"
 
 #include <cstdint>
 
-#include "myactuator_rmd_driver/actuator_state/error_code.hpp"
-#include "myactuator_rmd_driver/actuator_state/motor_status_1.hpp"
-#include "myactuator_rmd_driver/exceptions.hpp"
+#include "myactuator_rmd/actuator_state/error_code.hpp"
+#include "myactuator_rmd/actuator_state/motor_status_1.hpp"
+#include "myactuator_rmd/exceptions.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
 
   MotorStatus1 GetMotorStatus1Response::getStatus() const noexcept {
     auto const temperature {static_cast<int>(getAs<std::int8_t>(1))};

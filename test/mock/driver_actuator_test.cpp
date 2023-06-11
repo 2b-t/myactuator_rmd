@@ -8,7 +8,7 @@
 #include "actuator_mock.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
   namespace test {
 
     DriverActuatorTest::DriverActuatorTest(std::string const& ifname, std::uint32_t const actuator_id)
@@ -17,7 +17,7 @@ namespace myactuator_rmd_driver {
     }
 
     void DriverActuatorTest::SetUp() {
-      mock_thread_ = std::thread(&myactuator_rmd_driver::test::ActuatorMock::handleRequest, std::ref(actuator_));
+      mock_thread_ = std::thread(&myactuator_rmd::test::ActuatorMock::handleRequest, std::ref(actuator_));
       return;
     }
 

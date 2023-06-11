@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD_DRIVER__TEST__MOCK__ACTUATOR_MOCK
-#define MYACTUATOR_RMD_DRIVER__TEST__MOCK__ACTUATOR_MOCK
+#ifndef MYACTUATOR_RMD__TEST__MOCK__ACTUATOR_MOCK
+#define MYACTUATOR_RMD__TEST__MOCK__ACTUATOR_MOCK
 #pragma once
 
 #include <array>
@@ -16,11 +16,11 @@
 
 #include <gmock/gmock.h>
 
-#include "myactuator_rmd_driver/protocol/responses.hpp"
+#include "myactuator_rmd/protocol/responses.hpp"
 #include "actuator_adaptor.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
   namespace test {
 
     /**\class ActuatorMock
@@ -46,10 +46,10 @@ namespace myactuator_rmd_driver {
         ActuatorMock& operator = (ActuatorMock&&) = default;
 
         // Register all the virtual methods of the adaptor as mock methods so we can control their behavior
-        MOCK_METHOD(myactuator_rmd_driver::GetVersionDateResponse, getVersionDate, (), (const, override));
+        MOCK_METHOD(myactuator_rmd::GetVersionDateResponse, getVersionDate, (), (const, override));
     };
 
   }
 }
 
-#endif // MYACTUATOR_RMD_DRIVER__TEST__MOCK__ACTUATOR_MOCK
+#endif // MYACTUATOR_RMD__TEST__MOCK__ACTUATOR_MOCK

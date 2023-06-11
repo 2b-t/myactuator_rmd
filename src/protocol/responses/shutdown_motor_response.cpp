@@ -1,14 +1,14 @@
-#include "myactuator_rmd_driver/protocol/responses/shutdown_motor_response.hpp"
+#include "myactuator_rmd/protocol/responses/shutdown_motor_response.hpp"
 
 #include <array>
 #include <cstdint>
 
-#include "myactuator_rmd_driver/protocol/command_type.hpp"
-#include "myactuator_rmd_driver/protocol/responses/response.hpp"
-#include "myactuator_rmd_driver/exceptions.hpp"
+#include "myactuator_rmd/protocol/command_type.hpp"
+#include "myactuator_rmd/protocol/responses/response.hpp"
+#include "myactuator_rmd/exceptions.hpp"
 
 
-namespace myactuator_rmd_driver {
+namespace myactuator_rmd {
 
   ShutdownMotorResponse::ShutdownMotorResponse(std::array<std::uint8_t,8> const& data)
   : Response{data} {
