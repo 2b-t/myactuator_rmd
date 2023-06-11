@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>myactuator-rmd-driver</name>
+  <name>myactuator_rmd</name>
   <version>0.0.1</version>
-  <description>CAN driver for MyActuator RMD-series</description>
+  <description>CAN driver for MyActuator RMD-X-series</description>
   <maintainer email="tobit.flatscher@outlook.com">Tobit Flatscher</maintainer>
   <license>MIT</license>
 
