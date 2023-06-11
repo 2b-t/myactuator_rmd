@@ -13,12 +13,12 @@
 #include <iomanip>
 #include <ostream>
 
-#include "myactuator_rmd_driver/error_codes.hpp"
-#include "myactuator_rmd_driver/feedback.hpp"
-#include "myactuator_rmd_driver/motor_status_1.hpp"
-#include "myactuator_rmd_driver/motor_status_2.hpp"
-#include "myactuator_rmd_driver/motor_status_3.hpp"
-#include "myactuator_rmd_driver/gains.hpp"
+#include "myactuator_rmd_driver/actuator_state/error_code.hpp"
+#include "myactuator_rmd_driver/actuator_state/feedback.hpp"
+#include "myactuator_rmd_driver/actuator_state/gains.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_1.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_2.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_3.hpp"
 
 
 namespace myactuator_rmd_driver {

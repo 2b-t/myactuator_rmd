@@ -9,7 +9,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "myactuator_rmd_driver/messages/responses.hpp"
+#include "myactuator_rmd_driver/protocol/responses.hpp"
 #include "mock/driver_actuator_test.hpp"
 
 

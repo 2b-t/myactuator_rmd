@@ -1,18 +1,16 @@
 #include "myactuator_rmd_driver/driver.hpp"
 
-#include <array>
 #include <cstdint>
 #include <string>
 
-#include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/requests.hpp"
-#include "myactuator_rmd_driver/messages/responses.hpp"
+#include "myactuator_rmd_driver/actuator_state/feedback.hpp"
+#include "myactuator_rmd_driver/actuator_state/gains.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_1.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_2.hpp"
+#include "myactuator_rmd_driver/protocol/node.hpp"
+#include "myactuator_rmd_driver/protocol/requests.hpp"
+#include "myactuator_rmd_driver/protocol/responses.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
-#include "myactuator_rmd_driver/feedback.hpp"
-#include "myactuator_rmd_driver/gains.hpp"
-#include "myactuator_rmd_driver/motor_status_1.hpp"
-#include "myactuator_rmd_driver/motor_status_2.hpp"
-#include "myactuator_rmd_driver/node.hpp"
 
 
 namespace myactuator_rmd_driver {

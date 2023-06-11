@@ -13,17 +13,17 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "myactuator_rmd_driver/actuator_state/error_code.hpp"
+#include "myactuator_rmd_driver/actuator_state/feedback.hpp"
+#include "myactuator_rmd_driver/actuator_state/gains.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_1.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_2.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_3.hpp"
 #include "myactuator_rmd_driver/can/exceptions.hpp"
 #include "myactuator_rmd_driver/can/frame.hpp"
 #include "myactuator_rmd_driver/can/node.hpp"
 #include "myactuator_rmd_driver/driver.hpp"
-#include "myactuator_rmd_driver/error_codes.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
-#include "myactuator_rmd_driver/feedback.hpp"
-#include "myactuator_rmd_driver/motor_status_1.hpp"
-#include "myactuator_rmd_driver/motor_status_2.hpp"
-#include "myactuator_rmd_driver/motor_status_3.hpp"
-#include "myactuator_rmd_driver/gains.hpp"
 #include "myactuator_rmd_driver/io.hpp"
 
 
@@ -44,7 +44,12 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .def("sendPositionAbsoluteSetpoint", &myactuator_rmd_driver::Driver::sendPositionAbsoluteSetpoint)
     .def("stopMotor", &myactuator_rmd_driver::Driver::stopMotor)
     .def("shutdownMotor", &myactuator_rmd_driver::Driver::shutdownMotor);
-  pybind11::enum_<myactuator_rmd_driver::ErrorCode>(m, "ErrorCode")
+  pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
+  pybind11::register_exception<myactuator_rmd_driver::ProtocolException>(m, "ProtocolException");
+  pybind11::register_exception<myactuator_rmd_driver::ValueRangeException>(m, "ValueRangeException");
+
+  auto m_actuator_state = m.def_submodule("actuator_state", "Submodule for actuator state structures");
+  pybind11::enum_<myactuator_rmd_driver::ErrorCode>(m_actuator_state, "ErrorCode")
     .value("NO_ERROR", myactuator_rmd_driver::ErrorCode::NO_ERROR)
     .value("MOTOR_STALL", myactuator_rmd_driver::ErrorCode::MOTOR_STALL)
     .value("LOW_VOLTAGE", myactuator_rmd_driver::ErrorCode::LOW_VOLTAGE)
@@ -57,7 +62,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .value("UNSPECIFIED_3", myactuator_rmd_driver::ErrorCode::UNSPECIFIED_3)
     .value("OVERTEMPERATURE", myactuator_rmd_driver::ErrorCode::OVERTEMPERATURE)
     .value("ENCODER_CALIBRATION_ERROR", myactuator_rmd_driver::ErrorCode::ENCODER_CALIBRATION_ERROR);
-  pybind11::class_<myactuator_rmd_driver::Gains>(m, "Gains")
+  pybind11::class_<myactuator_rmd_driver::Gains>(m_actuator_state, "Gains")
     .def(pybind11::init<myactuator_rmd_driver::PiGains const&, myactuator_rmd_driver::PiGains const&, myactuator_rmd_driver::PiGains const&>())
     .def(pybind11::init<std::uint8_t const, std::uint8_t const, std::uint8_t const, std::uint8_t const, std::uint8_t const, std::uint8_t const>())
     .def_readwrite("current", &myactuator_rmd_driver::Gains::current)
@@ -68,7 +73,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
       ss << gains;
       return ss.str();
     });
-  pybind11::class_<myactuator_rmd_driver::MotorStatus1>(m, "MotorStatus1")
+  pybind11::class_<myactuator_rmd_driver::MotorStatus1>(m_actuator_state, "MotorStatus1")
     .def(pybind11::init<int const, bool const, float const, myactuator_rmd_driver::ErrorCode const>())
     .def_readonly("temperature", &myactuator_rmd_driver::MotorStatus1::temperature)
     .def_readonly("is_brake_released", &myactuator_rmd_driver::MotorStatus1::is_brake_released)
@@ -79,7 +84,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
       ss << motor_status;
       return ss.str();
     });
-  pybind11::class_<myactuator_rmd_driver::MotorStatus2>(m, "MotorStatus2")
+  pybind11::class_<myactuator_rmd_driver::MotorStatus2>(m_actuator_state, "MotorStatus2")
     .def(pybind11::init<int const, float const, float const, float const>())
     .def_readonly("temperature", &myactuator_rmd_driver::MotorStatus2::temperature)
     .def_readonly("current", &myactuator_rmd_driver::MotorStatus2::current)
@@ -90,7 +95,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
       ss << motor_status;
       return ss.str();
     });
-  pybind11::class_<myactuator_rmd_driver::MotorStatus3>(m, "MotorStatus3")
+  pybind11::class_<myactuator_rmd_driver::MotorStatus3>(m_actuator_state, "MotorStatus3")
     .def(pybind11::init<int const, float const, float const, float const>())
     .def_readonly("temperature", &myactuator_rmd_driver::MotorStatus3::temperature)
     .def_readonly("current_phase_a", &myactuator_rmd_driver::MotorStatus3::current_phase_a)
@@ -101,7 +106,7 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
       ss << motor_status;
       return ss.str();
     });
-  pybind11::class_<myactuator_rmd_driver::PiGains>(m, "PiGains")
+  pybind11::class_<myactuator_rmd_driver::PiGains>(m_actuator_state, "PiGains")
     .def(pybind11::init<std::uint8_t const, std::uint8_t const>())
     .def_readwrite("kp", &myactuator_rmd_driver::PiGains::kp)
     .def_readwrite("ki", &myactuator_rmd_driver::PiGains::ki)
@@ -110,10 +115,6 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
       ss << pi_gains;
       return ss.str();
     });
-
-  pybind11::register_exception<myactuator_rmd_driver::Exception>(m, "DriverException");
-  pybind11::register_exception<myactuator_rmd_driver::ProtocolException>(m, "ProtocolException");
-  pybind11::register_exception<myactuator_rmd_driver::ValueRangeException>(m, "ValueRangeException");
 
   auto m_can = m.def_submodule("can", "Submodule for basic CAN communication");
   pybind11::class_<myactuator_rmd_driver::can::Frame>(m_can, "Frame")
@@ -125,7 +126,6 @@ PYBIND11_MODULE(myactuator_rmd_driver, m) {
     .def("setRecvFilter", &myactuator_rmd_driver::can::Node::setRecvFilter)
     .def("read", &myactuator_rmd_driver::can::Node::read)
     .def("write", static_cast<void (myactuator_rmd_driver::can::Node::*)(myactuator_rmd_driver::can::Frame const&)>(&myactuator_rmd_driver::can::Node::write));
-
   pybind11::register_exception<myactuator_rmd_driver::can::SocketException>(m_can, "SocketException");
   pybind11::register_exception<myactuator_rmd_driver::can::Exception>(m_can, "CanException");
   pybind11::register_exception<myactuator_rmd_driver::can::TxTimeoutError>(m_can, "TxTimeoutError");

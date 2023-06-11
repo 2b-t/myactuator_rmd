@@ -16,7 +16,7 @@
 
 #include <gmock/gmock.h>
 
-#include "myactuator_rmd_driver/messages/responses.hpp"
+#include "myactuator_rmd_driver/protocol/responses.hpp"
 #include "actuator_adaptor.hpp"
 
 

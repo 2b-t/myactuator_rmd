@@ -5,10 +5,10 @@
 #include <string>
 
 #include "myactuator_rmd_driver/can/frame.hpp"
-#include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/responses.hpp"
+#include "myactuator_rmd_driver/protocol/command_type.hpp"
+#include "myactuator_rmd_driver/protocol/node.hpp"
+#include "myactuator_rmd_driver/protocol/responses.hpp"
 #include "myactuator_rmd_driver/exceptions.hpp"
-#include "myactuator_rmd_driver/node.hpp"
 
 
 namespace myactuator_rmd_driver {

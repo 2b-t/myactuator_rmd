@@ -13,13 +13,13 @@
 #include <cstdint>
 #include <string>
 
-#include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/feedback.hpp"
-#include "myactuator_rmd_driver/gains.hpp"
-#include "myactuator_rmd_driver/motor_status_1.hpp"
-#include "myactuator_rmd_driver/motor_status_2.hpp"
-#include "myactuator_rmd_driver/motor_status_3.hpp"
-#include "myactuator_rmd_driver/node.hpp"
+#include "myactuator_rmd_driver/actuator_state/feedback.hpp"
+#include "myactuator_rmd_driver/actuator_state/gains.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_1.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_2.hpp"
+#include "myactuator_rmd_driver/actuator_state/motor_status_3.hpp"
+#include "myactuator_rmd_driver/protocol/address_offset.hpp"
+#include "myactuator_rmd_driver/protocol/node.hpp"
 
 
 namespace myactuator_rmd_driver {
@@ -28,7 +28,7 @@ namespace myactuator_rmd_driver {
    * \brief
    *    Driver for commanding the MyActuator RMD actuator series
   */
-  class Driver: public Node<Offset::request,Offset::response> {
+  class Driver: public Node<AddressOffset::request,AddressOffset::response> {
     public:
       /**\fn Driver
        * \brief

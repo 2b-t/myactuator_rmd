@@ -13,9 +13,9 @@
 #include <cstdint>
 #include <string>
 
-#include "myactuator_rmd_driver/messages/definitions.hpp"
-#include "myactuator_rmd_driver/messages/responses.hpp"
-#include "myactuator_rmd_driver/node.hpp"
+#include "myactuator_rmd_driver/protocol/address_offset.hpp"
+#include "myactuator_rmd_driver/protocol/node.hpp"
+#include "myactuator_rmd_driver/protocol/responses.hpp"
 
 
 namespace myactuator_rmd_driver {
@@ -26,7 +26,7 @@ namespace myactuator_rmd_driver {
      *    Counter-part to the driver and parent class of the mock that can be used for testing the driver
      *    over a (virtual) CAN network interface
     */
-    class ActuatorAdaptor: protected myactuator_rmd_driver::Node<Offset::response,Offset::request> {
+    class ActuatorAdaptor: protected myactuator_rmd_driver::Node<AddressOffset::response,AddressOffset::request> {
       public:
         /**\fn handleRequest
          * \brief
