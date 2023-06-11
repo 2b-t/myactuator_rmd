@@ -22,7 +22,7 @@ namespace myactuator_rmd_driver {
   */
   class FeedbackResponse: public Response {
     public:
-      /**\fn getFeedback
+      /**\fn getStatus
        * \brief
        *    Get the feedback
        * 
@@ -30,7 +30,7 @@ namespace myactuator_rmd_driver {
        *    Feedback from the actuator
       */
       [[nodiscard]]
-      Feedback getFeedback() const noexcept;
+      Feedback getStatus() const noexcept;
 
     protected:
       using Response::Response;

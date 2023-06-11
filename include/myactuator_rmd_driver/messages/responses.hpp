@@ -11,6 +11,9 @@
 #pragma once
 
 #include "myactuator_rmd_driver/messages/responses/get_controller_gains_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/get_motor_status_1_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/get_motor_status_2_response.hpp"
+#include "myactuator_rmd_driver/messages/responses/get_motor_status_3_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/set_controller_gains_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/set_controller_gains_persistently_response.hpp"
 #include "myactuator_rmd_driver/messages/responses/get_motor_model_response.hpp"

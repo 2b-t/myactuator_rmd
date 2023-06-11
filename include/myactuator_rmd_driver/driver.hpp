@@ -16,6 +16,9 @@
 #include "myactuator_rmd_driver/messages/definitions.hpp"
 #include "myactuator_rmd_driver/feedback.hpp"
 #include "myactuator_rmd_driver/gains.hpp"
+#include "myactuator_rmd_driver/motor_status_1.hpp"
+#include "myactuator_rmd_driver/motor_status_2.hpp"
+#include "myactuator_rmd_driver/motor_status_3.hpp"
 #include "myactuator_rmd_driver/node.hpp"
 
 
@@ -62,6 +65,36 @@ namespace myactuator_rmd_driver {
       */
       [[nodiscard]]
       std::string getMotorModel();
+
+      /**\fn getMotorStatus1
+       * \brief
+       *    Reads the motor status 1
+       * 
+       * \return
+       *    The motor status 1 containing temperature, voltage and error codes
+      */
+      [[nodiscard]]
+      MotorStatus1 getMotorStatus1();
+
+      /**\fn getMotorStatus2
+       * \brief
+       *    Reads the motor status 2
+       * 
+       * \return
+       *    The motor status 2 containing current, speed and position
+      */
+      [[nodiscard]]
+      MotorStatus2 getMotorStatus2();
+
+      /**\fn getMotorStatus3
+       * \brief
+       *    Reads the motor status 3
+       * 
+       * \return
+       *    The motor status 3 containing detailed current information
+      */
+      [[nodiscard]]
+      MotorStatus3 getMotorStatus3();
 
       /**\fn getControllerGains
        * \brief
