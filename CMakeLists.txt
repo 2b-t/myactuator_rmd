@@ -24,7 +24,7 @@ include_directories(
   include/
 )
 
-add_library(myactuator_rmd_obj OBJECT
+add_library(myactuator_rmd SHARED
   src/can/node.cpp
   src/can/utilities.cpp
   src/protocol/requests/set_position_absolute_request.cpp
@@ -39,71 +39,67 @@ add_library(myactuator_rmd_obj OBJECT
   src/protocol/responses/stop_motor_response.cpp
   src/driver.cpp
 )
-add_library(myactuator_rmd 
-  $<TARGET_OBJECTS:myactuator_rmd_obj>
+set(MYACTUATOR_RMD_LIBRARIES "")
+target_link_libraries(myactuator_rmd ${MYACTUATOR_RMD_LIBRARIES})
+install(TARGETS
+  myactuator_rmd
+  DESTINATION lib/${PROJECT_NAME}
 )
 
-set(MYACTUATOR_RMD_LIBRARIES ${Boost_SYSTEM_LIBRARY})
-target_link_libraries(myactuator_rmd ${MYACTUATOR_RMD_LIBRARIES})
-
 if(PYTHON_BINDINGS)
-  set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS_INIT} -fPIC")
   pybind11_add_module(pymyactuator_rmd bindings/myactuator_rmd.cpp)
   target_link_libraries(pymyactuator_rmd PRIVATE myactuator_rmd)
   set_target_properties(pymyactuator_rmd PROPERTIES OUTPUT_NAME myactuator_rmd)
+  
+  install(TARGETS
+    pymyactuator_rmd
+    DESTINATION lib/${PROJECT_NAME}
+  )
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   enable_testing()
-  include(GoogleTest)
-  if (NOT GTest_FOUND)
-    find_package(Boost 1.40.0 REQUIRED COMPONENTS program_options)
-    add_executable(can_node
-      $<TARGET_OBJECTS:myactuator_rmd_obj>
-      test/can_node.cpp
-    )
-    target_link_libraries(can_node ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd)
 
-    set(MYACTUATOR_RMD_TEST_LIBRARIES ${MYACTUATOR_RMD_LIBRARIES} gmock gtest pthread)
-    add_library(myactuator_rmd_test_obj OBJECT
-      test/can/utilities_test.cpp
-      test/protocol/requests/set_controller_gains_request_test.cpp
-      test/protocol/requests/set_controller_gains_persistently_request_test.cpp
-      test/protocol/requests/set_position_absolute_request_test.cpp
-      test/protocol/requests/set_torque_request_test.cpp
-      test/protocol/requests/set_velocity_request_test.cpp
-      test/protocol/responses/get_controller_gains_response_test.cpp
-      test/protocol/responses/get_motor_model_response_test.cpp
-      test/protocol/responses/get_motor_status_1_response_test.cpp
-      test/protocol/responses/get_motor_status_2_response_test.cpp
-      test/protocol/responses/get_motor_status_3_response_test.cpp
-      test/protocol/responses/get_version_date_response_test.cpp
-      test/protocol/responses/set_position_absolute_response_test.cpp
-      test/protocol/responses/set_torque_response_test.cpp
-      test/protocol/responses/set_velocity_response_test.cpp
-      test/mock/actuator_adaptor.cpp
-      test/mock/actuator_mock.cpp
-      test/mock/driver_actuator_test.cpp
-      test/driver_test.cpp
-    )
-    add_executable(run_tests
-      $<TARGET_OBJECTS:myactuator_rmd_obj>
-      $<TARGET_OBJECTS:myactuator_rmd_test_obj>
-      test/run_tests.cpp
-    )
-    target_compile_definitions(run_tests PUBLIC NDEBUG)
-    gtest_discover_tests(run_tests
-      TEST_SUFFIX .noArgs
-      TEST_LIST noArgsTests
-    )
-    set_tests_properties(${noArgsTests} PROPERTIES TIMEOUT 10)
-    target_link_libraries(run_tests ${MYACTUATOR_RMD_TEST_LIBRARIES})
-    if (SETUP_TEST_IFNAME)
-      set(VCAN_IFNAME "vcan_test")
-      configure_file("CTestCustom.cmake.in" ${CMAKE_BINARY_DIR}/CTestCustom.cmake)
-    endif()
-  else()
-    message(WARNING "GoogleTest not found!")
+  find_package(Boost 1.40.0 REQUIRED COMPONENTS program_options)
+  add_executable(can_node
+    test/can_node.cpp
+  )
+  target_link_libraries(can_node ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd)
+
+  find_package(GTest REQUIRED)
+  set(MYACTUATOR_RMD_TEST_LIBRARIES ${MYACTUATOR_RMD_LIBRARIES} myactuator_rmd GTest::gmock GTest::gtest pthread)
+  add_executable(run_tests
+    test/can/utilities_test.cpp
+    test/protocol/requests/set_controller_gains_request_test.cpp
+    test/protocol/requests/set_controller_gains_persistently_request_test.cpp
+    test/protocol/requests/set_position_absolute_request_test.cpp
+    test/protocol/requests/set_torque_request_test.cpp
+    test/protocol/requests/set_velocity_request_test.cpp
+    test/protocol/responses/get_controller_gains_response_test.cpp
+    test/protocol/responses/get_motor_model_response_test.cpp
+    test/protocol/responses/get_motor_status_1_response_test.cpp
+    test/protocol/responses/get_motor_status_2_response_test.cpp
+    test/protocol/responses/get_motor_status_3_response_test.cpp
+    test/protocol/responses/get_version_date_response_test.cpp
+    test/protocol/responses/set_position_absolute_response_test.cpp
+    test/protocol/responses/set_torque_response_test.cpp
+    test/protocol/responses/set_velocity_response_test.cpp
+    test/mock/actuator_adaptor.cpp
+    test/mock/actuator_mock.cpp
+    test/mock/driver_actuator_test.cpp
+    test/driver_test.cpp
+    test/run_tests.cpp
+  )
+  target_compile_definitions(run_tests PUBLIC NDEBUG)
+  gtest_discover_tests(run_tests
+    TEST_SUFFIX .noArgs
+    TEST_LIST noArgsTests
+  )
+  set_tests_properties(${noArgsTests} PROPERTIES TIMEOUT 10)
+  target_link_libraries(run_tests ${MYACTUATOR_RMD_TEST_LIBRARIES})
+  if (SETUP_TEST_IFNAME)
+    set(VCAN_IFNAME "vcan_test")
+    configure_file("CTestCustom.cmake.in" ${CMAKE_BINARY_DIR}/CTestCustom.cmake)
   endif()
 endif()
 
