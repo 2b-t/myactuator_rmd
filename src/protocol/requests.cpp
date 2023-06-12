@@ -4,7 +4,7 @@
 #include <cstring>
 #include <string>
 
-#include "myactuator_rmd/protocol/request.hpp"
+#include "myactuator_rmd/protocol/single_motor_request.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
 
