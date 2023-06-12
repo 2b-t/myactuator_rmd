@@ -16,8 +16,8 @@
 #include "myactuator_rmd/can/frame.hpp"
 #include "myactuator_rmd/can/node.hpp"
 #include "myactuator_rmd/protocol/message.hpp"
-#include "myactuator_rmd/protocol/requests/request.hpp"
-#include "myactuator_rmd/protocol/responses/response.hpp"
+#include "myactuator_rmd/protocol/request.hpp"
+#include "myactuator_rmd/protocol/response.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
 

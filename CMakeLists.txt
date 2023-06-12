@@ -27,16 +27,8 @@ include_directories(
 add_library(myactuator_rmd SHARED
   src/can/node.cpp
   src/can/utilities.cpp
-  src/protocol/requests/set_position_absolute_request.cpp
-  src/protocol/requests/set_torque_request.cpp
-  src/protocol/requests/set_velocity_request.cpp
-  src/protocol/responses/feedback_response.cpp
-  src/protocol/responses/get_motor_model_response.cpp
-  src/protocol/responses/get_motor_status_1_response.cpp
-  src/protocol/responses/get_motor_status_3_response.cpp
-  src/protocol/responses/get_version_date_response.cpp
-  src/protocol/responses/shutdown_motor_response.cpp
-  src/protocol/responses/stop_motor_response.cpp
+  src/protocol/requests.cpp
+  src/protocol/responses.cpp
   src/driver.cpp
 )
 set(MYACTUATOR_RMD_LIBRARIES "")
@@ -70,20 +62,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   set(MYACTUATOR_RMD_TEST_LIBRARIES ${MYACTUATOR_RMD_LIBRARIES} myactuator_rmd GTest::gmock GTest::gtest pthread)
   add_executable(run_tests
     test/can/utilities_test.cpp
-    test/protocol/requests/set_controller_gains_request_test.cpp
-    test/protocol/requests/set_controller_gains_persistently_request_test.cpp
-    test/protocol/requests/set_position_absolute_request_test.cpp
-    test/protocol/requests/set_torque_request_test.cpp
-    test/protocol/requests/set_velocity_request_test.cpp
-    test/protocol/responses/get_controller_gains_response_test.cpp
-    test/protocol/responses/get_motor_model_response_test.cpp
-    test/protocol/responses/get_motor_status_1_response_test.cpp
-    test/protocol/responses/get_motor_status_2_response_test.cpp
-    test/protocol/responses/get_motor_status_3_response_test.cpp
-    test/protocol/responses/get_version_date_response_test.cpp
-    test/protocol/responses/set_position_absolute_response_test.cpp
-    test/protocol/responses/set_torque_response_test.cpp
-    test/protocol/responses/set_velocity_response_test.cpp
+    test/protocol/requests_test.cpp
+    test/protocol/responses_test.cpp
     test/mock/actuator_adaptor.cpp
     test/mock/actuator_mock.cpp
     test/mock/driver_actuator_test.cpp

@@ -24,25 +24,8 @@ namespace myactuator_rmd {
   */
   class Response: public Message {
     protected:
-      /**\fn Response
-       * \brief
-       *    Class constructor
-       * 
-       * \param[in] data
-       *    The data to be transmitted to the driver
-      */
-      constexpr Response(std::array<std::uint8_t,8> const& data) noexcept;
-      Response() = delete;
-      Response(Response const&) = default;
-      Response& operator = (Response const&) = default;
-      Response(Response&&) = default;
-      Response& operator = (Response&&) = default;
+      using Message::Message;
   };
-
-  constexpr Response::Response(std::array<std::uint8_t,8> const& data) noexcept
-  : Message{data} {
-    return;
-  }
 
 }
 

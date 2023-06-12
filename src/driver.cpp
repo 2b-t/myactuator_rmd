@@ -7,6 +7,7 @@
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_2.hpp"
+#include "myactuator_rmd/actuator_state/motor_status_3.hpp"
 #include "myactuator_rmd/protocol/node.hpp"
 #include "myactuator_rmd/protocol/requests.hpp"
 #include "myactuator_rmd/protocol/responses.hpp"

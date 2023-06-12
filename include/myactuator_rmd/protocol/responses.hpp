@@ -1,7 +1,7 @@
 /**
  * \file responses.hpp
  * \mainpage
- *    Super header for all responses sent from the actuator to the driver
+ *    Contains all the responses sent from the actuator to the driver
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
@@ -10,18 +10,174 @@
 #define MYACTUATOR_RMD__PROTOCOL__RESPONSES
 #pragma once
 
-#include "myactuator_rmd/protocol/responses/get_controller_gains_response.hpp"
-#include "myactuator_rmd/protocol/responses/get_motor_status_1_response.hpp"
-#include "myactuator_rmd/protocol/responses/get_motor_status_2_response.hpp"
-#include "myactuator_rmd/protocol/responses/get_motor_status_3_response.hpp"
-#include "myactuator_rmd/protocol/responses/set_controller_gains_response.hpp"
-#include "myactuator_rmd/protocol/responses/set_controller_gains_persistently_response.hpp"
-#include "myactuator_rmd/protocol/responses/get_motor_model_response.hpp"
-#include "myactuator_rmd/protocol/responses/get_version_date_response.hpp"
-#include "myactuator_rmd/protocol/responses/set_position_absolute_response.hpp"
-#include "myactuator_rmd/protocol/responses/set_torque_response.hpp"
-#include "myactuator_rmd/protocol/responses/set_velocity_response.hpp"
-#include "myactuator_rmd/protocol/responses/shutdown_motor_response.hpp"
-#include "myactuator_rmd/protocol/responses/stop_motor_response.hpp"
+#include <array>
+#include <cstdint>
+
+#include "myactuator_rmd/actuator_state/feedback.hpp"
+#include "myactuator_rmd/actuator_state/gains.hpp"
+#include "myactuator_rmd/actuator_state/motor_status_1.hpp"
+#include "myactuator_rmd/actuator_state/motor_status_2.hpp"
+#include "myactuator_rmd/actuator_state/motor_status_3.hpp"
+#include "myactuator_rmd/protocol/command_type.hpp"
+#include "myactuator_rmd/protocol/single_motor_response.hpp"
+
+
+namespace myactuator_rmd {
+
+  /**\class FeedbackResponse
+   * \brief
+   *    Base class for all responses containing a feedback
+   *
+   * \tparam C
+   *    Type of the command to be requested
+  */
+  template <CommandType C>
+  class FeedbackResponse: public SingleMotorResponse<C> {
+    public:
+      using SingleMotorResponse<C>::SingleMotorResponse;
+
+      /**\fn getStatus
+       * \brief
+       *    Get the feedback
+       * 
+       * \return
+       *    Feedback from the actuator
+      */
+      [[nodiscard]]
+      Feedback getStatus() const noexcept;
+  };
+
+  template <CommandType C>
+  Feedback FeedbackResponse<C>::getStatus() const noexcept {
+    auto const temperature {static_cast<int>(this->template getAs<std::int8_t>(1))};
+    auto const current {static_cast<float>(this->template getAs<std::int16_t>(2))*0.01f};
+    auto const shaft_speed {static_cast<float>(this->template getAs<std::int16_t>(4))};
+    auto const shaft_angle {static_cast<float>(this->template getAs<std::int16_t>(6))};
+    return Feedback{temperature, current, shaft_speed, shaft_angle};
+  }
+
+  using GetMotorStatus2Response = FeedbackResponse<CommandType::READ_MOTOR_STATUS_2>;
+  using SetPositionAbsoluteResponse = FeedbackResponse<CommandType::ABSOLUTE_POSITION_CLOSED_LOOP_CONTROL>;
+  using SetTorqueResponse = FeedbackResponse<CommandType::TORQUE_CLOSED_LOOP_CONTROL>;
+  using SetVelocityResponse = FeedbackResponse<CommandType::SPEED_CLOSED_LOOP_CONTROL>;
+
+  /**\class GainsResponse
+   * \brief
+   *    Base class for all responses with controller gains
+   *
+   * \tparam C
+   *    Type of the command to be requested
+  */
+  template <CommandType C>
+  class GainsResponse: public SingleMotorResponse<C> {
+    public:
+      using SingleMotorResponse<C>::SingleMotorResponse;
+
+      /**\fn getGains
+       * \brief
+       *    Get the controller gains
+       * 
+       * \return
+       *    The controller gains
+      */
+      [[nodiscard]]
+      constexpr Gains getGains() const noexcept;
+  };
+
+  template <CommandType C>
+  constexpr Gains GainsResponse<C>::getGains() const noexcept {
+    auto const current_kp {this->data_[2]};
+    auto const current_ki {this->data_[3]};
+    auto const speed_kp {this->data_[4]};
+    auto const speed_ki {this->data_[5]};
+    auto const position_kp {this->data_[6]};
+    auto const position_ki {this->data_[7]};
+    return Gains{current_kp, current_ki, speed_kp, speed_ki, position_kp, position_ki};
+  }
+
+  using GetControllerGainsResponse = GainsResponse<CommandType::READ_PID_PARAMETERS>;
+  using SetControllerGainsPersistentlyResponse = GainsResponse<CommandType::WRITE_PID_PARAMETERS_TO_ROM>;
+  using SetControllerGainsResponse = GainsResponse<CommandType::WRITE_PID_PARAMETERS_TO_RAM>;
+
+  /**\class GetMotorModelResponse
+   * \brief
+   *    Response to request for reading the motor model
+  */
+  class GetMotorModelResponse: public SingleMotorResponse<CommandType::READ_MOTOR_MODEL> {
+    public:
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getMotorModel
+       * \brief
+       *    Get the motor model
+       * 
+       * \return
+       *    The version string of the motor model
+      */
+      [[nodiscard]]
+      std::string getVersion() const noexcept;
+  };
+
+  /**\class GetMotorStatus1Response
+   * \brief
+   *    Response to request for getting motor status
+  */
+  class GetMotorStatus1Response: public SingleMotorResponse<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG> {
+    public:
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getStatus
+       * \brief
+       *    Get the motor status
+       * 
+       * \return
+       *    Motor status of the actuator
+      */
+      [[nodiscard]]
+      MotorStatus1 getStatus() const noexcept;
+  };
+
+  /**\class GetMotorStatus3Response
+   * \brief
+   *    Response to request for getting motor status
+  */
+  class GetMotorStatus3Response: public SingleMotorResponse<CommandType::READ_MOTOR_STATUS_3> {
+    public:
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getStatus
+       * \brief
+       *    Get the motor status
+       * 
+       * \return
+       *    Motor status of the actuator
+      */
+      [[nodiscard]]
+      MotorStatus3 getStatus() const noexcept;
+  };
+
+  /**\class GetVersionDateResponse
+   * \brief
+   *    Response to request for getting the actuator's version date
+  */
+  class GetVersionDateResponse: public SingleMotorResponse<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE> {
+    public:
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getVersion
+       * \brief
+       *    Get the version date as an integer
+       * 
+       * \return
+       *    The version date as an integer number
+      */
+      [[nodiscard]]
+      std::uint32_t getVersion() const noexcept;
+  };
+
+  using ShutdownMotorResponse = SingleMotorResponse<CommandType::SHUTDOWN_MOTOR>;
+  using StopMotorResponse = SingleMotorResponse<CommandType::STOP_MOTOR>;
+
+}
 
 #endif // MYACTUATOR_RMD__PROTOCOL__RESPONSES
