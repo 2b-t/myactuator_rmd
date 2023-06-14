@@ -4,14 +4,14 @@
 #include <cstring>
 #include <string>
 
-#include "myactuator_rmd/protocol/single_motor_request.hpp"
+#include "myactuator_rmd/protocol/single_motor_message.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
 
 namespace myactuator_rmd {
 
   SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed)
-  : SingleMotorRequest{} {
+  : SingleMotorMessage{} {
     if ((position < -360.0f) || (position > 360.0f)) {
       throw ValueRangeException("Position value '" + std::to_string(position) + "' out of range [0.0, 360.0]");
     }
@@ -34,7 +34,7 @@ namespace myactuator_rmd {
   }
 
   SetTorqueRequest::SetTorqueRequest(float const current)
-  : SingleMotorRequest{} {
+  : SingleMotorMessage{} {
     if ((current < -20.0f) || (current > 20.0f)) {
       throw ValueRangeException("Current value '" + std::to_string(current) + "' out of range [-20.0, 20.0]");
     }
@@ -48,7 +48,7 @@ namespace myactuator_rmd {
   }
 
   SetVelocityRequest::SetVelocityRequest(float const speed)
-  : SingleMotorRequest{} {
+  : SingleMotorMessage{} {
     if ((speed < -1320.0f) || (speed > 1320.0f)) {
       throw ValueRangeException("Speed value '" + std::to_string(speed) + "' out of range [-1320.0, 1320.0]");
     }

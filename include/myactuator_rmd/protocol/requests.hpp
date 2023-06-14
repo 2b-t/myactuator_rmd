@@ -15,17 +15,17 @@
 
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
-#include "myactuator_rmd/protocol/single_motor_request.hpp"
+#include "myactuator_rmd/protocol/single_motor_message.hpp"
 
 
 namespace myactuator_rmd {
   
-  using GetControllerGainsRequest = SingleMotorRequest<CommandType::READ_PID_PARAMETERS>;
-  using GetMotorModelRequest =  SingleMotorRequest<CommandType::READ_MOTOR_MODEL>;
-  using GetMotorStatus1Request = SingleMotorRequest<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG>;
-  using GetMotorStatus2Request =  SingleMotorRequest<CommandType::READ_MOTOR_STATUS_2>;
-  using GetMotorStatus3Request = SingleMotorRequest<CommandType::READ_MOTOR_STATUS_3>;
-  using GetVersionDateRequest = SingleMotorRequest<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE>;
+  using GetControllerGainsRequest = SingleMotorMessage<CommandType::READ_PID_PARAMETERS>;
+  using GetMotorModelRequest =  SingleMotorMessage<CommandType::READ_MOTOR_MODEL>;
+  using GetMotorStatus1Request = SingleMotorMessage<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG>;
+  using GetMotorStatus2Request =  SingleMotorMessage<CommandType::READ_MOTOR_STATUS_2>;
+  using GetMotorStatus3Request = SingleMotorMessage<CommandType::READ_MOTOR_STATUS_3>;
+  using GetVersionDateRequest = SingleMotorMessage<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE>;
 
   /**\class SetGainsRequest
    * \brief
@@ -35,7 +35,7 @@ namespace myactuator_rmd {
    *    Type of the command to be requested
   */
   template <CommandType C>
-  class SetGainsRequest: public SingleMotorRequest<C> {
+  class SetGainsRequest: public SingleMotorMessage<C> {
     public:
       /**\fn GainsRequest
        * \brief
@@ -72,7 +72,7 @@ namespace myactuator_rmd {
 
   template <CommandType C>
   constexpr SetGainsRequest<C>::SetGainsRequest(Gains const& gains) noexcept
-  : SingleMotorRequest<C>{} {
+  : SingleMotorMessage<C>{} {
     this->data_[2] = gains.current.kp;
     this->data_[3] = gains.current.ki;
     this->data_[4] = gains.speed.kp;
@@ -84,7 +84,7 @@ namespace myactuator_rmd {
 
   template <CommandType C>
   constexpr SetGainsRequest<C>::SetGainsRequest(std::array<std::uint8_t,8> const& data) noexcept
-  : SingleMotorRequest<C>{data} {
+  : SingleMotorMessage<C>{data} {
     return;
   }
 
@@ -106,7 +106,7 @@ namespace myactuator_rmd {
    * \brief
    *    Request for setting the absolute position of the actuator with a given maximum speed
   */
-  class SetPositionAbsoluteRequest: public SingleMotorRequest<CommandType::ABSOLUTE_POSITION_CLOSED_LOOP_CONTROL> {
+  class SetPositionAbsoluteRequest: public SingleMotorMessage<CommandType::ABSOLUTE_POSITION_CLOSED_LOOP_CONTROL> {
     public:
       /**\fn SetPositionAbsoluteRequest
        * \brief
@@ -154,7 +154,7 @@ namespace myactuator_rmd {
   };
 
   constexpr SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(std::array<std::uint8_t,8> const& data)
-  : SingleMotorRequest{data} {
+  : SingleMotorMessage{data} {
     return;
   }
 
@@ -162,7 +162,7 @@ namespace myactuator_rmd {
    * \brief
    *    Request for setting the torque of the actuator by setting a target current
   */
-  class SetTorqueRequest: public SingleMotorRequest<CommandType::TORQUE_CLOSED_LOOP_CONTROL> {
+  class SetTorqueRequest: public SingleMotorMessage<CommandType::TORQUE_CLOSED_LOOP_CONTROL> {
     public:
       /**\fn SetTorqueRequest
        * \brief
@@ -198,7 +198,7 @@ namespace myactuator_rmd {
   };
 
   constexpr SetTorqueRequest::SetTorqueRequest(std::array<std::uint8_t,8> const& data)
-  : SingleMotorRequest{data} {
+  : SingleMotorMessage{data} {
     return;
   }
 
@@ -206,7 +206,7 @@ namespace myactuator_rmd {
    * \brief
    *    Request for setting the velocity of the actuator
   */
-  class SetVelocityRequest: public SingleMotorRequest<CommandType::SPEED_CLOSED_LOOP_CONTROL> {
+  class SetVelocityRequest: public SingleMotorMessage<CommandType::SPEED_CLOSED_LOOP_CONTROL> {
     public:
       /**\fn SetVelocityRequest
        * \brief
@@ -242,12 +242,12 @@ namespace myactuator_rmd {
   };
 
   constexpr SetVelocityRequest::SetVelocityRequest(std::array<std::uint8_t,8> const& data)
-  : SingleMotorRequest{data} {
+  : SingleMotorMessage{data} {
     return;
   }
 
-  using ShutdownMotorRequest = SingleMotorRequest<CommandType::SHUTDOWN_MOTOR>;
-  using StopMotorRequest = SingleMotorRequest<CommandType::STOP_MOTOR>;
+  using ShutdownMotorRequest = SingleMotorMessage<CommandType::SHUTDOWN_MOTOR>;
+  using StopMotorRequest = SingleMotorMessage<CommandType::STOP_MOTOR>;
 
 }
 

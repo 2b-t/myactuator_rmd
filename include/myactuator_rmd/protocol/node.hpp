@@ -16,8 +16,6 @@
 #include "myactuator_rmd/can/frame.hpp"
 #include "myactuator_rmd/can/node.hpp"
 #include "myactuator_rmd/protocol/message.hpp"
-#include "myactuator_rmd/protocol/request.hpp"
-#include "myactuator_rmd/protocol/response.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
 
@@ -76,9 +74,9 @@ namespace myactuator_rmd {
        * \return
        *    The parsed response message
       */
-      template <typename RESPONSE_TYPE, typename REQUEST_TYPE>
+      template <typename RESPONSE_TYPE>
       [[nodiscard]]
-      inline RESPONSE_TYPE sendRecv(REQUEST_TYPE const& request);
+      inline RESPONSE_TYPE sendRecv(Message const& request);
 
     private:
       std::uint32_t actuator_id_;
@@ -112,8 +110,8 @@ namespace myactuator_rmd {
   }
 
   template <std::uint32_t SEND_ID_OFFSET, std::uint32_t RECEIVE_ID_OFFSET>
-  template <typename RESPONSE_TYPE, typename REQUEST_TYPE>
-  RESPONSE_TYPE Node<SEND_ID_OFFSET,RECEIVE_ID_OFFSET>::sendRecv(REQUEST_TYPE const& request) {
+  template <typename RESPONSE_TYPE>
+  RESPONSE_TYPE Node<SEND_ID_OFFSET,RECEIVE_ID_OFFSET>::sendRecv(Message const& request) {
     write(can_send_id_, request.getData());
     can::Frame const frame {can::Node::read()};
     RESPONSE_TYPE const response {frame.getData()};

@@ -46,7 +46,6 @@ namespace myactuator_rmd {
        *    The data to be transmitted to the CAN node
       */
       constexpr Message(std::array<std::uint8_t,8> const& data = {}) noexcept;
-      Message() = delete;
       Message(Message const&) = default;
       Message& operator = (Message const&) = default;
       Message(Message&&) = default;

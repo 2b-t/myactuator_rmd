@@ -19,7 +19,7 @@
 #include "myactuator_rmd/actuator_state/motor_status_2.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_3.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
-#include "myactuator_rmd/protocol/single_motor_response.hpp"
+#include "myactuator_rmd/protocol/single_motor_message.hpp"
 
 
 namespace myactuator_rmd {
@@ -32,9 +32,9 @@ namespace myactuator_rmd {
    *    Type of the command to be requested
   */
   template <CommandType C>
-  class FeedbackResponse: public SingleMotorResponse<C> {
+  class FeedbackResponse: public SingleMotorMessage<C> {
     public:
-      using SingleMotorResponse<C>::SingleMotorResponse;
+      using SingleMotorMessage<C>::SingleMotorMessage;
 
       /**\fn getStatus
        * \brief
@@ -69,9 +69,9 @@ namespace myactuator_rmd {
    *    Type of the command to be requested
   */
   template <CommandType C>
-  class GainsResponse: public SingleMotorResponse<C> {
+  class GainsResponse: public SingleMotorMessage<C> {
     public:
-      using SingleMotorResponse<C>::SingleMotorResponse;
+      using SingleMotorMessage<C>::SingleMotorMessage;
 
       /**\fn getGains
        * \brief
@@ -103,9 +103,9 @@ namespace myactuator_rmd {
    * \brief
    *    Response to request for reading the motor model
   */
-  class GetMotorModelResponse: public SingleMotorResponse<CommandType::READ_MOTOR_MODEL> {
+  class GetMotorModelResponse: public SingleMotorMessage<CommandType::READ_MOTOR_MODEL> {
     public:
-      using SingleMotorResponse::SingleMotorResponse;
+      using SingleMotorMessage::SingleMotorMessage;
 
       /**\fn getMotorModel
        * \brief
@@ -122,9 +122,9 @@ namespace myactuator_rmd {
    * \brief
    *    Response to request for getting motor status
   */
-  class GetMotorStatus1Response: public SingleMotorResponse<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG> {
+  class GetMotorStatus1Response: public SingleMotorMessage<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG> {
     public:
-      using SingleMotorResponse::SingleMotorResponse;
+      using SingleMotorMessage::SingleMotorMessage;
 
       /**\fn getStatus
        * \brief
@@ -141,9 +141,9 @@ namespace myactuator_rmd {
    * \brief
    *    Response to request for getting motor status
   */
-  class GetMotorStatus3Response: public SingleMotorResponse<CommandType::READ_MOTOR_STATUS_3> {
+  class GetMotorStatus3Response: public SingleMotorMessage<CommandType::READ_MOTOR_STATUS_3> {
     public:
-      using SingleMotorResponse::SingleMotorResponse;
+      using SingleMotorMessage::SingleMotorMessage;
 
       /**\fn getStatus
        * \brief
@@ -160,9 +160,9 @@ namespace myactuator_rmd {
    * \brief
    *    Response to request for getting the actuator's version date
   */
-  class GetVersionDateResponse: public SingleMotorResponse<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE> {
+  class GetVersionDateResponse: public SingleMotorMessage<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE> {
     public:
-      using SingleMotorResponse::SingleMotorResponse;
+      using SingleMotorMessage::SingleMotorMessage;
 
       /**\fn getVersion
        * \brief
@@ -175,8 +175,8 @@ namespace myactuator_rmd {
       std::uint32_t getVersion() const noexcept;
   };
 
-  using ShutdownMotorResponse = SingleMotorResponse<CommandType::SHUTDOWN_MOTOR>;
-  using StopMotorResponse = SingleMotorResponse<CommandType::STOP_MOTOR>;
+  using ShutdownMotorResponse = SingleMotorMessage<CommandType::SHUTDOWN_MOTOR>;
+  using StopMotorResponse = SingleMotorMessage<CommandType::STOP_MOTOR>;
 
 }
 
