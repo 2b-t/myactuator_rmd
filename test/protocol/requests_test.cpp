@@ -16,7 +16,7 @@ namespace myactuator_rmd {
   namespace test {
 
     TEST(SetControllerGainsPersistentlyRequestTest, parsing) {
-      myactuator_rmd::SetControllerGainsPersistentlyRequest const request {{0x31, 0x00, 0x55, 0x19, 0x55, 0x19, 0x55, 0x19}};
+      myactuator_rmd::SetControllerGainsPersistentlyRequest const request {{0x32, 0x00, 0x55, 0x19, 0x55, 0x19, 0x55, 0x19}};
       myactuator_rmd::Gains const gains {request.getGains()};
       EXPECT_EQ(gains.current.kp, 85);
       EXPECT_EQ(gains.current.ki, 25);
