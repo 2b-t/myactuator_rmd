@@ -32,7 +32,7 @@ namespace myactuator_rmd {
 
     TEST(GetMotorModelResponseTest, parsing) {
       myactuator_rmd::GetMotorModelResponse const response {{0xB5, 0x58, 0x38, 0x53, 0x32, 0x56, 0x31, 0x30}};
-      std::string const version {response.getVersion()};
+      std::string const version {response.getModel()};
       EXPECT_EQ(version, "X8S2V10");
     }
 

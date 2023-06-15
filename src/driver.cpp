@@ -30,7 +30,7 @@ namespace myactuator_rmd {
   std::string Driver::getMotorModel() {
     GetMotorModelRequest const request {};
     auto const response {sendRecv<GetMotorModelResponse>(request)};
-    return response.getVersion();
+    return response.getModel();
   }
 
   MotorStatus1 Driver::getMotorStatus1() {

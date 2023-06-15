@@ -12,9 +12,9 @@
 
 namespace myactuator_rmd {
 
-  std::string GetMotorModelResponse::getVersion() const noexcept {
-    std::string const version {&data_[1], &data_[1]+7};
-    return version;
+  std::string GetMotorModelResponse::getModel() const noexcept {
+    std::string const model {&data_[1], &data_[1]+7};
+    return model;
   }
 
   MotorStatus1 GetMotorStatus1Response::getStatus() const noexcept {

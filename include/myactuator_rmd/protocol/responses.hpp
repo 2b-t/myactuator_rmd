@@ -122,7 +122,7 @@ namespace myactuator_rmd {
       GetMotorModelResponse& operator = (GetMotorModelResponse&&) = default;
       using SingleMotorResponse::SingleMotorResponse;
 
-      /**\fn getMotorModel
+      /**\fn getModel
        * \brief
        *    Get the motor model
        * 
@@ -130,7 +130,7 @@ namespace myactuator_rmd {
        *    The version string of the motor model
       */
       [[nodiscard]]
-      std::string getVersion() const noexcept;
+      std::string getModel() const noexcept;
   };
 
   /**\class GetMotorStatus1Response
