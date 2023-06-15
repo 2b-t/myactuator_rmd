@@ -28,7 +28,7 @@ namespace myactuator_rmd {
    * \brief
    *    Driver for commanding the MyActuator RMD actuator series
   */
-  class Driver: public Node<AddressOffset::request,AddressOffset::response> {
+  class Driver: protected Node<AddressOffset::request,AddressOffset::response> {
     public:
       /**\fn Driver
        * \brief
