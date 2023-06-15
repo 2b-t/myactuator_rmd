@@ -10,9 +10,9 @@
 #define MYACTUATOR_RMD__PROTOCOL__RESPONSES
 #pragma once
 
-#include <array>
-#include <cstdint>
+#include <chrono>
 
+#include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
@@ -23,6 +23,9 @@
 
 
 namespace myactuator_rmd {
+
+  using LockBrakeResponse = SingleMotorResponse<CommandType::LOCK_BRAKE>;
+  using ReleaseBrakeResponse = SingleMotorResponse<CommandType::RELEASE_BRAKE>;
 
   /**\class FeedbackResponse
    * \brief
@@ -109,6 +112,34 @@ namespace myactuator_rmd {
   using SetControllerGainsPersistentlyResponse = GainsResponse<CommandType::WRITE_PID_PARAMETERS_TO_ROM>;
   using SetControllerGainsResponse = GainsResponse<CommandType::WRITE_PID_PARAMETERS_TO_RAM>;
 
+  /**\class GetControlModeResponse
+   * \brief
+   *    Get the current control mode the actuator is operating in
+  */
+  class GetControlModeResponse: public SingleMotorResponse<CommandType::READ_SYSTEM_OPERATING_MODE> {
+    public:
+      GetControlModeResponse() = delete;
+      GetControlModeResponse(GetControlModeResponse const&) = default;
+      GetControlModeResponse& operator = (GetControlModeResponse const&) = default;
+      GetControlModeResponse(GetControlModeResponse&&) = default;
+      GetControlModeResponse& operator = (GetControlModeResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getMode
+       * \brief
+       *    Get the current control mode
+       * 
+       * \return
+       *    The current control mode
+      */
+      [[nodiscard]]
+      constexpr ControlMode getMode() const noexcept;
+  };
+
+  constexpr ControlMode GetControlModeResponse::getMode() const noexcept {
+    return static_cast<ControlMode>(data_[7]);
+  }
+
   /**\class GetMotorModelResponse
    * \brief
    *    Response to request for reading the motor model
@@ -131,6 +162,30 @@ namespace myactuator_rmd {
       */
       [[nodiscard]]
       std::string getModel() const noexcept;
+  };
+
+  /**\class GetMotorPowerResponse
+   * \brief
+   *    Response to request for reading the motor model
+  */
+  class GetMotorPowerResponse: public SingleMotorResponse<CommandType::READ_MOTOR_POWER> {
+    public:
+      GetMotorPowerResponse() = delete;
+      GetMotorPowerResponse(GetMotorPowerResponse const&) = default;
+      GetMotorPowerResponse& operator = (GetMotorPowerResponse const&) = default;
+      GetMotorPowerResponse(GetMotorPowerResponse&&) = default;
+      GetMotorPowerResponse& operator = (GetMotorPowerResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getPower
+       * \brief
+       *    Get the current motor power
+       * 
+       * \return
+       *    The current motor power in Watt with a resolution of 0.1
+      */
+      [[nodiscard]]
+      float getPower() const noexcept;
   };
 
   /**\class GetMotorStatus1Response
@@ -179,6 +234,30 @@ namespace myactuator_rmd {
       */
       [[nodiscard]]
       MotorStatus3 getStatus() const noexcept;
+  };
+
+  /**\class GetSystemRuntimeResponse
+   * \brief
+   *    Response to request for getting the actuator's runtime
+  */
+  class GetSystemRuntimeResponse: public SingleMotorResponse<CommandType::READ_SYSTEM_RUNTIME> {
+    public:
+      GetSystemRuntimeResponse() = delete;
+      GetSystemRuntimeResponse(GetSystemRuntimeResponse const&) = default;
+      GetSystemRuntimeResponse& operator = (GetSystemRuntimeResponse const&) = default;
+      GetSystemRuntimeResponse(GetSystemRuntimeResponse&&) = default;
+      GetSystemRuntimeResponse& operator = (GetSystemRuntimeResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getRuntime
+       * \brief
+       *    Get the actuator's runtime in milliseconds
+       * 
+       * \return
+       *    The actuators runtime in milliseconds
+      */
+      [[nodiscard]]
+      std::chrono::milliseconds getRuntime() const noexcept;
   };
 
   /**\class GetVersionDateResponse

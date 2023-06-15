@@ -1,8 +1,10 @@
 #include "myactuator_rmd/driver.hpp"
 
+#include <chrono>
 #include <cstdint>
 #include <string>
 
+#include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
@@ -21,16 +23,28 @@ namespace myactuator_rmd {
     return;
   }
 
-  std::uint32_t Driver::getVersionDate() {
-    GetVersionDateRequest const request {};
-    auto const response {sendRecv<GetVersionDateResponse>(request)};
-    return response.getVersion();
+  Gains Driver::getControllerGains() {
+    GetControllerGainsRequest const request {};
+    auto const response {sendRecv<GetControllerGainsResponse>(request)};
+    return response.getGains();
+  }
+
+  ControlMode Driver::getControlMode() {
+    GetControlModeRequest const request {};
+    auto const response {sendRecv<GetControlModeResponse>(request)};
+    return response.getMode();
   }
 
   std::string Driver::getMotorModel() {
     GetMotorModelRequest const request {};
     auto const response {sendRecv<GetMotorModelResponse>(request)};
     return response.getModel();
+  }
+
+  float Driver::getMotorPower() {
+    GetMotorPowerRequest const request {};
+    auto const response {sendRecv<GetMotorPowerResponse>(request)};
+    return response.getPower();
   }
 
   MotorStatus1 Driver::getMotorStatus1() {
@@ -51,22 +65,40 @@ namespace myactuator_rmd {
     return response.getStatus();
   }
 
-  Gains Driver::getControllerGains() {
-    GetControllerGainsRequest const request {};
-    auto const response {sendRecv<GetControllerGainsResponse>(request)};
-    return response.getGains();
+  std::chrono::milliseconds Driver::getRuntime() {
+    GetSystemRuntimeRequest const request {};
+    auto const response {sendRecv<GetSystemRuntimeResponse>(request)};
+    return response.getRuntime();
   }
 
-  Gains Driver::setControllerGains(Gains const& gains, bool const is_persistent) {
-    if (is_persistent) {
-      SetControllerGainsPersistentlyRequest const request {gains};
-      auto const response {sendRecv<SetControllerGainsPersistentlyResponse>(request)};
-      return response.getGains();
-    } else {
-      SetControllerGainsRequest const request {gains};
-      auto const response {sendRecv<SetControllerGainsResponse>(request)};
-      return response.getGains();
-    }
+  std::uint32_t Driver::getVersionDate() {
+    GetVersionDateRequest const request {};
+    auto const response {sendRecv<GetVersionDateResponse>(request)};
+    return response.getVersion();
+  }
+
+  void Driver::lockBrake() {
+    LockBrakeRequest const request {};
+    [[maybe_unused]] auto const response {sendRecv<LockBrakeResponse>(request)};
+    return;
+  }
+
+  void Driver::releaseBrake() {
+    ReleaseBrakeRequest const request {};
+    [[maybe_unused]] auto const response {sendRecv<ReleaseBrakeResponse>(request)};
+    return;
+  }
+
+  void Driver::reset() {
+    ResetRequest const request {};
+    send(request);
+    return;
+  }
+
+  Feedback Driver::sendPositionAbsoluteSetpoint(float const position, float const max_speed) {
+    SetPositionAbsoluteRequest const request {position, max_speed};
+    auto const response {sendRecv<SetPositionAbsoluteResponse>(request)};
+    return response.getStatus();
   }
 
   Feedback Driver::sendTorqueSetpoint(float const current) {
@@ -81,21 +113,27 @@ namespace myactuator_rmd {
     return response.getStatus();
   }
 
-  Feedback Driver::sendPositionAbsoluteSetpoint(float const position, float const max_speed) {
-    SetPositionAbsoluteRequest const request {position, max_speed};
-    auto const response {sendRecv<SetPositionAbsoluteResponse>(request)};
-    return response.getStatus();
-  }
-
-  void Driver::stopMotor() {
-    StopMotorRequest const request {};
-    [[maybe_unused]] auto const response {sendRecv<StopMotorResponse>(request)};
-    return;
+  Gains Driver::setControllerGains(Gains const& gains, bool const is_persistent) {
+    if (is_persistent) {
+      SetControllerGainsPersistentlyRequest const request {gains};
+      auto const response {sendRecv<SetControllerGainsPersistentlyResponse>(request)};
+      return response.getGains();
+    } else {
+      SetControllerGainsRequest const request {gains};
+      auto const response {sendRecv<SetControllerGainsResponse>(request)};
+      return response.getGains();
+    }
   }
 
   void Driver::shutdownMotor() {
     ShutdownMotorRequest const request {};
     [[maybe_unused]] auto const response {sendRecv<ShutdownMotorResponse>(request)};
+    return;
+  }
+
+  void Driver::stopMotor() {
+    StopMotorRequest const request {};
+    [[maybe_unused]] auto const response {sendRecv<StopMotorResponse>(request)};
     return;
   }
 

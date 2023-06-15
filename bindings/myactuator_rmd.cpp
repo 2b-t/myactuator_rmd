@@ -13,6 +13,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/error_code.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
@@ -32,23 +33,34 @@ PYBIND11_MODULE(myactuator_rmd, m) {
   m.doc() = "MyActuator RMD driver main module";
   pybind11::class_<myactuator_rmd::Driver>(m, "Driver")
     .def(pybind11::init<std::string const&, std::uint32_t>())
-    .def("getVersionDate", &myactuator_rmd::Driver::getVersionDate)
+    .def("getControllerGains", &myactuator_rmd::Driver::getControllerGains)
+    .def("getControlMode", &myactuator_rmd::Driver::getControlMode)
     .def("getMotorModel", &myactuator_rmd::Driver::getMotorModel)
+    .def("getMotorPower", &myactuator_rmd::Driver::getMotorPower)
     .def("getMotorStatus1", &myactuator_rmd::Driver::getMotorStatus1)
     .def("getMotorStatus2", &myactuator_rmd::Driver::getMotorStatus2)
     .def("getMotorStatus3", &myactuator_rmd::Driver::getMotorStatus3)
-    .def("getControllerGains", &myactuator_rmd::Driver::getControllerGains)
-    .def("setControllerGains", &myactuator_rmd::Driver::setControllerGains)
+    .def("getRuntime", &myactuator_rmd::Driver::getRuntime)
+    .def("getVersionDate", &myactuator_rmd::Driver::getVersionDate)
+    .def("lockBrake", &myactuator_rmd::Driver::lockBrake)
+    .def("releaseBrake", &myactuator_rmd::Driver::releaseBrake)
+    .def("reset", &myactuator_rmd::Driver::reset)
+    .def("sendPositionAbsoluteSetpoint", &myactuator_rmd::Driver::sendPositionAbsoluteSetpoint)
     .def("sendTorqueSetpoint", &myactuator_rmd::Driver::sendTorqueSetpoint)
     .def("sendVelocitySetpoint", &myactuator_rmd::Driver::sendVelocitySetpoint)
-    .def("sendPositionAbsoluteSetpoint", &myactuator_rmd::Driver::sendPositionAbsoluteSetpoint)
-    .def("stopMotor", &myactuator_rmd::Driver::stopMotor)
-    .def("shutdownMotor", &myactuator_rmd::Driver::shutdownMotor);
+    .def("setControllerGains", &myactuator_rmd::Driver::setControllerGains)
+    .def("shutdownMotor", &myactuator_rmd::Driver::shutdownMotor)
+    .def("stopMotor", &myactuator_rmd::Driver::stopMotor);
   pybind11::register_exception<myactuator_rmd::Exception>(m, "DriverException");
   pybind11::register_exception<myactuator_rmd::ProtocolException>(m, "ProtocolException");
   pybind11::register_exception<myactuator_rmd::ValueRangeException>(m, "ValueRangeException");
 
   auto m_actuator_state = m.def_submodule("actuator_state", "Submodule for actuator state structures");
+  pybind11::enum_<myactuator_rmd::ControlMode>(m_actuator_state, "ControlMode")
+    .value("NONE", myactuator_rmd::ControlMode::NONE)
+    .value("CURRENT", myactuator_rmd::ControlMode::CURRENT)
+    .value("VELOCITY", myactuator_rmd::ControlMode::VELOCITY)
+    .value("POSITION", myactuator_rmd::ControlMode::POSITION);
   pybind11::enum_<myactuator_rmd::ErrorCode>(m_actuator_state, "ErrorCode")
     .value("NO_ERROR", myactuator_rmd::ErrorCode::NO_ERROR)
     .value("MOTOR_STALL", myactuator_rmd::ErrorCode::MOTOR_STALL)

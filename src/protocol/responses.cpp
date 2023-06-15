@@ -1,5 +1,6 @@
 #include "myactuator_rmd/protocol/responses.hpp"
 
+#include <chrono>
 #include <cstdint>
 #include <string>
 
@@ -17,6 +18,11 @@ namespace myactuator_rmd {
     return model;
   }
 
+  float GetMotorPowerResponse::getPower() const noexcept {
+    auto const motor_power {static_cast<float>(getAs<std::uint16_t>(6))*0.1f};
+    return motor_power;
+  }
+
   MotorStatus1 GetMotorStatus1Response::getStatus() const noexcept {
     auto const temperature {static_cast<int>(getAs<std::int8_t>(1))};
     auto const is_brake_released {static_cast<bool>(getAs<std::uint8_t>(3))};
@@ -31,6 +37,11 @@ namespace myactuator_rmd {
     auto const current_phase_b {static_cast<float>(getAs<std::int16_t>(4))*0.01f};
     auto const current_phase_c {static_cast<float>(getAs<std::int16_t>(6))*0.01f};
     return MotorStatus3{temperature, current_phase_a, current_phase_b, current_phase_c};
+  }
+
+  std::chrono::milliseconds GetSystemRuntimeResponse::getRuntime() const noexcept {
+    std::chrono::milliseconds const runtime {getAs<std::uint32_t>(4)};
+    return runtime;
   }
 
   std::uint32_t GetVersionDateResponse::getVersion() const noexcept {

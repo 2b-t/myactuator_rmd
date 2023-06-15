@@ -8,6 +8,7 @@
 
 #include <gtest/gtest.h>
 
+#include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
@@ -30,10 +31,22 @@ namespace myactuator_rmd {
       EXPECT_EQ(gains.position.ki, 25);
     }
 
+    TEST(GetControlModeResponseTest, parsing) {
+      myactuator_rmd::GetControlModeResponse const response {{0x70, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03}};
+      myactuator_rmd::ControlMode const control_mode {response.getMode()};
+      EXPECT_EQ(control_mode, ControlMode::POSITION);
+    }
+
     TEST(GetMotorModelResponseTest, parsing) {
       myactuator_rmd::GetMotorModelResponse const response {{0xB5, 0x58, 0x38, 0x53, 0x32, 0x56, 0x31, 0x30}};
       std::string const version {response.getModel()};
       EXPECT_EQ(version, "X8S2V10");
+    }
+
+    TEST(GetMotorPowerResponseTest, parsing) {
+      myactuator_rmd::GetMotorPowerResponse const response {{0x71, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD0, 0x07}};
+      auto const motor_power {response.getPower()};
+      EXPECT_NEAR(motor_power, 200.0f, 0.1f);
     }
 
     TEST(GetMotorStatus1ResponseTest, parsing) {
@@ -61,6 +74,12 @@ namespace myactuator_rmd {
       EXPECT_NEAR(motor_status.current_phase_a, 30.1f, 0.1f);
       EXPECT_NEAR(motor_status.current_phase_b, -15.2f, 0.1f);
       EXPECT_NEAR(motor_status.current_phase_c, -16.0f, 0.1f);
+    }
+
+    TEST(GetSystemRuntimeResponseTest, parsing) {
+      myactuator_rmd::GetSystemRuntimeResponse const response {{0xB1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10}};
+      auto const runtime {response.getRuntime()};
+      EXPECT_EQ(runtime.count(), 268435456);
     }
 
     TEST(GetVersionDateResponseTest, parsing) {

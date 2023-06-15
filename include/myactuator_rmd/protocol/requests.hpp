@@ -10,9 +10,6 @@
 #define MYACTUATOR_RMD__PROTOCOL__REQUESTS
 #pragma once
 
-#include <array>
-#include <cstdint>
-
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
@@ -21,11 +18,17 @@
 namespace myactuator_rmd {
   
   using GetControllerGainsRequest = SingleMotorRequest<CommandType::READ_PID_PARAMETERS>;
+  using GetControlModeRequest = SingleMotorRequest<CommandType::READ_SYSTEM_OPERATING_MODE>;
   using GetMotorModelRequest =  SingleMotorRequest<CommandType::READ_MOTOR_MODEL>;
+  using GetMotorPowerRequest =  SingleMotorRequest<CommandType::READ_MOTOR_POWER>;
   using GetMotorStatus1Request = SingleMotorRequest<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG>;
   using GetMotorStatus2Request =  SingleMotorRequest<CommandType::READ_MOTOR_STATUS_2>;
   using GetMotorStatus3Request = SingleMotorRequest<CommandType::READ_MOTOR_STATUS_3>;
+  using GetSystemRuntimeRequest = SingleMotorRequest<CommandType::READ_SYSTEM_RUNTIME>;
   using GetVersionDateRequest = SingleMotorRequest<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE>;
+  using LockBrakeRequest = SingleMotorRequest<CommandType::LOCK_BRAKE>;
+  using ReleaseBrakeRequest = SingleMotorRequest<CommandType::RELEASE_BRAKE>;
+  using ResetRequest = SingleMotorRequest<CommandType::RESET_SYSTEM>;
 
   /**\class SetGainsRequest
    * \brief

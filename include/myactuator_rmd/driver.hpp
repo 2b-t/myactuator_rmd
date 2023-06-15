@@ -10,9 +10,11 @@
 #define MYACTUATOR_RMD__DRIVER
 #pragma once
 
+#include <chrono>
 #include <cstdint>
 #include <string>
 
+#include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
@@ -46,15 +48,25 @@ namespace myactuator_rmd {
       Driver(Driver&&) = default;
       Driver& operator = (Driver&&) = default;
 
-      /**\fn getVersionDate
+      /**\fn getControllerGains
        * \brief
-       *    Reads the version date of the actuator firmware
+       *    Reads the currently used controller gains
        * 
        * \return
-       *    The version date of the firmware on the actuator, e.g. '20220206'
+       *    The currently used controller gains for current, speed and position as unsigned 8-bit integers
       */
       [[nodiscard]]
-      std::uint32_t getVersionDate();
+      Gains getControllerGains();
+
+      /**\fn getControlMode
+       * \brief
+       *    Reads the currently used control mode
+       * 
+       * \return
+       *    The currently used control mode
+      */
+      [[nodiscard]]
+      ControlMode getControlMode();
 
       /**\fn getMotorModel
        * \brief
@@ -65,6 +77,16 @@ namespace myactuator_rmd {
       */
       [[nodiscard]]
       std::string getMotorModel();
+
+      /**\fn getMotorPower
+       * \brief
+       *    Reads the current motor power consumption in Watt
+       * 
+       * \return
+       *    The current motor power consumption in Watt with a resolution of 0.1
+      */
+      [[nodiscard]]
+      float getMotorPower();
 
       /**\fn getMotorStatus1
        * \brief
@@ -96,28 +118,56 @@ namespace myactuator_rmd {
       [[nodiscard]]
       MotorStatus3 getMotorStatus3();
 
-      /**\fn getControllerGains
+      /**\fn getRuntime
        * \brief
-       *    Reads the currently used controller gains
+       *    Reads the uptime of the actuator in milliseconds
        * 
        * \return
-       *    The currently used controller gains for current, speed and position as unsigned 8-bit integers
+       *    The uptime of the actuator in milliseconds
       */
       [[nodiscard]]
-      Gains getControllerGains();
+      std::chrono::milliseconds getRuntime();
 
-      /**\fn setControllerGains
+      /**\fn getVersionDate
        * \brief
-       *    Write the currently used controller gains either to RAM (not persistent after reboot) or ROM (persistent)
+       *    Reads the version date of the actuator firmware
        * 
-       * \param[in] gains
-       *    The PI-gains for current, speed and position to be set
-       * \param[in] is_persistent
-       *    Boolean argument signaling whether the controller gains should be persistent after reboot of the actuator or not
        * \return
-       *    The currently used controller gains for current, speed and position as unsigned 8-bit integers
+       *    The version date of the firmware on the actuator, e.g. '20220206'
       */
-      Gains setControllerGains(Gains const& gains, bool const is_persistent = false);
+      [[nodiscard]]
+      std::uint32_t getVersionDate();
+
+      /**\fn lockBrake
+       * \brief
+       *    Close the holding brake. The motor won't be able to turn anymore.
+      */
+      void lockBrake();
+
+      /**\fn releaseBrake
+       * \brief
+       *    Open the holding brake leaving the motor in a movable state
+      */
+      void releaseBrake();
+
+      /**\fn reset
+       * \brief
+       *    Reset the actuator
+      */
+      void reset();
+
+      /**\fn sendPositionAbsoluteSetpoint
+       * \brief
+       *    Send an absolute position set-point to the actuator additionally specifying a maximum velocity
+       *
+       * \param[in] position
+       *    The position set-point in degree [-360.00, 360.00]
+       * \param[in] max_speed
+       *    The maximum speed for the motion in degree per second [-1320.0, 1320.0]
+       * \return
+       *    Feedback control message containing actuator position, velocity, torque and temperature
+      */
+      Feedback sendPositionAbsoluteSetpoint(float const position, float const max_speed = 500.0);
 
       /**\fn sendTorqueSetpoint
        * \brief
@@ -141,30 +191,30 @@ namespace myactuator_rmd {
       */
       Feedback sendVelocitySetpoint(float const speed);
 
-      /**\fn sendPositionAbsoluteSetpoint
+      /**\fn setControllerGains
        * \brief
-       *    Send an absolute position set-point to the actuator additionally specifying a maximum velocity
-       *
-       * \param[in] position
-       *    The position set-point in degree [-360.00, 360.00]
-       * \param[in] max_speed
-       *    The maximum speed for the motion in degree per second [-1320.0, 1320.0]
+       *    Write the currently used controller gains either to RAM (not persistent after reboot) or ROM (persistent)
+       * 
+       * \param[in] gains
+       *    The PI-gains for current, speed and position to be set
+       * \param[in] is_persistent
+       *    Boolean argument signaling whether the controller gains should be persistent after reboot of the actuator or not
        * \return
-       *    Feedback control message containing actuator position, velocity, torque and temperature
+       *    The currently used controller gains for current, speed and position as unsigned 8-bit integers
       */
-      Feedback sendPositionAbsoluteSetpoint(float const position, float const max_speed = 500.0);
-
-      /**\fn stopMotor
-       * \brief
-       *    Stop the motor if running closed loop command
-      */
-      void stopMotor();
+      Gains setControllerGains(Gains const& gains, bool const is_persistent = false);
 
       /**\fn shutdownMotor
        * \brief
        *    Turn off the motor
       */
       void shutdownMotor();
+
+      /**\fn stopMotor
+       * \brief
+       *    Stop the motor if running closed loop command
+      */
+      void stopMotor();
   };
 
 }
