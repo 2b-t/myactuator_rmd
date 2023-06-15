@@ -45,19 +45,12 @@ namespace myactuator_rmd {
        *    Gains that the actuator should be set to
       */
       constexpr SetGainsRequest(Gains const& gains) noexcept;
-      /**\fn GainsRequest
-       * \brief
-       *    Class constructor
-       * 
-       * \param[in] data
-       *    The data to be transmitted to the driver
-      */
-      constexpr SetGainsRequest(std::array<std::uint8_t,8> const& data) noexcept;
       SetGainsRequest() = delete;
       SetGainsRequest(SetGainsRequest const&) = default;
       SetGainsRequest& operator = (SetGainsRequest const&) = default;
       SetGainsRequest(SetGainsRequest&&) = default;
       SetGainsRequest& operator = (SetGainsRequest&&) = default;
+      using SingleMotorRequest<C>::SingleMotorRequest;
 
       /**\fn getGains
        * \brief
@@ -79,12 +72,6 @@ namespace myactuator_rmd {
     this->data_[5] = gains.speed.ki;
     this->data_[6] = gains.position.kp;
     this->data_[7] = gains.position.ki;
-    return;
-  }
-
-  template <CommandType C>
-  constexpr SetGainsRequest<C>::SetGainsRequest(std::array<std::uint8_t,8> const& data) noexcept
-  : SingleMotorRequest<C>{data} {
     return;
   }
 
@@ -118,19 +105,12 @@ namespace myactuator_rmd {
        *    The maximum speed for the motion in degree per second [0.0, 1320.0]
       */
       SetPositionAbsoluteRequest(float const position, float const max_speed);
-      /**\fn SetPositionAbsoluteRequest
-       * \brief
-       *    Class constructor
-       * 
-       * \param[in] data
-       *    The data to be transmitted to the driver
-      */
-      constexpr SetPositionAbsoluteRequest(std::array<std::uint8_t,8> const& data);
       SetPositionAbsoluteRequest() = delete;
       SetPositionAbsoluteRequest(SetPositionAbsoluteRequest const&) = default;
       SetPositionAbsoluteRequest& operator = (SetPositionAbsoluteRequest const&) = default;
       SetPositionAbsoluteRequest(SetPositionAbsoluteRequest&&) = default;
       SetPositionAbsoluteRequest& operator = (SetPositionAbsoluteRequest&&) = default;
+      using SingleMotorRequest::SingleMotorRequest;
 
       /**\fn getMaxSpeed
        * \brief
@@ -153,11 +133,6 @@ namespace myactuator_rmd {
       float getPosition() const noexcept;
   };
 
-  constexpr SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(std::array<std::uint8_t,8> const& data)
-  : SingleMotorRequest{data} {
-    return;
-  }
-
   /**\class SetTorqueRequest
    * \brief
    *    Request for setting the torque of the actuator by setting a target current
@@ -172,19 +147,12 @@ namespace myactuator_rmd {
        *    The current set-point in Ampere [-20.00, 20.00]
       */
       SetTorqueRequest(float const current);
-      /**\fn SetPositionAbsoluteRequest
-       * \brief
-       *    Class constructor
-       * 
-       * \param[in] data
-       *    The data to be transmitted to the driver
-      */
-      constexpr SetTorqueRequest(std::array<std::uint8_t,8> const& data);
       SetTorqueRequest() = delete;
       SetTorqueRequest(SetTorqueRequest const&) = default;
       SetTorqueRequest& operator = (SetTorqueRequest const&) = default;
       SetTorqueRequest(SetTorqueRequest&&) = default;
       SetTorqueRequest& operator = (SetTorqueRequest&&) = default;
+      using SingleMotorRequest::SingleMotorRequest;
 
       /**\fn getTorqueCurrent
        * \brief
@@ -196,11 +164,6 @@ namespace myactuator_rmd {
       [[nodiscard]]
       float getTorqueCurrent() const noexcept;
   };
-
-  constexpr SetTorqueRequest::SetTorqueRequest(std::array<std::uint8_t,8> const& data)
-  : SingleMotorRequest{data} {
-    return;
-  }
 
   /**\class SetVelocityRequest
    * \brief
@@ -216,19 +179,12 @@ namespace myactuator_rmd {
        *    The velocity set-point in degree per second [-1320.00, 1320.00]
       */
       SetVelocityRequest(float const speed);
-      /**\fn SetVelocityRequest
-       * \brief
-       *    Class constructor
-       * 
-       * \param[in] data
-       *    The data to be transmitted to the driver
-      */
-      constexpr SetVelocityRequest(std::array<std::uint8_t,8> const& data);
       SetVelocityRequest() = delete;
       SetVelocityRequest(SetVelocityRequest const&) = default;
       SetVelocityRequest& operator = (SetVelocityRequest const&) = default;
       SetVelocityRequest(SetVelocityRequest&&) = default;
       SetVelocityRequest& operator = (SetVelocityRequest&&) = default;
+      using SingleMotorRequest::SingleMotorRequest;
 
       /**\fn getSpeed
        * \brief
@@ -240,11 +196,6 @@ namespace myactuator_rmd {
       [[nodiscard]]
       float getSpeed() const noexcept;
   };
-
-  constexpr SetVelocityRequest::SetVelocityRequest(std::array<std::uint8_t,8> const& data)
-  : SingleMotorRequest{data} {
-    return;
-  }
 
   using ShutdownMotorRequest = SingleMotorRequest<CommandType::SHUTDOWN_MOTOR>;
   using StopMotorRequest = SingleMotorRequest<CommandType::STOP_MOTOR>;

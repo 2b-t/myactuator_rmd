@@ -34,6 +34,11 @@ namespace myactuator_rmd {
   template <CommandType C>
   class FeedbackResponse: public SingleMotorResponse<C> {
     public:
+      FeedbackResponse() = delete;
+      FeedbackResponse(FeedbackResponse const&) = default;
+      FeedbackResponse& operator = (FeedbackResponse const&) = default;
+      FeedbackResponse(FeedbackResponse&&) = default;
+      FeedbackResponse& operator = (FeedbackResponse&&) = default;
       using SingleMotorResponse<C>::SingleMotorResponse;
 
       /**\fn getStatus
@@ -71,6 +76,11 @@ namespace myactuator_rmd {
   template <CommandType C>
   class GainsResponse: public SingleMotorResponse<C> {
     public:
+      GainsResponse() = delete;
+      GainsResponse(GainsResponse const&) = default;
+      GainsResponse& operator = (GainsResponse const&) = default;
+      GainsResponse(GainsResponse&&) = default;
+      GainsResponse& operator = (GainsResponse&&) = default;
       using SingleMotorResponse<C>::SingleMotorResponse;
 
       /**\fn getGains
@@ -105,6 +115,11 @@ namespace myactuator_rmd {
   */
   class GetMotorModelResponse: public SingleMotorResponse<CommandType::READ_MOTOR_MODEL> {
     public:
+      GetMotorModelResponse() = delete;
+      GetMotorModelResponse(GetMotorModelResponse const&) = default;
+      GetMotorModelResponse& operator = (GetMotorModelResponse const&) = default;
+      GetMotorModelResponse(GetMotorModelResponse&&) = default;
+      GetMotorModelResponse& operator = (GetMotorModelResponse&&) = default;
       using SingleMotorResponse::SingleMotorResponse;
 
       /**\fn getMotorModel
@@ -124,6 +139,11 @@ namespace myactuator_rmd {
   */
   class GetMotorStatus1Response: public SingleMotorResponse<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG> {
     public:
+      GetMotorStatus1Response() = delete;
+      GetMotorStatus1Response(GetMotorStatus1Response const&) = default;
+      GetMotorStatus1Response& operator = (GetMotorStatus1Response const&) = default;
+      GetMotorStatus1Response(GetMotorStatus1Response&&) = default;
+      GetMotorStatus1Response& operator = (GetMotorStatus1Response&&) = default;
       using SingleMotorResponse::SingleMotorResponse;
 
       /**\fn getStatus
@@ -143,6 +163,11 @@ namespace myactuator_rmd {
   */
   class GetMotorStatus3Response: public SingleMotorResponse<CommandType::READ_MOTOR_STATUS_3> {
     public:
+      GetMotorStatus3Response() = delete;
+      GetMotorStatus3Response(GetMotorStatus3Response const&) = default;
+      GetMotorStatus3Response& operator = (GetMotorStatus3Response const&) = default;
+      GetMotorStatus3Response(GetMotorStatus3Response&&) = default;
+      GetMotorStatus3Response& operator = (GetMotorStatus3Response&&) = default;
       using SingleMotorResponse::SingleMotorResponse;
 
       /**\fn getStatus
@@ -162,6 +187,11 @@ namespace myactuator_rmd {
   */
   class GetVersionDateResponse: public SingleMotorResponse<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE> {
     public:
+      GetVersionDateResponse() = delete;
+      GetVersionDateResponse(GetVersionDateResponse const&) = default;
+      GetVersionDateResponse& operator = (GetVersionDateResponse const&) = default;
+      GetVersionDateResponse(GetVersionDateResponse&&) = default;
+      GetVersionDateResponse& operator = (GetVersionDateResponse&&) = default;
       using SingleMotorResponse::SingleMotorResponse;
 
       /**\fn getVersion
