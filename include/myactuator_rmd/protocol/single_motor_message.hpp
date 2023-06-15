@@ -29,7 +29,7 @@ namespace myactuator_rmd {
   */
   template <CommandType C>
   class SingleMotorMessage: public Message {
-    public:
+    protected:
       /**\fn SingleMotorMessage
        * \brief
        *    Class constructor
@@ -58,6 +58,54 @@ namespace myactuator_rmd {
   constexpr SingleMotorMessage<C>::SingleMotorMessage() noexcept
   : Message{} {
     data_[0] = static_cast<std::uint8_t>(C);
+    return;
+  }
+
+  /**\class SingleMotorRequest
+   * \brief
+   *    Request to be sent by the driver to a single actuator
+   *
+   * \tparam C
+   *    Type of the command to be requested
+  */
+  template <CommandType C>
+  class SingleMotorRequest: public SingleMotorMessage<C> {
+    public:
+      constexpr SingleMotorRequest(std::array<std::uint8_t,8> const& data);
+      constexpr SingleMotorRequest() = default;
+      SingleMotorRequest(SingleMotorRequest const&) = default;
+      SingleMotorRequest& operator = (SingleMotorRequest const&) = default;
+      SingleMotorRequest(SingleMotorRequest&&) = default;
+      SingleMotorRequest& operator = (SingleMotorRequest&&) = default;
+  };
+
+  template <CommandType C>
+  constexpr SingleMotorRequest<C>::SingleMotorRequest(std::array<std::uint8_t,8> const& data)
+  : SingleMotorMessage<C>{data} {
+    return;
+  }
+
+  /**\class SingleMotorResponse
+   * \brief
+   *    Response to be sent by an actuator to the driver
+   *
+   * \tparam C
+   *    Type of the command to be requested
+  */
+  template <CommandType C>
+  class SingleMotorResponse: public SingleMotorMessage<C> {
+    public:
+      constexpr SingleMotorResponse(std::array<std::uint8_t,8> const& data);
+      constexpr SingleMotorResponse() = delete;
+      SingleMotorResponse(SingleMotorResponse const&) = default;
+      SingleMotorResponse& operator = (SingleMotorResponse const&) = default;
+      SingleMotorResponse(SingleMotorResponse&&) = default;
+      SingleMotorResponse& operator = (SingleMotorResponse&&) = default;
+  };
+
+  template <CommandType C>
+  constexpr SingleMotorResponse<C>::SingleMotorResponse(std::array<std::uint8_t,8> const& data)
+  : SingleMotorMessage<C>{data} {
     return;
   }
 
