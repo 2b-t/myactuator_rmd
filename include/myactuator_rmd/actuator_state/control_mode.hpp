@@ -20,7 +20,7 @@ namespace myactuator_rmd {
    *    Strongly typed enum for all known actuator control modes
   */
   enum class ControlMode: std::uint8_t {
-    NONE = 0x01,
+    NONE = 0x00,
     CURRENT = 0x01,
     VELOCITY = 0x02,
     POSITION = 0x03
