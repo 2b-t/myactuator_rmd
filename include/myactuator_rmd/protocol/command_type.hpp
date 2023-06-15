@@ -1,7 +1,7 @@
 /**
- * \file commond_type.hpp
+ * \file command_type.hpp
  * \mainpage
- *    Contains enum for all supported types
+ *    Contains enum for all supported command types
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
