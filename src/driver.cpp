@@ -23,6 +23,12 @@ namespace myactuator_rmd {
     return;
   }
 
+  std::int32_t Driver::getAcceleration() {
+    GetAccelerationRequest const request {};
+    auto const response {sendRecv<GetAccelerationResponse>(request)};
+    return response.getAcceleration();
+  }
+
   Gains Driver::getControllerGains() {
     GetControllerGainsRequest const request {};
     auto const response {sendRecv<GetControllerGainsResponse>(request)};
@@ -65,10 +71,46 @@ namespace myactuator_rmd {
     return response.getStatus();
   }
 
+  float Driver::getMultiTurnAngle() {
+    GetMultiTurnAngleRequest const request {};
+    auto const response {sendRecv<GetMultiTurnAngleResponse>(request)};
+    return response.getAngle();
+  }
+
+  std::int32_t Driver::getMultiTurnEncoderPosition() {
+    GetMultiTurnEncoderPositionRequest const request {};
+    auto const response {sendRecv<GetMultiTurnEncoderPositionResponse>(request)};
+    return response.getPosition();
+  }
+
+  std::int32_t Driver::getMultiTurnEncoderOriginalPosition() {
+    GetMultiTurnEncoderOriginalPositionRequest const request {};
+    auto const response {sendRecv<GetMultiTurnEncoderOriginalPositionResponse>(request)};
+    return response.getPosition();
+  }
+
+  std::int32_t Driver::getMultiTurnEncoderZeroOffset() {
+    GetMultiTurnEncoderZeroOffsetRequest const request {};
+    auto const response {sendRecv<GetMultiTurnEncoderZeroOffsetResponse>(request)};
+    return response.getPosition();
+  }
+
   std::chrono::milliseconds Driver::getRuntime() {
     GetSystemRuntimeRequest const request {};
     auto const response {sendRecv<GetSystemRuntimeResponse>(request)};
     return response.getRuntime();
+  }
+
+  float Driver::getSingleTurnAngle() {
+    GetSingleTurnAngleRequest const request {};
+    auto const response {sendRecv<GetSingleTurnAngleResponse>(request)};
+    return response.getAngle();
+  }
+
+  std::int16_t Driver::getSingleTurnEncoderPosition() {
+    GetSingleTurnEncoderPositionRequest const request {};
+    auto const response {sendRecv<GetSingleTurnEncoderPositionResponse>(request)};
+    return response.getPosition();
   }
 
   std::uint32_t Driver::getVersionDate() {

@@ -11,6 +11,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstdint>
 
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
@@ -23,6 +24,160 @@
 
 
 namespace myactuator_rmd {
+
+  /**\class GetAccelerationResponse
+   * \brief
+   *    Response to request for reading the motor model
+  */
+  class GetAccelerationResponse: public SingleMotorResponse<CommandType::READ_ACCELERATION> {
+    public:
+      GetAccelerationResponse() = delete;
+      GetAccelerationResponse(GetAccelerationResponse const&) = default;
+      GetAccelerationResponse& operator = (GetAccelerationResponse const&) = default;
+      GetAccelerationResponse(GetAccelerationResponse&&) = default;
+      GetAccelerationResponse& operator = (GetAccelerationResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getAcceleration
+       * \brief
+       *    Get the current acceleration
+       * 
+       * \return
+       *    The current acceleration with a resolution of 1 dps
+      */
+      [[nodiscard]]
+      std::int32_t getAcceleration() const noexcept;
+  };
+
+  /**\class GetMultiTurnAngleResponse
+   * \brief
+   *    Response to request for reading a multi-turn angle
+  */
+  class GetMultiTurnAngleResponse: public SingleMotorResponse<CommandType::READ_MULTI_TURN_ANGLE> {
+    public:
+      GetMultiTurnAngleResponse() = delete;
+      GetMultiTurnAngleResponse(GetMultiTurnAngleResponse const&) = default;
+      GetMultiTurnAngleResponse& operator = (GetMultiTurnAngleResponse const&) = default;
+      GetMultiTurnAngleResponse(GetMultiTurnAngleResponse&&) = default;
+      GetMultiTurnAngleResponse& operator = (GetMultiTurnAngleResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getPosition
+       * \brief
+       *    Get the multi-turn angle
+       * 
+       * \return
+       *    The multi-turn angle with a resolution of 0.01 deg
+      */
+      [[nodiscard]]
+      float getAngle() const noexcept;
+  };
+
+  /**\class GetMultiTurnEncoderPositionResponse
+   * \brief
+   *    Response to request for reading a multi-turn encoder position
+   *
+   * \tparam C
+   *    Type of the command to be requested
+  */
+  template <CommandType C>
+  class MultiTurnEncoderPositionResponse: public SingleMotorResponse<C> {
+    public:
+      MultiTurnEncoderPositionResponse() = delete;
+      MultiTurnEncoderPositionResponse(MultiTurnEncoderPositionResponse const&) = default;
+      MultiTurnEncoderPositionResponse& operator = (MultiTurnEncoderPositionResponse const&) = default;
+      MultiTurnEncoderPositionResponse(MultiTurnEncoderPositionResponse&&) = default;
+      MultiTurnEncoderPositionResponse& operator = (MultiTurnEncoderPositionResponse&&) = default;
+      using SingleMotorResponse<C>::SingleMotorResponse;
+
+      /**\fn getPosition
+       * \brief
+       *    Get the encoder position
+       * 
+       * \return
+       *    The current encoder position
+      */
+      [[nodiscard]]
+      std::int32_t getPosition() const noexcept;
+  };
+
+  template <CommandType C>
+  std::int32_t MultiTurnEncoderPositionResponse<C>::getPosition() const noexcept {
+    auto const encoder_position {this->template getAs<std::int32_t>(4)};
+    return encoder_position;
+  }
+
+  using GetMultiTurnEncoderPositionResponse = MultiTurnEncoderPositionResponse<CommandType::READ_MULTI_TURN_ENCODER_POSITION>;
+  using GetMultiTurnEncoderOriginalPositionResponse = MultiTurnEncoderPositionResponse<CommandType::READ_MULTI_TURN_ENCODER_ORIGINAL_POSITION>;
+  using GetMultiTurnEncoderZeroOffsetResponse = MultiTurnEncoderPositionResponse<CommandType::READ_MULTI_TURN_ENCODER_ZERO_OFFSET>;
+
+  /**\class GetSingleTurnAngleResponse
+   * \brief
+   *    Response to request for reading a single-turn angle
+  */
+  class GetSingleTurnAngleResponse: public SingleMotorResponse<CommandType::READ_SINGLE_TURN_ANGLE> {
+    public:
+      GetSingleTurnAngleResponse() = delete;
+      GetSingleTurnAngleResponse(GetSingleTurnAngleResponse const&) = default;
+      GetSingleTurnAngleResponse& operator = (GetSingleTurnAngleResponse const&) = default;
+      GetSingleTurnAngleResponse(GetSingleTurnAngleResponse&&) = default;
+      GetSingleTurnAngleResponse& operator = (GetSingleTurnAngleResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getPosition
+       * \brief
+       *    Get the single-turn angle
+       * 
+       * \return
+       *    The single-turn angle with a resolution of 0.01 deg
+      */
+      [[nodiscard]]
+      float getAngle() const noexcept;
+  };
+
+  /**\class GetSingleTurnEncoderPositionResponse
+   * \brief
+   *    Response to request for reading a single-turn encoder position
+  */
+  class GetSingleTurnEncoderPositionResponse: public SingleMotorResponse<CommandType::READ_SINGLE_TURN_ENCODER> {
+    public:
+      GetSingleTurnEncoderPositionResponse() = delete;
+      GetSingleTurnEncoderPositionResponse(GetSingleTurnEncoderPositionResponse const&) = default;
+      GetSingleTurnEncoderPositionResponse& operator = (GetSingleTurnEncoderPositionResponse const&) = default;
+      GetSingleTurnEncoderPositionResponse(GetSingleTurnEncoderPositionResponse&&) = default;
+      GetSingleTurnEncoderPositionResponse& operator = (GetSingleTurnEncoderPositionResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getPosition
+       * \brief
+       *    Get the encoder position
+       * 
+       * \return
+       *    The current encoder position
+      */
+      [[nodiscard]]
+      std::int16_t getPosition() const noexcept;
+
+      /**\fn getRawPosition
+       * \brief
+       *    Get the encoder raw position
+       * 
+       * \return
+       *    The current raw encoder position
+      */
+      [[nodiscard]]
+      std::int16_t getRawPosition() const noexcept;
+
+      /**\fn getOffset
+       * \brief
+       *    Get the encoder position offset
+       * 
+       * \return
+       *    The current encoder position offset
+      */
+      [[nodiscard]]
+      std::int16_t getOffset() const noexcept;
+  };
 
   using LockBrakeResponse = SingleMotorResponse<CommandType::LOCK_BRAKE>;
   using ReleaseBrakeResponse = SingleMotorResponse<CommandType::RELEASE_BRAKE>;

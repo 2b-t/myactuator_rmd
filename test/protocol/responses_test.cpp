@@ -20,6 +20,12 @@
 namespace myactuator_rmd {
   namespace test {
 
+    TEST(GetAccelerationResponseTest, parsing) {
+      myactuator_rmd::GetAccelerationResponse const response {{0x42, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      std::int32_t const acceleration {response.getAcceleration()};
+      EXPECT_EQ(acceleration, 10000);
+    }
+
     TEST(GetControllerGainsResponseTest, parsing) {
       myactuator_rmd::GetControllerGainsResponse const response {{0x30, 0x00, 0x55, 0x19, 0x55, 0x19, 0x55, 0x19}};
       myactuator_rmd::Gains const gains {response.getGains()};
@@ -74,6 +80,46 @@ namespace myactuator_rmd {
       EXPECT_NEAR(motor_status.current_phase_a, 30.1f, 0.1f);
       EXPECT_NEAR(motor_status.current_phase_b, -15.2f, 0.1f);
       EXPECT_NEAR(motor_status.current_phase_c, -16.0f, 0.1f);
+    }
+
+    TEST(GetMultiTurnAngleResponseTest, parsing) {
+      myactuator_rmd::GetMultiTurnAngleResponse const response {{0x92, 0x00, 0x00, 0x00, 0xA0, 0x8C, 0x00, 0x00}};
+      auto const angle {response.getAngle()};
+      EXPECT_NEAR(angle, 360.0f, 0.1f);
+    }
+
+    TEST(GetMultiTurnEncoderPositionResponseTest, parsing) {
+      myactuator_rmd::GetMultiTurnEncoderPositionResponse const response {{0x60, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      auto const encoder_position {response.getPosition()};
+      EXPECT_EQ(encoder_position, 10000);
+    }
+
+    TEST(GetMultiTurnEncoderOriginalPositionResponseTest, parsing) {
+      myactuator_rmd::GetMultiTurnEncoderOriginalPositionResponse const response {{0x61, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      auto const encoder_position {response.getPosition()};
+      EXPECT_EQ(encoder_position, 10000);
+    }
+
+    TEST(GetMultiTurnEncoderZeroOffsetResponseTest, parsing) {
+      myactuator_rmd::GetMultiTurnEncoderZeroOffsetResponse const response {{0x62, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      auto const encoder_position {response.getPosition()};
+      EXPECT_EQ(encoder_position, 10000);
+    }
+
+    TEST(GetSingleTurnAngleResponseTest, parsing) {
+      myactuator_rmd::GetSingleTurnAngleResponse const response {{0x94, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27}};
+      auto const angle {response.getAngle()};
+      EXPECT_NEAR(angle, 100.0f, 0.1f);
+    }
+
+    TEST(GetSingleTurnEncoderPositionResponseTest, parsing) {
+      myactuator_rmd::GetSingleTurnEncoderPositionResponse const response {{0x90, 0x00, 0x33, 0x08, 0xBE, 0x2C, 0x8B, 0x24}};
+      auto const encoder_position {response.getPosition()};
+      EXPECT_EQ(encoder_position, 2099);
+      auto const encoder_raw_position {response.getRawPosition()};
+      EXPECT_EQ(encoder_raw_position, 11454);
+      auto const encoder_offset {response.getOffset()};
+      EXPECT_EQ(encoder_offset, 9355);
     }
 
     TEST(GetSystemRuntimeResponseTest, parsing) {

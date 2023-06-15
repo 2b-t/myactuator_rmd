@@ -13,6 +13,11 @@
 
 namespace myactuator_rmd {
 
+  std::int32_t GetAccelerationResponse::getAcceleration() const noexcept {
+    auto const acceleration {getAs<std::int32_t>(4)};
+    return acceleration;
+  }
+
   std::string GetMotorModelResponse::getModel() const noexcept {
     std::string const model {&data_[1], &data_[1]+7};
     return model;
@@ -37,6 +42,31 @@ namespace myactuator_rmd {
     auto const current_phase_b {static_cast<float>(getAs<std::int16_t>(4))*0.01f};
     auto const current_phase_c {static_cast<float>(getAs<std::int16_t>(6))*0.01f};
     return MotorStatus3{temperature, current_phase_a, current_phase_b, current_phase_c};
+  }
+
+  float GetMultiTurnAngleResponse::getAngle() const noexcept {
+    auto const angle {static_cast<float>(getAs<std::int32_t>(4))*0.01f};
+    return angle;
+  }
+
+  float GetSingleTurnAngleResponse::getAngle() const noexcept {
+    auto const angle {static_cast<float>(getAs<std::int16_t>(6))*0.01f};
+    return angle;
+  }
+
+  std::int16_t GetSingleTurnEncoderPositionResponse::getPosition() const noexcept {
+    auto const position {getAs<std::int16_t>(2)};
+    return position;
+  }
+
+  std::int16_t GetSingleTurnEncoderPositionResponse::getRawPosition() const noexcept {
+    auto const position {getAs<std::int16_t>(4)};
+    return position;
+  }
+
+  std::int16_t GetSingleTurnEncoderPositionResponse::getOffset() const noexcept {
+    auto const position {getAs<std::int16_t>(6)};
+    return position;
   }
 
   std::chrono::milliseconds GetSystemRuntimeResponse::getRuntime() const noexcept {

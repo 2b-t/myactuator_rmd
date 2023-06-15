@@ -17,6 +17,7 @@
 
 namespace myactuator_rmd {
   
+  using GetAccelerationRequest = SingleMotorRequest<CommandType::READ_ACCELERATION>;
   using GetControllerGainsRequest = SingleMotorRequest<CommandType::READ_PID_PARAMETERS>;
   using GetControlModeRequest = SingleMotorRequest<CommandType::READ_SYSTEM_OPERATING_MODE>;
   using GetMotorModelRequest =  SingleMotorRequest<CommandType::READ_MOTOR_MODEL>;
@@ -24,6 +25,12 @@ namespace myactuator_rmd {
   using GetMotorStatus1Request = SingleMotorRequest<CommandType::READ_MOTOR_STATUS_1_AND_ERROR_FLAG>;
   using GetMotorStatus2Request =  SingleMotorRequest<CommandType::READ_MOTOR_STATUS_2>;
   using GetMotorStatus3Request = SingleMotorRequest<CommandType::READ_MOTOR_STATUS_3>;
+  using GetMultiTurnAngleRequest = SingleMotorRequest<CommandType::READ_MULTI_TURN_ANGLE>;
+  using GetMultiTurnEncoderPositionRequest = SingleMotorRequest<CommandType::READ_MULTI_TURN_ENCODER_POSITION>;
+  using GetMultiTurnEncoderOriginalPositionRequest = SingleMotorRequest<CommandType::READ_MULTI_TURN_ENCODER_ORIGINAL_POSITION>;
+  using GetMultiTurnEncoderZeroOffsetRequest = SingleMotorRequest<CommandType::READ_MULTI_TURN_ENCODER_ZERO_OFFSET>;
+  using GetSingleTurnAngleRequest = SingleMotorRequest<CommandType::READ_SINGLE_TURN_ANGLE>;
+  using GetSingleTurnEncoderPositionRequest = SingleMotorRequest<CommandType::READ_SINGLE_TURN_ENCODER>;
   using GetSystemRuntimeRequest = SingleMotorRequest<CommandType::READ_SYSTEM_RUNTIME>;
   using GetVersionDateRequest = SingleMotorRequest<CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE>;
   using LockBrakeRequest = SingleMotorRequest<CommandType::LOCK_BRAKE>;

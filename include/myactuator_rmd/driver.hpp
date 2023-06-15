@@ -48,6 +48,16 @@ namespace myactuator_rmd {
       Driver(Driver&&) = default;
       Driver& operator = (Driver&&) = default;
 
+      /**\fn getAcceleration
+       * \brief
+       *    Reads the current acceleration
+       * 
+       * \return
+       *    The current acceleration in dps with a resolution of 1 dps
+      */
+      [[nodiscard]]
+      std::int32_t getAcceleration();
+
       /**\fn getControllerGains
        * \brief
        *    Reads the currently used controller gains
@@ -118,6 +128,46 @@ namespace myactuator_rmd {
       [[nodiscard]]
       MotorStatus3 getMotorStatus3();
 
+      /**\fn getMultiTurnAngle
+       * \brief
+       *    Read the multi-turn angle
+       * 
+       * \return
+       *    The current multi-turn angle with a resolution of 0.01 deg
+      */
+      [[nodiscard]]
+      float getMultiTurnAngle();
+
+      /**\fn getMultiTurnEncoderPosition
+       * \brief
+       *    Read the multi-turn encoder position subtracted by the encoder multi-turn zero offset
+       * 
+       * \return
+       *    The multi-turn encoder position
+      */
+      [[nodiscard]]
+      std::int32_t getMultiTurnEncoderPosition();
+
+      /**\fn getMultiTurnEncoderOriginalPosition
+       * \brief
+       *    Read the raw multi-turn encoder position without taking into consideration the multi-turn zero offset
+       * 
+       * \return
+       *    The multi-turn encoder position
+      */
+      [[nodiscard]]
+      std::int32_t getMultiTurnEncoderOriginalPosition();
+
+      /**\fn getMultiTurnEncoderZeroOffset
+       * \brief
+       *    Read the multi-turn encoder zero offset
+       * 
+       * \return
+       *    The multi-turn encoder zero offset
+      */
+      [[nodiscard]]
+      std::int32_t getMultiTurnEncoderZeroOffset();
+
       /**\fn getRuntime
        * \brief
        *    Reads the uptime of the actuator in milliseconds
@@ -127,6 +177,26 @@ namespace myactuator_rmd {
       */
       [[nodiscard]]
       std::chrono::milliseconds getRuntime();
+
+      /**\fn getSingleTurnAngle
+       * \brief
+       *    Read the single-turn angle
+       * 
+       * \return
+       *    The current single-turn angle with a resolution of 0.01 deg
+      */
+      [[nodiscard]]
+      float getSingleTurnAngle();
+
+      /**\fn getSingleTurnEncoderPosition
+       * \brief
+       *    Read the single-turn encoder position
+       * 
+       * \return
+       *    The single-turn encoder position
+      */
+      [[nodiscard]]
+      std::int16_t getSingleTurnEncoderPosition();
 
       /**\fn getVersionDate
        * \brief
