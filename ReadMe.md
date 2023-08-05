@@ -9,6 +9,8 @@ Author: [Tobit Flatscher](https://github.com/2b-t) (May - June 2023)
 ## 0. Overview
 This repository holds a **CAN driver for the [MyActuator RMD X actuator series](https://www.myactuator.com/rmd-x)** written in modern C++17 using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html). The driver is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
 
+![MyActuator RMD X-8 Pro](https://static.wixstatic.com/media/cab28a_00f513ded075494086572fccd5313ac5~mv2.jpg/v1/fill/w_520,h_420,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/cab28a_00f513ded075494086572fccd5313ac5~mv2.jpg)
+
 
 
 ## 1. Installation
