@@ -439,6 +439,7 @@ namespace myactuator_rmd {
       std::uint32_t getVersion() const noexcept;
   };
 
+  using SetAccelerationResponse = SingleMotorResponse<CommandType::WRITE_ACCELERATION_TO_RAM_AND_ROM>;
   using ShutdownMotorResponse = SingleMotorResponse<CommandType::SHUTDOWN_MOTOR>;
   using StopMotorResponse = SingleMotorResponse<CommandType::STOP_MOTOR>;
 

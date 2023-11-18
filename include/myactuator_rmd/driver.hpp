@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <string>
 
+#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
@@ -260,6 +261,17 @@ namespace myactuator_rmd {
        *    Feedback control message containing actuator position, velocity, torque and temperature
       */
       Feedback sendVelocitySetpoint(float const speed);
+
+      /**\fn setAcceleration
+       * \brief
+       *    Write the acceleration/deceleration for the different modes to RAM and ROM (persistent)
+       * 
+       * \param[in] acceleration
+       *    The desired acceleration/deceleration in dps with a resolution of 1 dps/s [100, 60000]
+       * \param[in] mode
+       *    The mode of the desired acceleration/deceleration to be set
+      */
+      void setAcceleration(std::uint32_t const acceleration, AccelerationFunctionIndex const mode);
 
       /**\fn setControllerGains
        * \brief

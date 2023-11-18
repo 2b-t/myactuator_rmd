@@ -6,14 +6,49 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
+#include <cstdint>
+
 #include <gtest/gtest.h>
 
+#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/requests.hpp"
 
 
 namespace myactuator_rmd {
   namespace test {
+
+    TEST(SetPositionPlanningAccelerationRequestTest, parsing) {
+      myactuator_rmd::SetAccelerationRequest const request {{0x43, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      std::uint32_t const acceleration {request.getAcceleration()};
+      AccelerationFunctionIndex const mode {request.getMode()};
+      EXPECT_EQ(acceleration, 10000);
+      EXPECT_EQ(mode, AccelerationFunctionIndex::POSITION_PLANNING_ACCELERATION);
+    }
+
+    TEST(SetPositionPlanningDecelerationRequestTest, parsing) {
+      myactuator_rmd::SetAccelerationRequest const request {{0x43, 0x01, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      std::uint32_t const acceleration {request.getAcceleration()};
+      AccelerationFunctionIndex const mode {request.getMode()};
+      EXPECT_EQ(acceleration, 10000);
+      EXPECT_EQ(mode, AccelerationFunctionIndex::POSITION_PLANNING_DECELERATION);
+    }
+
+    TEST(SetVelocityPlanningAccelerationRequestTest, parsing) {
+      myactuator_rmd::SetAccelerationRequest const request {{0x43, 0x02, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      std::uint32_t const acceleration {request.getAcceleration()};
+      AccelerationFunctionIndex const mode {request.getMode()};
+      EXPECT_EQ(acceleration, 10000);
+      EXPECT_EQ(mode, AccelerationFunctionIndex::VELOCITY_PLANNING_ACCELERATION);
+    }
+
+    TEST(SetVelocityPlanningDecelerationRequestTest, parsing) {
+      myactuator_rmd::SetAccelerationRequest const request {{0x43, 0x03, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      std::uint32_t const acceleration {request.getAcceleration()};
+      AccelerationFunctionIndex const mode {request.getMode()};
+      EXPECT_EQ(acceleration, 10000);
+      EXPECT_EQ(mode, AccelerationFunctionIndex::VELOCITY_PLANNING_DECELERATION);
+    }
 
     TEST(SetControllerGainsPersistentlyRequestTest, parsing) {
       myactuator_rmd::SetControllerGainsPersistentlyRequest const request {{0x32, 0x00, 0x55, 0x19, 0x55, 0x19, 0x55, 0x19}};

@@ -155,6 +155,12 @@ namespace myactuator_rmd {
     return response.getStatus();
   }
 
+  void Driver::setAcceleration(std::uint32_t const acceleration, AccelerationFunctionIndex const mode) {
+    SetAccelerationRequest const request {acceleration, mode};
+    [[maybe_unused]] auto const response {sendRecv<SetAccelerationResponse>(request)};
+    return;
+  }
+
   Gains Driver::setControllerGains(Gains const& gains, bool const is_persistent) {
     if (is_persistent) {
       SetControllerGainsPersistentlyRequest const request {gains};

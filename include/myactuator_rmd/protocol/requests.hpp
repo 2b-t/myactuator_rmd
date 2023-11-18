@@ -10,6 +10,7 @@
 #define MYACTUATOR_RMD__PROTOCOL__REQUESTS
 #pragma once
 
+#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
@@ -36,6 +37,50 @@ namespace myactuator_rmd {
   using LockBrakeRequest = SingleMotorRequest<CommandType::LOCK_BRAKE>;
   using ReleaseBrakeRequest = SingleMotorRequest<CommandType::RELEASE_BRAKE>;
   using ResetRequest = SingleMotorRequest<CommandType::RESET_SYSTEM>;
+
+  /**\class SetAccelerationRequest
+   * \brief
+   *    Request for setting the maximum acceleration/deceleration of the actuator
+  */
+  class SetAccelerationRequest: public SingleMotorRequest<CommandType::WRITE_ACCELERATION_TO_RAM_AND_ROM> {
+    public:
+      /**\fn SetAccelerationRequest
+       * \brief
+       *    Class constructor
+       * 
+       * \param[in] acceleration
+       *    The desired acceleration/deceleration in dps with a resolution of 1 dps [100, 60000]
+       * \param[in] mode
+       *    The mode of the desired acceleration/deceleration to be set
+      */
+      SetAccelerationRequest(std::uint32_t const acceleration, AccelerationFunctionIndex const mode);
+      SetAccelerationRequest() = delete;
+      SetAccelerationRequest(SetAccelerationRequest const&) = default;
+      SetAccelerationRequest& operator = (SetAccelerationRequest const&) = default;
+      SetAccelerationRequest(SetAccelerationRequest&&) = default;
+      SetAccelerationRequest& operator = (SetAccelerationRequest&&) = default;
+      using SingleMotorRequest::SingleMotorRequest;
+
+      /**\fn getAcceleration
+       * \brief
+       *    Get the acceleration
+       * 
+       * \return
+       *    The acceleration in degree per second**2 [100, 60000]
+      */
+      [[nodiscard]]
+      std::uint32_t getAcceleration() const noexcept;
+
+      /**\fn getMode
+       * \brief
+       *    Get the acceleration mode
+       * 
+       * \return
+       *    The acceleration mode
+      */
+      [[nodiscard]]
+      AccelerationFunctionIndex getMode() const noexcept;
+  };
 
   /**\class SetGainsRequest
    * \brief

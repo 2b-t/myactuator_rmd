@@ -4,11 +4,31 @@
 #include <cstring>
 #include <string>
 
+#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
 
 namespace myactuator_rmd {
+
+  SetAccelerationRequest::SetAccelerationRequest(std::uint32_t const acceleration, AccelerationFunctionIndex const mode)
+  : SingleMotorRequest{} {
+    if ((acceleration < 100) || (acceleration > 60000)) {
+      throw ValueRangeException("Acceleration value '" + std::to_string(acceleration) + "' out of range [100, 60000]");
+    }
+    auto const acceleration_function_index {static_cast<std::uint8_t>(mode)};
+    setAt(acceleration_function_index, 1);
+    setAt(acceleration, 4);
+    return;
+  }
+
+  std::uint32_t SetAccelerationRequest::getAcceleration() const noexcept {
+    return getAs<std::uint32_t>(4);
+  }
+
+  AccelerationFunctionIndex SetAccelerationRequest::getMode() const noexcept {
+    return static_cast<AccelerationFunctionIndex>(getAs<std::uint8_t>(1));
+  }
 
   SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed)
   : SingleMotorRequest{} {
