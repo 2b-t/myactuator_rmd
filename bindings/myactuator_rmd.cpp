@@ -13,6 +13,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/error_code.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
@@ -55,6 +56,7 @@ PYBIND11_MODULE(myactuator_rmd, m) {
     .def("sendPositionAbsoluteSetpoint", &myactuator_rmd::Driver::sendPositionAbsoluteSetpoint)
     .def("sendTorqueSetpoint", &myactuator_rmd::Driver::sendTorqueSetpoint)
     .def("sendVelocitySetpoint", &myactuator_rmd::Driver::sendVelocitySetpoint)
+    .def("setAcceleration", &myactuator_rmd::Driver::setAcceleration)
     .def("setControllerGains", &myactuator_rmd::Driver::setControllerGains)
     .def("shutdownMotor", &myactuator_rmd::Driver::shutdownMotor)
     .def("stopMotor", &myactuator_rmd::Driver::stopMotor);
@@ -63,6 +65,11 @@ PYBIND11_MODULE(myactuator_rmd, m) {
   pybind11::register_exception<myactuator_rmd::ValueRangeException>(m, "ValueRangeException");
 
   auto m_actuator_state = m.def_submodule("actuator_state", "Submodule for actuator state structures");
+  pybind11::enum_<myactuator_rmd::AccelerationFunctionIndex>(m_actuator_state, "AccelerationFunctionIndex")
+    .value("POSITION_PLANNING_ACCELERATION", myactuator_rmd::AccelerationFunctionIndex::POSITION_PLANNING_ACCELERATION)
+    .value("POSITION_PLANNING_DECELERATION", myactuator_rmd::AccelerationFunctionIndex::POSITION_PLANNING_DECELERATION)
+    .value("VELOCITY_PLANNING_ACCELERATION", myactuator_rmd::AccelerationFunctionIndex::VELOCITY_PLANNING_ACCELERATION)
+    .value("VELOCITY_PLANNING_DECELERATION", myactuator_rmd::AccelerationFunctionIndex::VELOCITY_PLANNING_DECELERATION);
   pybind11::enum_<myactuator_rmd::ControlMode>(m_actuator_state, "ControlMode")
     .value("NONE", myactuator_rmd::ControlMode::NONE)
     .value("CURRENT", myactuator_rmd::ControlMode::CURRENT)
