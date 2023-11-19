@@ -64,7 +64,7 @@ namespace myactuator_rmd {
        *    Get the CAN ID of the device
        * 
        * \return
-       *    The CAN ID of the device in the range [1, 32]
+       *    The CAN ID of the device starting at 0x240
       */
       std::uint16_t getCanId();
 

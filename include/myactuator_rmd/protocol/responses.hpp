@@ -43,7 +43,7 @@ namespace myactuator_rmd {
        *    Get the CAN ID of the actuator
        * 
        * \return
-       *    The CAN ID of the actuator [1, 32]
+       *    The CAN ID of the actuator starting at 0x240
       */
       [[nodiscard]]
       virtual std::uint16_t getCanId() const noexcept;
