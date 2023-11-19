@@ -1,3 +1,4 @@
+*.pyc
 build/
-myactuator_rmd.egg-info/
+myactuator_rmd_py.egg-info/
 

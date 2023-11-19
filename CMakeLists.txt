@@ -23,7 +23,6 @@ include(ConfigExtras.cmake)
 include_directories(
   include/
 )
-
 add_library(myactuator_rmd SHARED
   src/can/node.cpp
   src/can/utilities.cpp
@@ -33,19 +32,31 @@ add_library(myactuator_rmd SHARED
 )
 set(MYACTUATOR_RMD_LIBRARIES "")
 target_link_libraries(myactuator_rmd ${MYACTUATOR_RMD_LIBRARIES})
-install(TARGETS
-  myactuator_rmd
-  DESTINATION lib/${PROJECT_NAME}
+install(
+  DIRECTORY include/
+  DESTINATION include/${PROJECT_NAME}
+)
+install(TARGETS myactuator_rmd
+  EXPORT export_${PROJECT_NAME}
+  RUNTIME DESTINATION bin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
 )
 
 if(PYTHON_BINDINGS)
-  pybind11_add_module(pymyactuator_rmd bindings/myactuator_rmd.cpp)
-  target_link_libraries(pymyactuator_rmd PRIVATE myactuator_rmd)
-  set_target_properties(pymyactuator_rmd PROPERTIES OUTPUT_NAME myactuator_rmd)
-  
-  install(TARGETS
-    pymyactuator_rmd
-    DESTINATION lib/${PROJECT_NAME}
+  pybind11_add_module(myactuator_rmd_py
+    bindings/myactuator_rmd.cpp
+  )
+  target_link_libraries(myactuator_rmd_py PUBLIC
+    myactuator_rmd
+  )
+
+  if(ament_cmake_FOUND)
+    find_package(ament_cmake_python REQUIRED)
+    ament_python_install_package(${PROJECT_NAME})
+  endif()
+  install(TARGETS myactuator_rmd_py
+    DESTINATION ${PYTHON_INSTALL_DIR}/${PROJECT_NAME}
   )
 endif()
 
@@ -84,5 +95,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
 endif()
 
 if(ament_cmake_FOUND)
+  ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+  ament_export_dependencies(ament_cmake)
+  ament_export_dependencies(ament_cmake_python)
   ament_package(CONFIG_EXTRAS ConfigExtras.cmake)
 endif()

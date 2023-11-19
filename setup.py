@@ -51,13 +51,13 @@ class CMakeBuild(build_ext):
 
 
 setup(
-    name="myactuator_rmd",
+    name="myactuator_rmd_py",
     version="0.0.1",
     author="Tobit Flatscher",
     author_email="tobit.flatscher@outlook.com",
     description="CAN driver for the MyActuator RMD X actuator series",
     long_description="",
-    ext_modules=[CMakeExtension("myactuator_rmd")],
+    ext_modules=[CMakeExtension("myactuator_rmd_py")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},

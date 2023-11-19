@@ -51,7 +51,7 @@ For **building and installing the Python bindings** for this driver open a new t
 $ pip3 install .
 ```
 
-This will use the `setup.py` to invoke CMake and install the bindings as a C++ library. If you want to remove them again simply invoke `$ pip3 uninstall myactuator_rmd`.
+This will use the `setup.py` to invoke CMake and install the bindings as a C++ library. If you want to remove them again simply invoke `$ pip3 uninstall myactuator-rmd-py`.
 
 
 
@@ -63,7 +63,7 @@ This will use the `setup.py` to invoke CMake and install the bindings as a C++ l
 $ python3
 Python 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from myactuator_rmd import Driver
+>>> from myactuator_rmd_py import Driver
 >>> driver = Driver("can0", 1)
 >>> driver.getVersionDate()
 2023020601
@@ -71,7 +71,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> driver.shutdownMotor()
 ```
 
-For more information you might also inspect the contents of the module inside Python 3 with `help(myactuator_rmd)`.
+For more information you might also inspect the contents of the module inside Python 3 with `help(myactuator_rmd_py)`.
 
 
 

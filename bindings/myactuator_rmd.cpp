@@ -30,7 +30,7 @@
 #include "myactuator_rmd/io.hpp"
 
 
-PYBIND11_MODULE(myactuator_rmd, m) {
+PYBIND11_MODULE(myactuator_rmd_py, m) {
 
   m.doc() = "MyActuator RMD driver main module";
   pybind11::class_<myactuator_rmd::Driver>(m, "Driver")
