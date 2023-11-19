@@ -54,6 +54,7 @@ PYBIND11_MODULE(myactuator_rmd, m) {
     .def("lockBrake", &myactuator_rmd::Driver::lockBrake)
     .def("releaseBrake", &myactuator_rmd::Driver::releaseBrake)
     .def("reset", &myactuator_rmd::Driver::reset)
+    .def("sendCurrentSetpoint", &myactuator_rmd::Driver::sendCurrentSetpoint)
     .def("sendPositionAbsoluteSetpoint", &myactuator_rmd::Driver::sendPositionAbsoluteSetpoint)
     .def("sendTorqueSetpoint", &myactuator_rmd::Driver::sendTorqueSetpoint)
     .def("sendVelocitySetpoint", &myactuator_rmd::Driver::sendVelocitySetpoint)

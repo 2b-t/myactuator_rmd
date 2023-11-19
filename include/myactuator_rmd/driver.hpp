@@ -236,6 +236,17 @@ namespace myactuator_rmd {
       */
       void reset();
 
+      /**\fn sendCurrentSetpoint
+       * \brief
+       *    Send a current set-point to the actuator
+       *
+       * \param[in] current
+       *    The current set-point in Ampere [-20.00, 20.00]
+       * \return
+       *    Feedback control message containing actuator position, velocity, torque and temperature
+      */
+      Feedback sendCurrentSetpoint(float const current);
+
       /**\fn sendPositionAbsoluteSetpoint
        * \brief
        *    Send an absolute position set-point to the actuator additionally specifying a maximum velocity
@@ -251,14 +262,16 @@ namespace myactuator_rmd {
 
       /**\fn sendTorqueSetpoint
        * \brief
-       *    Send a torque set-point to the actuator by specifying the current
+       *    Send a torque set-point to the actuator by setting the current
        *
-       * \param[in] current
-       *    The current set-point in Ampere [-20.00, 20.00]
+       * \param[in] torque
+       *    The desired torque in [Nm]
+       * \param[in] torque_constant
+       *    The motor's torque constant [Nm/A], depends on the model of the motor
        * \return
        *    Feedback control message containing actuator position, velocity, torque and temperature
       */
-      Feedback sendTorqueSetpoint(float const current);
+      Feedback sendTorqueSetpoint(float const torque, float const torque_constant = 2.09);
 
       /**\fn sendVelocitySetpoint
        * \brief

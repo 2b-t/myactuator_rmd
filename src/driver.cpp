@@ -143,16 +143,21 @@ namespace myactuator_rmd {
     return;
   }
 
+  Feedback Driver::sendCurrentSetpoint(float const current) {
+    SetTorqueRequest const request {current};
+    auto const response {sendRecv<SetTorqueResponse>(request)};
+    return response.getStatus();
+  }
+
   Feedback Driver::sendPositionAbsoluteSetpoint(float const position, float const max_speed) {
     SetPositionAbsoluteRequest const request {position, max_speed};
     auto const response {sendRecv<SetPositionAbsoluteResponse>(request)};
     return response.getStatus();
   }
 
-  Feedback Driver::sendTorqueSetpoint(float const current) {
-    SetTorqueRequest const request {current};
-    auto const response {sendRecv<SetTorqueResponse>(request)};
-    return response.getStatus();
+  Feedback Driver::sendTorqueSetpoint(float const torque, float const torque_constant) {
+    auto const current {torque/torque_constant};
+    return sendCurrentSetpoint(current);
   }
 
   Feedback Driver::sendVelocitySetpoint(float const speed) {
