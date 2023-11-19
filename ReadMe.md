@@ -53,6 +53,16 @@ $ pip3 install .
 
 This will use the `setup.py` to invoke CMake and install the bindings as a C++ library. If you want to remove them again simply invoke `$ pip3 uninstall myactuator-rmd-py`.
 
+### 1.3 Building with ROS 2
+
+For **building and installingthis package with ROS 2** open a new terminal on then top-level folder of your Colcon workspace (e.g. `colcon_ws`) and execute the following command:
+
+```bash
+$ colcon build --cmake-args -D PYTHON_BINDINGS=on -D BUILD_TESTING=on
+```
+
+where the two flags following `--cmake-args` are optional.
+
 
 
 ## 2. Using the Python bindings
@@ -70,6 +80,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> driver.sendPositionAbsoluteSetpoint(180.0, 500.0)
 >>> driver.shutdownMotor()
 ```
+
+In case you installed the package through ROS 2 the package name will be `myactuator_rmd` instead of `myactuator_rmd_py`.
 
 For more information you might also inspect the contents of the module inside Python 3 with `help(myactuator_rmd_py)`.
 
