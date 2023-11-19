@@ -14,6 +14,7 @@
 #include <pybind11/stl.h>
 
 #include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
+#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/error_code.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
@@ -62,6 +63,7 @@ PYBIND11_MODULE(myactuator_rmd, m) {
     .def("setBaudRate", &myactuator_rmd::Driver::setBaudRate)
     .def("setCanId", &myactuator_rmd::Driver::setCanId)
     .def("setControllerGains", &myactuator_rmd::Driver::setControllerGains)
+    .def("setTimeout", &myactuator_rmd::Driver::setTimeout)
     .def("shutdownMotor", &myactuator_rmd::Driver::shutdownMotor)
     .def("stopMotor", &myactuator_rmd::Driver::stopMotor);
   pybind11::register_exception<myactuator_rmd::Exception>(m, "DriverException");

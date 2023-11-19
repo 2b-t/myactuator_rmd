@@ -10,6 +10,7 @@
 #define MYACTUATOR_RMD__PROTOCOL__REQUESTS
 #pragma once
 
+#include <chrono>
 #include <cstdint>
 
 #include "myactuator_rmd/actuator_state/baud_rate.hpp"
@@ -277,6 +278,38 @@ namespace myactuator_rmd {
       */
       [[nodiscard]]
       float getPosition() const noexcept;
+  };
+
+  /**\class SetTimeoutRequest
+   * \brief
+   *    Request for setting the communication interruption protection time setting
+  */
+  class SetTimeoutRequest: public SingleMotorRequest<CommandType::COMMUNICATION_INTERRUPTION_PROTECTION_TIME_SETTING> {
+    public:
+      /**\fn SetTimeoutRequest
+       * \brief
+       *    Class constructor
+       * 
+       * \param[in] timeout
+       *    The communication interruption protection time setting in milliseconds, 0 if this feature should be de-activated
+      */
+      SetTimeoutRequest(std::chrono::milliseconds const& timeout);
+      SetTimeoutRequest() = delete;
+      SetTimeoutRequest(SetTimeoutRequest const&) = default;
+      SetTimeoutRequest& operator = (SetTimeoutRequest const&) = default;
+      SetTimeoutRequest(SetTimeoutRequest&&) = default;
+      SetTimeoutRequest& operator = (SetTimeoutRequest&&) = default;
+      using SingleMotorRequest::SingleMotorRequest;
+
+      /**\fn getTimeout
+       * \brief
+       *    Get the communication interruption protection time to be set
+       * 
+       * \return
+       *    The communication interruption protection time to be set
+      */
+      [[nodiscard]]
+      std::chrono::milliseconds getTimeout() const noexcept;
   };
 
   /**\class SetTorqueRequest

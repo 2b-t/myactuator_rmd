@@ -327,6 +327,16 @@ namespace myactuator_rmd {
       */
       Gains setControllerGains(Gains const& gains, bool const is_persistent = false);
 
+      /**\fn setTimeout
+       * \brief
+       *    Set the communication interruption protection time setting. The break will be triggered if the communication
+       *    is interrupted for longer than the set time. The value 0 disables this feature.
+       * 
+       * \param[in] timeout
+       *    The desired interruption protection time, 0 in case it should be disabled
+      */
+      void setTimeout(std::chrono::milliseconds const& timeout);
+
       /**\fn shutdownMotor
        * \brief
        *    Turn off the motor

@@ -6,6 +6,7 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
+#include <chrono>
 #include <cstdint>
 
 #include <gtest/gtest.h>
@@ -105,6 +106,18 @@ namespace myactuator_rmd {
       EXPECT_NEAR(position, -360.0f, 0.1f);
       auto const max_speed {request.getMaxSpeed()};
       EXPECT_NEAR(max_speed, 500.0f, 0.1f);
+    }
+
+    TEST(SetTimeoutOffRequestTest, parsing) {
+      myactuator_rmd::SetTimeoutRequest const request {{0xB3, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
+      std::chrono::milliseconds const timeout {request.getTimeout()};
+      EXPECT_EQ(timeout.count(), 0);
+    }
+
+    TEST(SetTimeoutRequestTest, parsing) {
+      myactuator_rmd::SetTimeoutRequest const request {{0xB3, 0x00, 0x00, 0x00, 0xE8, 0x03, 0x00, 0x00}};
+      std::chrono::milliseconds const timeout {request.getTimeout()};
+      EXPECT_EQ(timeout.count(), 1000);
     }
 
     TEST(SetTorqueRequestTest, parsingPositiveCurrent) {

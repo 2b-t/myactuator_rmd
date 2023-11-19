@@ -1,5 +1,6 @@
 #include "myactuator_rmd/protocol/requests.hpp"
 
+#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -97,6 +98,16 @@ namespace myactuator_rmd {
 
   float SetTorqueRequest::getTorqueCurrent() const noexcept {
     return static_cast<float>(getAs<std::int16_t>(4))*0.01f;
+  }
+
+  SetTimeoutRequest::SetTimeoutRequest(std::chrono::milliseconds const& timeout) {
+    setAt(static_cast<std::uint32_t>(timeout.count()), 4);
+    return;
+  }
+
+  std::chrono::milliseconds SetTimeoutRequest::getTimeout() const noexcept {
+    std::chrono::milliseconds const timeout {getAs<std::uint32_t>(4)};
+    return timeout;
   }
 
   SetVelocityRequest::SetVelocityRequest(float const speed)

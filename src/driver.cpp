@@ -197,6 +197,12 @@ namespace myactuator_rmd {
     }
   }
 
+  void Driver::setTimeout(std::chrono::milliseconds const& timeout) {
+    SetTimeoutRequest const request {timeout};
+    [[maybe_unused]] auto const response {sendRecv<SetTimeoutResponse>(request)};
+    return;
+  }
+
   void Driver::shutdownMotor() {
     ShutdownMotorRequest const request {};
     [[maybe_unused]] auto const response {sendRecv<ShutdownMotorResponse>(request)};

@@ -465,6 +465,7 @@ namespace myactuator_rmd {
 
   using SetAccelerationResponse = SingleMotorResponse<CommandType::WRITE_ACCELERATION_TO_RAM_AND_ROM>;
   using SetCanIdResponse = SingleMotorResponse<CommandType::CAN_ID_SETTING>;
+  using SetTimeoutResponse = SingleMotorResponse<CommandType::COMMUNICATION_INTERRUPTION_PROTECTION_TIME_SETTING>;
   using ShutdownMotorResponse = SingleMotorResponse<CommandType::SHUTDOWN_MOTOR>;
   using StopMotorResponse = SingleMotorResponse<CommandType::STOP_MOTOR>;
 
