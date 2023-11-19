@@ -13,7 +13,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
+#include "myactuator_rmd/actuator_state/acceleration_type.hpp"
 #include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/error_code.hpp"
@@ -71,11 +71,11 @@ PYBIND11_MODULE(myactuator_rmd_py, m) {
   pybind11::register_exception<myactuator_rmd::ValueRangeException>(m, "ValueRangeException");
 
   auto m_actuator_state = m.def_submodule("actuator_state", "Submodule for actuator state structures");
-  pybind11::enum_<myactuator_rmd::AccelerationFunctionIndex>(m_actuator_state, "AccelerationFunctionIndex")
-    .value("POSITION_PLANNING_ACCELERATION", myactuator_rmd::AccelerationFunctionIndex::POSITION_PLANNING_ACCELERATION)
-    .value("POSITION_PLANNING_DECELERATION", myactuator_rmd::AccelerationFunctionIndex::POSITION_PLANNING_DECELERATION)
-    .value("VELOCITY_PLANNING_ACCELERATION", myactuator_rmd::AccelerationFunctionIndex::VELOCITY_PLANNING_ACCELERATION)
-    .value("VELOCITY_PLANNING_DECELERATION", myactuator_rmd::AccelerationFunctionIndex::VELOCITY_PLANNING_DECELERATION);
+  pybind11::enum_<myactuator_rmd::AccelerationType>(m_actuator_state, "AccelerationType")
+    .value("POSITION_PLANNING_ACCELERATION", myactuator_rmd::AccelerationType::POSITION_PLANNING_ACCELERATION)
+    .value("POSITION_PLANNING_DECELERATION", myactuator_rmd::AccelerationType::POSITION_PLANNING_DECELERATION)
+    .value("VELOCITY_PLANNING_ACCELERATION", myactuator_rmd::AccelerationType::VELOCITY_PLANNING_ACCELERATION)
+    .value("VELOCITY_PLANNING_DECELERATION", myactuator_rmd::AccelerationType::VELOCITY_PLANNING_DECELERATION);
   pybind11::enum_<myactuator_rmd::BaudRate>(m_actuator_state, "BaudRate")
     .value("KBPS500", myactuator_rmd::BaudRate::KBPS500)
     .value("MBPS1", myactuator_rmd::BaudRate::MBPS1);

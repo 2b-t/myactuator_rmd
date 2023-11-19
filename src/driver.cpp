@@ -167,7 +167,7 @@ namespace myactuator_rmd {
     return response.getStatus();
   }
 
-  void Driver::setAcceleration(std::uint32_t const acceleration, AccelerationFunctionIndex const mode) {
+  void Driver::setAcceleration(std::uint32_t const acceleration, AccelerationType const mode) {
     SetAccelerationRequest const request {acceleration, mode};
     [[maybe_unused]] auto const response {sendRecv<SetAccelerationResponse>(request)};
     return;

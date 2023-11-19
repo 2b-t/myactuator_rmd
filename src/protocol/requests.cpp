@@ -6,7 +6,7 @@
 #include <string>
 
 #include "myactuator_rmd/actuator_state/baud_rate.hpp"
-#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
+#include "myactuator_rmd/actuator_state/acceleration_type.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
@@ -34,13 +34,13 @@ namespace myactuator_rmd {
     return static_cast<std::uint16_t>(getAs<std::uint8_t>(7));
   }
 
-  SetAccelerationRequest::SetAccelerationRequest(std::uint32_t const acceleration, AccelerationFunctionIndex const mode)
+  SetAccelerationRequest::SetAccelerationRequest(std::uint32_t const acceleration, AccelerationType const mode)
   : SingleMotorRequest{} {
     if ((acceleration < 100) || (acceleration > 60000)) {
       throw ValueRangeException("Acceleration value '" + std::to_string(acceleration) + "' out of range [100, 60000]");
     }
-    auto const acceleration_function_index {static_cast<std::uint8_t>(mode)};
-    setAt(acceleration_function_index, 1);
+    auto const acceleration_type {static_cast<std::uint8_t>(mode)};
+    setAt(acceleration_type, 1);
     setAt(acceleration, 4);
     return;
   }
@@ -49,8 +49,8 @@ namespace myactuator_rmd {
     return getAs<std::uint32_t>(4);
   }
 
-  AccelerationFunctionIndex SetAccelerationRequest::getMode() const noexcept {
-    return static_cast<AccelerationFunctionIndex>(getAs<std::uint8_t>(1));
+  AccelerationType SetAccelerationRequest::getMode() const noexcept {
+    return static_cast<AccelerationType>(getAs<std::uint8_t>(1));
   }
 
   SetBaudRateRequest::SetBaudRateRequest(BaudRate const baud_rate)

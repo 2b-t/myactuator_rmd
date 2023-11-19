@@ -14,7 +14,7 @@
 #include <cstdint>
 #include <string>
 
-#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
+#include "myactuator_rmd/actuator_state/acceleration_type.hpp"
 #include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
@@ -294,7 +294,7 @@ namespace myactuator_rmd {
        * \param[in] mode
        *    The mode of the desired acceleration/deceleration to be set
       */
-      void setAcceleration(std::uint32_t const acceleration, AccelerationFunctionIndex const mode);
+      void setAcceleration(std::uint32_t const acceleration, AccelerationType const mode);
 
       /**\fn setBaudRate
        * \brief

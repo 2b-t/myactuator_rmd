@@ -14,7 +14,7 @@
 #include <cstdint>
 
 #include "myactuator_rmd/actuator_state/baud_rate.hpp"
-#include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
+#include "myactuator_rmd/actuator_state/acceleration_type.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
@@ -121,7 +121,7 @@ namespace myactuator_rmd {
        * \param[in] mode
        *    The mode of the desired acceleration/deceleration to be set
       */
-      SetAccelerationRequest(std::uint32_t const acceleration, AccelerationFunctionIndex const mode);
+      SetAccelerationRequest(std::uint32_t const acceleration, AccelerationType const mode);
       SetAccelerationRequest() = delete;
       SetAccelerationRequest(SetAccelerationRequest const&) = default;
       SetAccelerationRequest& operator = (SetAccelerationRequest const&) = default;
@@ -147,7 +147,7 @@ namespace myactuator_rmd {
        *    The acceleration mode
       */
       [[nodiscard]]
-      AccelerationFunctionIndex getMode() const noexcept;
+      AccelerationType getMode() const noexcept;
   };
 
   /**\class SetBaudRateRequest
