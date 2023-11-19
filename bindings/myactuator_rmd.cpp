@@ -63,6 +63,8 @@ PYBIND11_MODULE(myactuator_rmd_py, m) {
     .def("setBaudRate", &myactuator_rmd::Driver::setBaudRate)
     .def("setCanId", &myactuator_rmd::Driver::setCanId)
     .def("setControllerGains", &myactuator_rmd::Driver::setControllerGains)
+    .def("setCurrentPositionAsEncoderZero", &myactuator_rmd::Driver::setCurrentPositionAsEncoderZero)
+    .def("setEncoderZero", &myactuator_rmd::Driver::setEncoderZero)
     .def("setTimeout", &myactuator_rmd::Driver::setTimeout)
     .def("shutdownMotor", &myactuator_rmd::Driver::shutdownMotor)
     .def("stopMotor", &myactuator_rmd::Driver::stopMotor);

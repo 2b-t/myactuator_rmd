@@ -314,6 +314,28 @@ namespace myactuator_rmd {
       */
       void setCanId(std::uint16_t const can_id);
 
+      /**\fn setCurrentPositionAsEncoderZero
+       * \brief
+       *    Set the zero offset (initial position) of the encoder to the current position
+       * \warning
+       *    Motor has be restarted in order for this to become effective
+       * 
+       * \return
+       *    Current encoder position that was set to be zero
+      */
+      std::int32_t setCurrentPositionAsEncoderZero();
+
+      /**\fn setEncoderZero
+       * \brief
+       *    Set the zero offset (initial position) of the encoder to a given value
+       * \warning
+       *    Motor has be restarted in order for this to become effective
+       * 
+       * \param[in] encoder_offset
+       *    Encoder offset that should be set as zero
+      */
+      void setEncoderZero(std::int32_t const encoder_offset);
+
       /**\fn setControllerGains
        * \brief
        *    Write the currently used controller gains either to RAM (not persistent after reboot) or ROM (persistent)

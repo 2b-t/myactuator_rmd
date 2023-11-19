@@ -63,6 +63,16 @@ namespace myactuator_rmd {
     return static_cast<BaudRate>(getAs<std::uint8_t>(7));
   }
 
+  SetEncoderZeroRequest::SetEncoderZeroRequest(std::int32_t const encoder_offset)
+  : SingleMotorRequest{} {
+    setAt(encoder_offset, 4);
+    return;
+  }
+
+  std::int32_t SetEncoderZeroRequest::getEncoderZero() const noexcept {
+    return getAs<std::int32_t>(4);
+  }
+
   SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed)
   : SingleMotorRequest{} {
     if ((position < -360.0f) || (position > 360.0f)) {

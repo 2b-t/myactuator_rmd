@@ -41,6 +41,7 @@ namespace myactuator_rmd {
   using LockBrakeRequest = SingleMotorRequest<CommandType::LOCK_BRAKE>;
   using ReleaseBrakeRequest = SingleMotorRequest<CommandType::RELEASE_BRAKE>;
   using ResetRequest = SingleMotorRequest<CommandType::RESET_SYSTEM>;
+  using SetCurrentPositionAsEncoderZeroRequest = SingleMotorRequest<CommandType::WRITE_CURRENT_MULTI_TURN_POSITION_TO_ROM_AS_ZERO>;
 
   /**\class CanIdRequest
    * \brief
@@ -172,6 +173,30 @@ namespace myactuator_rmd {
       */
       [[nodiscard]]
       BaudRate getBaudRate() const noexcept;
+  };
+
+  /**\class SetEncoderZeroRequest
+   * \brief
+   *    Request for setting the encoder zero to a given value
+  */
+  class SetEncoderZeroRequest: public SingleMotorRequest<CommandType::WRITE_ENCODER_MULTI_TURN_VALUE_TO_ROM_AS_ZERO> {
+    public:
+      SetEncoderZeroRequest(std::int32_t const encoder_offset);
+      SetEncoderZeroRequest(SetEncoderZeroRequest const&) = default;
+      SetEncoderZeroRequest& operator = (SetEncoderZeroRequest const&) = default;
+      SetEncoderZeroRequest(SetEncoderZeroRequest&&) = default;
+      SetEncoderZeroRequest& operator = (SetEncoderZeroRequest&&) = default;
+      using SingleMotorRequest::SingleMotorRequest;
+
+      /**\fn getEncoderZero
+       * \brief
+       *    Get the encoder zero value
+       * 
+       * \return
+       *    The encoder zero value
+      */
+      [[nodiscard]]
+      std::int32_t getEncoderZero() const noexcept;
   };
 
   /**\class SetGainsRequest

@@ -465,6 +465,32 @@ namespace myactuator_rmd {
 
   using SetAccelerationResponse = SingleMotorResponse<CommandType::WRITE_ACCELERATION_TO_RAM_AND_ROM>;
   using SetCanIdResponse = SingleMotorResponse<CommandType::CAN_ID_SETTING>;
+
+  /**\class SetCurrentPositionAsEncoderZeroResponse
+   * \brief
+   *    Response to request for setting the current position as the encoder zero position
+  */
+  class SetCurrentPositionAsEncoderZeroResponse: public SingleMotorResponse<CommandType::WRITE_CURRENT_MULTI_TURN_POSITION_TO_ROM_AS_ZERO> {
+    public:
+      SetCurrentPositionAsEncoderZeroResponse() = delete;
+      SetCurrentPositionAsEncoderZeroResponse(SetCurrentPositionAsEncoderZeroResponse const&) = default;
+      SetCurrentPositionAsEncoderZeroResponse& operator = (SetCurrentPositionAsEncoderZeroResponse const&) = default;
+      SetCurrentPositionAsEncoderZeroResponse(SetCurrentPositionAsEncoderZeroResponse&&) = default;
+      SetCurrentPositionAsEncoderZeroResponse& operator = (SetCurrentPositionAsEncoderZeroResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getEncoderZero
+       * \brief
+       *    Get the encoder zero value
+       * 
+       * \return
+       *    The encoder zero value
+      */
+      [[nodiscard]]
+      std::int32_t getEncoderZero() const noexcept;
+  };
+
+  using SetEncoderZeroResponse = SingleMotorRequest<CommandType::WRITE_ENCODER_MULTI_TURN_VALUE_TO_ROM_AS_ZERO>;
   using SetTimeoutResponse = SingleMotorResponse<CommandType::COMMUNICATION_INTERRUPTION_PROTECTION_TIME_SETTING>;
   using ShutdownMotorResponse = SingleMotorResponse<CommandType::SHUTDOWN_MOTOR>;
   using StopMotorResponse = SingleMotorResponse<CommandType::STOP_MOTOR>;

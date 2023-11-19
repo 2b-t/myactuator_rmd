@@ -179,6 +179,18 @@ namespace myactuator_rmd {
     return;
   }
 
+  std::int32_t Driver::setCurrentPositionAsEncoderZero() {
+    SetCurrentPositionAsEncoderZeroRequest const request {};
+    auto const response {sendRecv<SetCurrentPositionAsEncoderZeroResponse>(request)};
+    return response.getEncoderZero();
+  }
+
+  void Driver::setEncoderZero(std::int32_t const encoder_offset) {
+    SetEncoderZeroRequest const request {encoder_offset};
+    [[maybe_unused]] auto const response {sendRecv<SetEncoderZeroResponse>(request)};
+    return;
+  }
+
   void Driver::setBaudRate(BaudRate const baud_rate) {
     SetBaudRateRequest const request {baud_rate};
     send(request);

@@ -140,6 +140,12 @@ namespace myactuator_rmd {
       EXPECT_EQ(version, 20220206);
     }
 
+    TEST(SetCurrentPositionAsEncoderZeroResponseTest, parsing) {
+      myactuator_rmd::SetCurrentPositionAsEncoderZeroResponse const response {{0x64, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      auto const encoder_zero {response.getEncoderZero()};
+      EXPECT_EQ(encoder_zero, 10000);
+    }
+
     TEST(SetPositionAbsoluteResponseTest, parsingPositiveValues) {
       myactuator_rmd::SetPositionAbsoluteResponse const response {{0xA4, 0x32, 0x64, 0x00, 0xF4, 0x01, 0x2D, 0x00}};
       myactuator_rmd::Feedback const feedback {response.getStatus()};

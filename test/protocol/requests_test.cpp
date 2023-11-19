@@ -38,6 +38,12 @@ namespace myactuator_rmd {
       EXPECT_EQ(baud_rate, BaudRate::MBPS1);
     }
 
+    TEST(SetEncoderZeroRequestTest, parsing) {
+      myactuator_rmd::SetEncoderZeroRequest const response {{0x63, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
+      auto const encoder_zero {response.getEncoderZero()};
+      EXPECT_EQ(encoder_zero, 10000);
+    }
+
     TEST(SetPositionPlanningAccelerationRequestTest, parsing) {
       myactuator_rmd::SetAccelerationRequest const request {{0x43, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
       std::uint32_t const acceleration {request.getAcceleration()};
