@@ -11,6 +11,27 @@
 
 namespace myactuator_rmd {
 
+  bool CanIdRequest::isWrite() const noexcept {
+    return (getAs<std::uint8_t>(2) == 0) ? true : false;
+  }
+
+  GetCanIdRequest::GetCanIdRequest()
+  : CanIdRequest{}  {
+    setAt(static_cast<std::uint8_t>(1), 2);
+    return;
+  }
+
+  SetCanIdRequest::SetCanIdRequest(std::uint16_t const can_id)
+  : CanIdRequest{}  {
+    setAt(static_cast<std::uint8_t>(0), 2);
+    setAt(static_cast<std::uint8_t>(can_id), 6);
+    return;
+  }
+
+  std::uint16_t SetCanIdRequest::getCanId() const noexcept {
+    return static_cast<std::uint16_t>(getAs<std::uint8_t>(7));
+  }
+
   SetAccelerationRequest::SetAccelerationRequest(std::uint32_t const acceleration, AccelerationFunctionIndex const mode)
   : SingleMotorRequest{} {
     if ((acceleration < 100) || (acceleration > 60000)) {

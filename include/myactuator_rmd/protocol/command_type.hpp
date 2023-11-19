@@ -54,7 +54,7 @@ namespace myactuator_rmd {
     // COMMUNICATION_BAUD_RATE_SETTING = 0xB4,
     READ_MOTOR_MODEL = 0xB5,
     // FUNCTION_CONTROL = 0x20,
-    // CAN_ID_SETTING = 0x79
+    CAN_ID_SETTING = 0x79
   };
 
   // Symmetric comparison operators

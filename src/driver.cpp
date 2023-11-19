@@ -29,6 +29,12 @@ namespace myactuator_rmd {
     return response.getAcceleration();
   }
 
+  std::uint16_t Driver::getCanId() {
+    GetCanIdRequest const request {};
+    auto const response {sendRecv<GetCanIdResponse>(request)};
+    return response.getCanId();
+  }
+
   Gains Driver::getControllerGains() {
     GetControllerGainsRequest const request {};
     auto const response {sendRecv<GetControllerGainsResponse>(request)};
@@ -158,6 +164,12 @@ namespace myactuator_rmd {
   void Driver::setAcceleration(std::uint32_t const acceleration, AccelerationFunctionIndex const mode) {
     SetAccelerationRequest const request {acceleration, mode};
     [[maybe_unused]] auto const response {sendRecv<SetAccelerationResponse>(request)};
+    return;
+  }
+
+  void Driver::setCanId(std::uint16_t const can_id) {
+    SetCanIdRequest const request {can_id};
+    [[maybe_unused]] auto const response {sendRecv<SetCanIdResponse>(request)};
     return;
   }
 

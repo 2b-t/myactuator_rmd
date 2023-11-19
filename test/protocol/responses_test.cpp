@@ -20,6 +20,12 @@
 namespace myactuator_rmd {
   namespace test {
 
+    TEST(GetCanIdResponseTest, parsing) {
+      myactuator_rmd::GetCanIdResponse const request {{0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0x02}};
+      std::uint16_t const can_id {request.getCanId()};
+      EXPECT_EQ(can_id, 0x242);
+    }
+
     TEST(GetAccelerationResponseTest, parsing) {
       myactuator_rmd::GetAccelerationResponse const response {{0x42, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
       std::int32_t const acceleration {response.getAcceleration()};

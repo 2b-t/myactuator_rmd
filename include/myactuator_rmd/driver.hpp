@@ -59,6 +59,15 @@ namespace myactuator_rmd {
       [[nodiscard]]
       std::int32_t getAcceleration();
 
+      /**\fn getCanId
+       * \brief
+       *    Get the CAN ID of the device
+       * 
+       * \return
+       *    The CAN ID of the device in the range [1, 32]
+      */
+      std::uint16_t getCanId();
+
       /**\fn getControllerGains
        * \brief
        *    Reads the currently used controller gains
@@ -272,6 +281,15 @@ namespace myactuator_rmd {
        *    The mode of the desired acceleration/deceleration to be set
       */
       void setAcceleration(std::uint32_t const acceleration, AccelerationFunctionIndex const mode);
+
+      /**\fn setCanId
+       * \brief
+       *    Set the CAN ID of the device
+       * 
+       * \param[in] can_id
+       *    The CAN ID of the device in the range [1, 32]
+      */
+      void setCanId(std::uint16_t const can_id);
 
       /**\fn setControllerGains
        * \brief

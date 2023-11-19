@@ -25,6 +25,30 @@
 
 namespace myactuator_rmd {
 
+  /**\class GetCanIdResponse
+   * \brief
+   *    Request for getting the CAN ID of the actuator
+  */
+  class GetCanIdResponse: public SingleMotorResponse<CommandType::CAN_ID_SETTING> {
+    public:
+      GetCanIdResponse() = delete;
+      GetCanIdResponse(GetCanIdResponse const&) = default;
+      GetCanIdResponse& operator = (GetCanIdResponse const&) = default;
+      GetCanIdResponse(GetCanIdResponse&&) = default;
+      GetCanIdResponse& operator = (GetCanIdResponse&&) = default;
+      using SingleMotorResponse::SingleMotorResponse;
+
+      /**\fn getCanId
+       * \brief
+       *    Get the CAN ID of the actuator
+       * 
+       * \return
+       *    The CAN ID of the actuator [1, 32]
+      */
+      [[nodiscard]]
+      virtual std::uint16_t getCanId() const noexcept;
+  };
+
   /**\class GetAccelerationResponse
    * \brief
    *    Response to request for reading the motor model
@@ -440,6 +464,7 @@ namespace myactuator_rmd {
   };
 
   using SetAccelerationResponse = SingleMotorResponse<CommandType::WRITE_ACCELERATION_TO_RAM_AND_ROM>;
+  using SetCanIdResponse = SingleMotorResponse<CommandType::CAN_ID_SETTING>;
   using ShutdownMotorResponse = SingleMotorResponse<CommandType::SHUTDOWN_MOTOR>;
   using StopMotorResponse = SingleMotorResponse<CommandType::STOP_MOTOR>;
 

@@ -18,6 +18,20 @@
 namespace myactuator_rmd {
   namespace test {
 
+    TEST(GetCanIdRequestTest, parsing) {
+      myactuator_rmd::GetCanIdRequest const request {{0x79, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00}};
+      bool const is_write {request.isWrite()};
+      EXPECT_EQ(is_write, false);
+    }
+
+    TEST(SetCanIdRequestTest, parsing) {
+      myactuator_rmd::SetCanIdRequest const request {{0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}};
+      bool const is_write {request.isWrite()};
+      std::uint16_t const can_id {request.getCanId()};
+      EXPECT_EQ(is_write, true);
+      EXPECT_EQ(can_id, 0x02);
+    }
+
     TEST(SetPositionPlanningAccelerationRequestTest, parsing) {
       myactuator_rmd::SetAccelerationRequest const request {{0x43, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00}};
       std::uint32_t const acceleration {request.getAcceleration()};

@@ -13,6 +13,10 @@
 
 namespace myactuator_rmd {
 
+  std::uint16_t GetCanIdResponse::getCanId() const noexcept {
+    return getAs<std::uint16_t>(6);
+  }
+
   std::int32_t GetAccelerationResponse::getAcceleration() const noexcept {
     auto const acceleration {getAs<std::int32_t>(4)};
     return acceleration;

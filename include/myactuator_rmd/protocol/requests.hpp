@@ -10,6 +10,8 @@
 #define MYACTUATOR_RMD__PROTOCOL__REQUESTS
 #pragma once
 
+#include <cstdint>
+
 #include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
@@ -37,6 +39,70 @@ namespace myactuator_rmd {
   using LockBrakeRequest = SingleMotorRequest<CommandType::LOCK_BRAKE>;
   using ReleaseBrakeRequest = SingleMotorRequest<CommandType::RELEASE_BRAKE>;
   using ResetRequest = SingleMotorRequest<CommandType::RESET_SYSTEM>;
+
+  /**\class CanIdRequest
+   * \brief
+   *    Request for getting/setting the CAN ID of the actuator
+  */
+  class CanIdRequest: public SingleMotorRequest<CommandType::CAN_ID_SETTING> {
+    public:
+      using SingleMotorRequest::SingleMotorRequest;
+
+      /**\fn isWrite
+       * \brief
+       *    Check if the can request reads or writes the given CAN ID
+       * 
+       * \return
+       *    True in case this is a write command, false in case it is a read command
+      */
+      [[nodiscard]]
+      bool isWrite() const noexcept;
+
+    protected:
+      CanIdRequest() = default;
+      CanIdRequest(CanIdRequest const&) = default;
+      CanIdRequest& operator = (CanIdRequest const&) = default;
+      CanIdRequest(CanIdRequest&&) = default;
+      CanIdRequest& operator = (CanIdRequest&&) = default;
+  };
+
+  /**\class GetCanIdRequest
+   * \brief
+   *    Request for getting the CAN ID of the actuator
+  */
+  class GetCanIdRequest: public CanIdRequest {
+    public:
+      GetCanIdRequest();
+      GetCanIdRequest(GetCanIdRequest const&) = default;
+      GetCanIdRequest& operator = (GetCanIdRequest const&) = default;
+      GetCanIdRequest(GetCanIdRequest&&) = default;
+      GetCanIdRequest& operator = (GetCanIdRequest&&) = default;
+      using CanIdRequest::CanIdRequest;
+  };
+
+  /**\class SetCanIdRequest
+   * \brief
+   *    Request for setting the CAN ID of the actuator
+  */
+  class SetCanIdRequest: public CanIdRequest {
+    public:
+      SetCanIdRequest(std::uint16_t const can_id);
+      SetCanIdRequest(SetCanIdRequest const&) = default;
+      SetCanIdRequest& operator = (SetCanIdRequest const&) = default;
+      SetCanIdRequest(SetCanIdRequest&&) = default;
+      SetCanIdRequest& operator = (SetCanIdRequest&&) = default;
+      using CanIdRequest::CanIdRequest;
+
+      /**\fn getCanId
+       * \brief
+       *    Get the CAN ID of the actuator
+       * 
+       * \return
+       *    The CAN ID of the actuator [1, 32]
+      */
+      [[nodiscard]]
+      std::uint16_t getCanId() const noexcept;
+  };
 
   /**\class SetAccelerationRequest
    * \brief

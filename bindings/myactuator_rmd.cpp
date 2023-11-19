@@ -35,6 +35,7 @@ PYBIND11_MODULE(myactuator_rmd, m) {
   pybind11::class_<myactuator_rmd::Driver>(m, "Driver")
     .def(pybind11::init<std::string const&, std::uint32_t>())
     .def("getAcceleration", &myactuator_rmd::Driver::getAcceleration)
+    .def("getCanId", &myactuator_rmd::Driver::getCanId)
     .def("getControllerGains", &myactuator_rmd::Driver::getControllerGains)
     .def("getControlMode", &myactuator_rmd::Driver::getControlMode)
     .def("getMotorModel", &myactuator_rmd::Driver::getMotorModel)
@@ -57,6 +58,7 @@ PYBIND11_MODULE(myactuator_rmd, m) {
     .def("sendTorqueSetpoint", &myactuator_rmd::Driver::sendTorqueSetpoint)
     .def("sendVelocitySetpoint", &myactuator_rmd::Driver::sendVelocitySetpoint)
     .def("setAcceleration", &myactuator_rmd::Driver::setAcceleration)
+    .def("setCanId", &myactuator_rmd::Driver::setCanId)
     .def("setControllerGains", &myactuator_rmd::Driver::setControllerGains)
     .def("shutdownMotor", &myactuator_rmd::Driver::shutdownMotor)
     .def("stopMotor", &myactuator_rmd::Driver::stopMotor);
