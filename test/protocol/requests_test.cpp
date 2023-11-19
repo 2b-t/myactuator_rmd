@@ -32,7 +32,7 @@ namespace myactuator_rmd {
     }
 
     TEST(SetBaudRate1RequestTest, parsing) {
-      myactuator_rmd::SetBaudRateRequest const request {{0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}};
+      myactuator_rmd::SetBaudRateRequest const request {{0xB4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}};
       BaudRate const baud_rate {request.getBaudRate()};
       EXPECT_EQ(baud_rate, BaudRate::MBPS1);
     }
