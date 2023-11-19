@@ -21,7 +21,7 @@ namespace myactuator_rmd {
   */
   enum class BaudRate: std::uint8_t {
     KBPS500 = 0,
-    MBPS1 = 1,
+    MBPS1 = 1
   };
 
 }
