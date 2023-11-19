@@ -12,6 +12,7 @@
 
 #include <cstdint>
 
+#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
@@ -146,6 +147,30 @@ namespace myactuator_rmd {
       */
       [[nodiscard]]
       AccelerationFunctionIndex getMode() const noexcept;
+  };
+
+  /**\class SetBaudRateRequest
+   * \brief
+   *    Request for setting the Baud rate of the actuator
+  */
+  class SetBaudRateRequest: public SingleMotorRequest<CommandType::COMMUNICATION_BAUD_RATE_SETTING> {
+    public:
+      SetBaudRateRequest(BaudRate const baud_rate);
+      SetBaudRateRequest(SetBaudRateRequest const&) = default;
+      SetBaudRateRequest& operator = (SetBaudRateRequest const&) = default;
+      SetBaudRateRequest(SetBaudRateRequest&&) = default;
+      SetBaudRateRequest& operator = (SetBaudRateRequest&&) = default;
+      using SingleMotorRequest::SingleMotorRequest;
+
+      /**\fn getBaudRate
+       * \brief
+       *    Get the Baud rate that should be set to the actuator
+       * 
+       * \return
+       *    The Baud rate that the actuator should be using
+      */
+      [[nodiscard]]
+      BaudRate getBaudRate() const noexcept;
   };
 
   /**\class SetGainsRequest

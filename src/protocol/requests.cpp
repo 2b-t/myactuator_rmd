@@ -4,6 +4,7 @@
 #include <cstring>
 #include <string>
 
+#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
 #include "myactuator_rmd/exceptions.hpp"
@@ -49,6 +50,16 @@ namespace myactuator_rmd {
 
   AccelerationFunctionIndex SetAccelerationRequest::getMode() const noexcept {
     return static_cast<AccelerationFunctionIndex>(getAs<std::uint8_t>(1));
+  }
+
+  SetBaudRateRequest::SetBaudRateRequest(BaudRate const baud_rate)
+  : SingleMotorRequest{} {
+    setAt(static_cast<std::uint8_t>(baud_rate), 7);
+    return;
+  }
+
+  BaudRate SetBaudRateRequest::getBaudRate() const noexcept {
+    return static_cast<BaudRate>(getAs<std::uint8_t>(7));
   }
 
   SetPositionAbsoluteRequest::SetPositionAbsoluteRequest(float const position, float const max_speed)

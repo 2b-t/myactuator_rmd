@@ -59,6 +59,7 @@ PYBIND11_MODULE(myactuator_rmd, m) {
     .def("sendTorqueSetpoint", &myactuator_rmd::Driver::sendTorqueSetpoint)
     .def("sendVelocitySetpoint", &myactuator_rmd::Driver::sendVelocitySetpoint)
     .def("setAcceleration", &myactuator_rmd::Driver::setAcceleration)
+    .def("setBaudRate", &myactuator_rmd::Driver::setBaudRate)
     .def("setCanId", &myactuator_rmd::Driver::setCanId)
     .def("setControllerGains", &myactuator_rmd::Driver::setControllerGains)
     .def("shutdownMotor", &myactuator_rmd::Driver::shutdownMotor)
@@ -73,6 +74,9 @@ PYBIND11_MODULE(myactuator_rmd, m) {
     .value("POSITION_PLANNING_DECELERATION", myactuator_rmd::AccelerationFunctionIndex::POSITION_PLANNING_DECELERATION)
     .value("VELOCITY_PLANNING_ACCELERATION", myactuator_rmd::AccelerationFunctionIndex::VELOCITY_PLANNING_ACCELERATION)
     .value("VELOCITY_PLANNING_DECELERATION", myactuator_rmd::AccelerationFunctionIndex::VELOCITY_PLANNING_DECELERATION);
+  pybind11::enum_<myactuator_rmd::BaudRate>(m_actuator_state, "BaudRate")
+    .value("KBPS500", myactuator_rmd::BaudRate::KBPS500)
+    .value("MBPS1", myactuator_rmd::BaudRate::MBPS1);
   pybind11::enum_<myactuator_rmd::ControlMode>(m_actuator_state, "ControlMode")
     .value("NONE", myactuator_rmd::ControlMode::NONE)
     .value("CURRENT", myactuator_rmd::ControlMode::CURRENT)

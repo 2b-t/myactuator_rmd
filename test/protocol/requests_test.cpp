@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 
 #include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
+#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/requests.hpp"
 
@@ -24,12 +25,16 @@ namespace myactuator_rmd {
       EXPECT_EQ(is_write, false);
     }
 
-    TEST(SetCanIdRequestTest, parsing) {
-      myactuator_rmd::SetCanIdRequest const request {{0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}};
-      bool const is_write {request.isWrite()};
-      std::uint16_t const can_id {request.getCanId()};
-      EXPECT_EQ(is_write, true);
-      EXPECT_EQ(can_id, 0x02);
+    TEST(SetBaudRate0RequestTest, parsing) {
+      myactuator_rmd::SetBaudRateRequest const request {{0xB4, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00}};
+      BaudRate const baud_rate {request.getBaudRate()};
+      EXPECT_EQ(baud_rate, BaudRate::KBPS500);
+    }
+
+    TEST(SetBaudRate1RequestTest, parsing) {
+      myactuator_rmd::SetBaudRateRequest const request {{0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}};
+      BaudRate const baud_rate {request.getBaudRate()};
+      EXPECT_EQ(baud_rate, BaudRate::MBPS1);
     }
 
     TEST(SetPositionPlanningAccelerationRequestTest, parsing) {

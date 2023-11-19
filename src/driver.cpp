@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 
+#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
@@ -175,6 +176,12 @@ namespace myactuator_rmd {
   void Driver::setCanId(std::uint16_t const can_id) {
     SetCanIdRequest const request {can_id};
     [[maybe_unused]] auto const response {sendRecv<SetCanIdResponse>(request)};
+    return;
+  }
+
+  void Driver::setBaudRate(BaudRate const baud_rate) {
+    SetBaudRateRequest const request {baud_rate};
+    send(request);
     return;
   }
 

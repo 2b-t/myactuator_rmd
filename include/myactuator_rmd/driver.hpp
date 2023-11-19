@@ -15,6 +15,7 @@
 #include <string>
 
 #include "myactuator_rmd/actuator_state/acceleration_function_index.hpp"
+#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
@@ -294,6 +295,15 @@ namespace myactuator_rmd {
        *    The mode of the desired acceleration/deceleration to be set
       */
       void setAcceleration(std::uint32_t const acceleration, AccelerationFunctionIndex const mode);
+
+      /**\fn setBaudRate
+       * \brief
+       *    Set the communication Baud rate
+       * 
+       * \param[in] baud_rate
+       *    Communication Baud rate that the actuator should operator with
+      */
+      void setBaudRate(BaudRate const baud_rate);
 
       /**\fn setCanId
        * \brief
