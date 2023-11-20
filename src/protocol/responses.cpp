@@ -54,6 +54,7 @@ namespace myactuator_rmd {
   }
 
   float GetSingleTurnAngleResponse::getAngle() const noexcept {
+    // This does not seem to give the correct results at least with my motor
     auto const angle {static_cast<float>(getAs<std::int16_t>(6))*0.01f};
     return angle;
   }

@@ -192,6 +192,8 @@ namespace myactuator_rmd {
       /**\fn getSingleTurnAngle
        * \brief
        *    Read the single-turn angle
+       * \warning
+       *    This does not seem to give correct values with my X8-PRO V2 actuator!
        * 
        * \return
        *    The current single-turn angle with a resolution of 0.01 deg
