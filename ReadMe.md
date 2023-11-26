@@ -1,4 +1,4 @@
-# MyActuator RMD-X-series CAN driver
+# MyActuator RMD X-series CAN driver SDK
 
 Author: [Tobit Flatscher](https://github.com/2b-t) (2023)
 
@@ -7,13 +7,13 @@ Author: [Tobit Flatscher](https://github.com/2b-t) (2023)
 
 
 ## 0. Overview
-This repository holds a **CAN driver for the [MyActuator RMD X actuator series](https://www.myactuator.com/rmd-x)** written in modern C++17 using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html). The driver is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
+This repository holds a **CAN driver software development kit** (SDK) for the [**MyActuator RMD X actuator series**](https://www.myactuator.com/rmd-x) written in modern C++17 using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html). The driver SDK is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
 
 
 
 ## 1. Installation
 
-This driver requires the **following dependencies** to be installed. For Debian Linux they can be installed through `apt` as follows:
+This driver SDK requires the **following dependencies** to be installed. For Debian Linux they can be installed through `apt` as follows:
 
 ```bash
 $ sudo apt-get install -y build-essential cmake
@@ -26,13 +26,13 @@ In case you want to use the Python bindings you will have to additionally instal
 $ sudo apt-get install -y python3 python3-pip python3-pybind11
 ```
 
-After having installed its dependencies you will have to install the driver either as a C++ library or Python package as described in the following steps. Both will use CMake to compile the C++ code.
+After having installed its dependencies you will have to install the driver SDK either as a C++ library or Python package as described in the following steps. Both will use CMake to compile the C++ code.
 
 
 
 ### 1.1 Building the C++ library
 
-For **building the C++ driver** open a new terminal inside this folder and execute the following commands
+For **building the C++ driver SDK** open a new terminal inside this folder and execute the following commands
 
 ```bash
 $ mkdir build
@@ -45,7 +45,7 @@ The flag `PYTHON_BINDINGS` (defaults to `off`) builds the Python bindings additi
 
 ### 1.2 Installing Python package
 
-For **building and installing the Python bindings** for this driver open a new terminal inside the main folder and execute the following command:
+For **building and installing the Python bindings** for this SDK open a new terminal inside the main folder and execute the following command:
 
 ```bash
 $ pip3 install .
@@ -95,7 +95,7 @@ For testing you will have to install the following additional dependencies
 $ sudo apt-get install -y libboost-all-dev libgmock-dev libgtest-dev
 ```
 
-The tests can then be build by passing the **additional flag `-D BUILD_TESTING=on`** to CMake. After building the driver with the additional flag you will have to bring the virtual CAN interface up with:
+The tests can then be build by passing the **additional flag `-D BUILD_TESTING=on`** to CMake. After building the driver SDK with the additional flag you will have to bring the virtual CAN interface up with:
 
 ```bash
 $ sudo modprobe vcan
