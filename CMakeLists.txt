@@ -30,6 +30,10 @@ add_library(myactuator_rmd SHARED
   src/protocol/responses.cpp
   src/driver.cpp
 )
+target_include_directories(myactuator_rmd PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 set(MYACTUATOR_RMD_LIBRARIES "")
 target_link_libraries(myactuator_rmd ${MYACTUATOR_RMD_LIBRARIES})
 install(
