@@ -34,7 +34,7 @@ set(MYACTUATOR_RMD_LIBRARIES "")
 target_link_libraries(myactuator_rmd ${MYACTUATOR_RMD_LIBRARIES})
 install(
   DIRECTORY include/
-  DESTINATION include/${PROJECT_NAME}
+  DESTINATION include/
 )
 install(TARGETS myactuator_rmd
   EXPORT export_${PROJECT_NAME}
