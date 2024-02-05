@@ -91,7 +91,7 @@ namespace myactuator_rmd {
     return;
   }
 
-  template <typename T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
+  template <typename T, typename std::enable_if_t<std::is_integral_v<T>>*>
   void Message::setAt(T const val, std::size_t const i) {
     if (i + sizeof(T)/sizeof(std::uint8_t) > data_.size()) {
       throw std::out_of_range("Requested index out of range!");
@@ -100,7 +100,7 @@ namespace myactuator_rmd {
     return;
   }
 
-  template <typename T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
+  template <typename T, typename std::enable_if_t<std::is_integral_v<T>>*>
   T Message::getAs(std::size_t const i) const {
     if (i + sizeof(T)/sizeof(std::uint8_t) > data_.size()) {
       throw std::out_of_range("Requested index out of range!");
