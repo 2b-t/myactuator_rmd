@@ -65,7 +65,52 @@ where the two flags following `--cmake-args` are optional.
 
 
 
-## 2. Using the Python bindings
+## 2. Using the C++ library
+
+For linking to the C++ library **install the library with Make** as follows
+
+```bash
+$ cd build
+$ cmake .. # Add the flags of your choice here
+$ make
+$ sudo make install
+```
+
+In case Ament is installed on your system but you want to install the package with CMake only, please make sure that your ROS 2 workspace was not sourced before running the installation.
+
+In your CMake package you can then find the package and link to it as follows:
+
+```cmake
+cmake_minimum_required(VERSION 3.20)
+project(your_project)
+
+find_package(myactuator_rmd REQUIRED)
+
+add_executable(your_node
+  src/main.cpp
+)
+target_link_libraries(your_node PUBLIC myactuator_rmd::myactuator_rmd)
+```
+
+A minimal example for the `main.cpp` can be found below:
+
+```c++
+#include <cstdlib>
+#include <iostream>
+
+#include <myactuator_rmd/driver.hpp>
+
+
+int main() {
+  myactuator_rmd::Driver driver {"can0", 1};
+  std::cout << driver.getVersionDate() << std::endl;
+  return EXIT_SUCCESS;
+}
+```
+
+
+
+## 3. Using the Python bindings
 
 **Load the library** and continue to create a driver for a particular network interface (here `can0`) and drive (here `1` corresponding to the CAN-address `0x140 + 1 = 0x141`) and control it through the Python API as shown below:
 
@@ -87,7 +132,7 @@ For more information you might also inspect the contents of the module inside Py
 
 
 
-## 3. Automated tests
+## 4. Automated tests
 
 For testing you will have to install the following additional dependencies
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(myactuator_rmd)
+project(myactuator_rmd VERSION 0.0.1)
 
 option(PYTHON_BINDINGS "Building Python bindings" OFF)
 option(BUILD_TESTING "Build unit and integration tests" OFF)
@@ -12,7 +12,7 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-find_package(ament_cmake)
+find_package(ament_cmake QUIET)
 if(ament_cmake_FOUND)
   message(STATUS "Ament CMake detected.")
 else()
@@ -37,7 +37,7 @@ install(
   DESTINATION include/
 )
 install(TARGETS myactuator_rmd
-  EXPORT export_${PROJECT_NAME}
+  EXPORT ${PROJECT_NAME}Targets
   RUNTIME DESTINATION bin
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -90,13 +90,39 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   target_link_libraries(run_tests ${MYACTUATOR_RMD_TEST_LIBRARIES})
   if (SETUP_TEST_IFNAME)
     set(VCAN_IFNAME "vcan_test")
-    configure_file("CTestCustom.cmake.in" ${CMAKE_BINARY_DIR}/CTestCustom.cmake)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CTestCustom.cmake.in ${CMAKE_BINARY_DIR}/CTestCustom.cmake)
   endif()
 endif()
 
 if(ament_cmake_FOUND)
-  ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+  ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
   ament_export_dependencies(ament_cmake)
   ament_export_dependencies(ament_cmake_python)
   ament_package(CONFIG_EXTRAS ConfigExtras.cmake)
+else()
+  include(GNUInstallDirs)
+  set(INSTALL_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+
+  install(EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE ${PROJECT_NAME}::
+    FILE ${PROJECT_NAME}Targets.cmake
+    DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
+  )
+  include(CMakePackageConfigHelpers)
+  configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    INSTALL_DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
+    NO_SET_AND_CHECK_MACRO
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+  )
+  write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+  )
+  install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
+  )
 endif()
