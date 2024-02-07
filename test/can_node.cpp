@@ -28,7 +28,7 @@
  *    The substring that should be removed
 */
 void removeSubstr(std::string& str, std::string const& substr) noexcept { 
-  std::string::size_type n {substr.length()};
+  std::string::size_type const n {substr.length()};
   for (std::string::size_type i = str.find(substr); i != std::string::npos; i = str.find(substr)) {
     str.erase(i, n);
   }
@@ -86,8 +86,8 @@ int main(int argc, char** argv) {
     }
   } else {
     std::cerr << "Unknown combination of options!" << std::endl;
+    return EXIT_FAILURE;
   }
-  
 
   return EXIT_SUCCESS;
 }
