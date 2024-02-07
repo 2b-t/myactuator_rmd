@@ -15,14 +15,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(ament_cmake QUIET)
 if(ament_cmake_FOUND)
   message(STATUS "Ament CMake detected.")
-else()
-  message(WARNING "Ament CMake not found!")
 endif()
-include(ConfigExtras.cmake)
 
-include_directories(
-  include/
-)
 add_library(myactuator_rmd SHARED
   src/can/node.cpp
   src/can/utilities.cpp
@@ -48,33 +42,37 @@ install(TARGETS myactuator_rmd
 )
 
 if(PYTHON_BINDINGS)
+  find_package(Python REQUIRED COMPONENTS Interpreter Development)
+  find_package(pybind11 CONFIG REQUIRED)
+
   pybind11_add_module(myactuator_rmd_py
     bindings/myactuator_rmd.cpp
   )
   target_link_libraries(myactuator_rmd_py PUBLIC
     myactuator_rmd
   )
+  install(TARGETS myactuator_rmd_py
+    DESTINATION ${PYTHON_INSTALL_DIR}/${PROJECT_NAME}
+  )
 
   if(ament_cmake_FOUND)
     find_package(ament_cmake_python REQUIRED)
     ament_python_install_package(${PROJECT_NAME})
   endif()
-  install(TARGETS myactuator_rmd_py
-    DESTINATION ${PYTHON_INSTALL_DIR}/${PROJECT_NAME}
-  )
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   enable_testing()
 
-  find_package(Boost 1.40.0 REQUIRED COMPONENTS program_options)
-  add_executable(can_node
-    test/can_node.cpp
-  )
-  target_link_libraries(can_node ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd)
+  find_package(Boost 1.40.0 QUIET COMPONENTS program_options)
+  if (Boost_PROGRAM_OPTIONS_FOUND)
+    add_executable(can_node
+      test/can_node.cpp
+    )
+    target_link_libraries(can_node ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd)
+  endif()
 
   find_package(GTest REQUIRED)
-  set(MYACTUATOR_RMD_TEST_LIBRARIES ${MYACTUATOR_RMD_LIBRARIES} myactuator_rmd GTest::gmock GTest::gtest pthread)
   add_executable(run_tests
     test/can/utilities_test.cpp
     test/protocol/requests_test.cpp
@@ -86,12 +84,14 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     test/run_tests.cpp
   )
   target_compile_definitions(run_tests PUBLIC NDEBUG)
+  set(MYACTUATOR_RMD_TEST_LIBRARIES myactuator_rmd GTest::gmock GTest::gtest pthread)
+  target_link_libraries(run_tests ${MYACTUATOR_RMD_TEST_LIBRARIES})
   gtest_discover_tests(run_tests
     TEST_SUFFIX .noArgs
     TEST_LIST noArgsTests
   )
   set_tests_properties(${noArgsTests} PROPERTIES TIMEOUT 10)
-  target_link_libraries(run_tests ${MYACTUATOR_RMD_TEST_LIBRARIES})
+
   if (SETUP_TEST_IFNAME)
     set(VCAN_IFNAME "vcan_test")
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CTestCustom.cmake.in ${CMAKE_BINARY_DIR}/CTestCustom.cmake)
@@ -100,9 +100,7 @@ endif()
 
 if(ament_cmake_FOUND)
   ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
-  ament_export_dependencies(ament_cmake)
-  ament_export_dependencies(ament_cmake_python)
-  ament_package(CONFIG_EXTRAS ConfigExtras.cmake)
+  ament_package()
 else()
   include(GNUInstallDirs)
   set(INSTALL_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
