@@ -1,10 +1,15 @@
-# Taken from https://github.com/pybind/cmake_example
+"""
+Author: Tobit Flatscher (github.com/2b-t)
+
+Make pip package management system invoke CMake
+Taken from https://github.com/pybind/cmake_example
+"""
 
 import os
+from pathlib import Path
 import re
 import subprocess
 import sys
-from pathlib import Path
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
@@ -14,7 +19,6 @@ class CMakeExtension(Extension):
     def __init__(self, name: str, sourcedir: str = "") -> None:
         super().__init__(name, sources=[])
         self.sourcedir = os.fspath(Path(sourcedir).resolve())
-
 
 class CMakeBuild(build_ext):
     def build_extension(self, ext: CMakeExtension) -> None:
@@ -48,7 +52,6 @@ class CMakeBuild(build_ext):
         subprocess.run(
             ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
         )
-
 
 setup(
     ext_modules=[CMakeExtension("myactuator_rmd_py")],
