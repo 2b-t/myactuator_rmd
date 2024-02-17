@@ -67,6 +67,7 @@ namespace myactuator_rmd {
        * \return
        *    The CAN ID of the device starting at 0x240
       */
+      [[nodiscard]]
       std::uint16_t getCanId();
 
       /**\fn getControllerGains

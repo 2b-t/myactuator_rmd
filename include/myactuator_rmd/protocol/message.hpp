@@ -77,6 +77,7 @@ namespace myactuator_rmd {
        *    The data values located at [i, i + sizeof(T)[ as an integer of type T
       */
       template <typename T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
+      [[nodiscard]]
       T getAs(std::size_t const i) const;
 
       std::array<std::uint8_t,8> data_;
