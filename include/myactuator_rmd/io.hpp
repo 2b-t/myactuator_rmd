@@ -13,6 +13,9 @@
 #include <iomanip>
 #include <ostream>
 
+#include "myactuator_rmd/actuator_state/acceleration_type.hpp"
+#include "myactuator_rmd/actuator_state/baud_rate.hpp"
+#include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/error_code.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
@@ -21,6 +24,63 @@
 
 
 namespace myactuator_rmd {
+
+  inline std::ostream& operator << (std::ostream& os, AccelerationType const& acceleration_type) noexcept {
+    os << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<std::uint16_t>(acceleration_type) << std::dec;
+    switch(acceleration_type) {
+      case AccelerationType::POSITION_PLANNING_ACCELERATION:
+        os << " (position planning acceleration)";
+        break;
+      case AccelerationType::POSITION_PLANNING_DECELERATION:
+        os << " (position planning deceleration)";
+        break;
+      case AccelerationType::VELOCITY_PLANNING_ACCELERATION:
+        os << " (velocity planning acceleration)";
+        break;
+      case AccelerationType::VELOCITY_PLANNING_DECELERATION:
+        os << " (velocity planning deceleration)";
+        break;
+      default:
+        os << " (unknown acceleration type)";
+    }
+    return os;
+  }
+
+  inline std::ostream& operator << (std::ostream& os, BaudRate const& baud_rate) noexcept {
+    os << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<std::uint16_t>(baud_rate) << std::dec;
+    switch(baud_rate) {
+      case BaudRate::KBPS500:
+        os << " (500 kbps)";
+        break;
+      case BaudRate::MBPS1:
+        os << " (1 Mbps)";
+        break;
+      default:
+        os << " (unknown baud rate)";
+    }
+    return os;
+  }
+
+  inline std::ostream& operator << (std::ostream& os, ControlMode const& control_mode) noexcept {
+    os << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<std::uint16_t>(control_mode) << std::dec;
+    switch(control_mode) {
+      case ControlMode::NONE:
+        os << " (none)";
+        break;
+      case ControlMode::CURRENT:
+        os << " (current control mode)";
+        break;
+      case ControlMode::VELOCITY:
+        os << " (velocity control mode)";
+        break;
+      case ControlMode::POSITION:
+        os << " (position control mode)";
+        break;
+      default:
+        os << " (unknown control mode)";
+    }
+    return os;
+  }
 
   inline std::ostream& operator << (std::ostream& os, ErrorCode const& error_code) noexcept {
     os << "0x" << std::hex << std::setfill('0') << std::setw(4) << static_cast<std::uint16_t>(error_code) << std::dec;
@@ -61,6 +121,16 @@ namespace myactuator_rmd {
     return os;
   }
 
+  inline std::ostream& operator << (std::ostream& os, PiGains const& g) noexcept {
+    os << "kp: " << static_cast<int>(g.kp) << ", ki: " << static_cast<int>(g.ki);
+    return os;
+  }
+
+  inline std::ostream& operator << (std::ostream& os, Gains const& g) noexcept {
+    os << "current: {" << g.current << "}, speed: {" << g.speed << "}, position: {" << g.position << "}";
+    return os;
+  }
+
   inline std::ostream& operator << (std::ostream& os, MotorStatus1 const& motor_status) noexcept {
     os << "temperature: " << motor_status.temperature << ", brake released: " << std::boolalpha << motor_status.is_brake_released << 
           ", voltage: " << motor_status.voltage << ", error code: " << motor_status.error_code;
@@ -76,16 +146,6 @@ namespace myactuator_rmd {
   inline std::ostream& operator << (std::ostream& os, MotorStatus3 const& motor_status) noexcept {
     os << "temperature: " << motor_status.temperature << ", current phase A: " << std::boolalpha << motor_status.current_phase_a << 
           ", current phase B: " << motor_status.current_phase_b << ", current phase C: " << motor_status.current_phase_c;
-    return os;
-  }
-
-  inline std::ostream& operator << (std::ostream& os, PiGains const& g) noexcept {
-    os << "kp: " << static_cast<int>(g.kp) << ", ki: " << static_cast<int>(g.ki);
-    return os;
-  }
-
-  inline std::ostream& operator << (std::ostream& os, Gains const& g) noexcept {
-    os << "current: {" << g.current << "}, speed: {" << g.speed << "}, position: {" << g.position << "}";
     return os;
   }
 
