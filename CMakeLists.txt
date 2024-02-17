@@ -51,14 +51,13 @@ if(PYTHON_BINDINGS)
   target_link_libraries(myactuator_rmd_py PUBLIC
     myactuator_rmd
   )
-  install(TARGETS myactuator_rmd_py
-    DESTINATION ${PYTHON_INSTALL_DIR}/${PROJECT_NAME}
-  )
-
   if(ament_cmake_FOUND)
     find_package(ament_cmake_python REQUIRED)
     ament_python_install_package(${PROJECT_NAME})
   endif()
+  install(TARGETS myactuator_rmd_py
+    DESTINATION ${PYTHON_INSTALL_DIR}/${PROJECT_NAME}
+  )
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
