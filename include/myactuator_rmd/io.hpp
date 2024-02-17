@@ -14,7 +14,6 @@
 #include <ostream>
 
 #include "myactuator_rmd/actuator_state/error_code.hpp"
-#include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_2.hpp"
@@ -68,8 +67,9 @@ namespace myactuator_rmd {
     return os;
   }
 
-  inline std::ostream& operator << (std::ostream& os, Feedback const& f) noexcept {
-    os << "temperature: " << f.temperature << ", current: " << f.current << ", shaft speed: " << f.shaft_speed << ", shaft angle: " << f.shaft_angle;
+  inline std::ostream& operator << (std::ostream& os, MotorStatus2 const& motor_status) noexcept {
+    os << "temperature: " << motor_status.temperature << ", current: " << motor_status.current <<
+          ", shaft speed: " << motor_status.shaft_speed << ", shaft angle: " << motor_status.shaft_angle;
     return os;
   }
 
