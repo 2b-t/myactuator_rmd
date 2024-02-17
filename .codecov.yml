@@ -1,0 +1,5 @@
+ignore:
+  - "bindings/"
+  - "include/myactuator_rmd/io.hpp"
+  - "test/can_node.cpp"
+
