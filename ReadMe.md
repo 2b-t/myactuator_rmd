@@ -126,7 +126,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> driver.shutdownMotor()
 ```
 
-In case you installed the package through ROS 2 the package name will be `myactuator_rmd` instead of `myactuator_rmd_py`.
+In case you installed the package through ROS 2 the shared library will be inside the `myactuator_rmd` package so you need to import with `from myactuator_rmd.myactuator_rmd_py import Driver`.
 
 For more information you might also inspect the contents of the module inside Python 3 with `help(myactuator_rmd_py)`.
 

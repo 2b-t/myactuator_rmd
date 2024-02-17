@@ -1,1 +1,1 @@
-from myactuator_rmd.myactuator_rmd_py import *
+from myactuator_rmd import myactuator_rmd_py
