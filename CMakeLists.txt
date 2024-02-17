@@ -5,6 +5,16 @@ option(PYTHON_BINDINGS "Building Python bindings" OFF)
 option(BUILD_TESTING "Build unit and integration tests" OFF)
 option(SETUP_TEST_IFNAME "Set-up the test VCAN interface automatically" OFF)
 
+if (CMAKE_COMPILER_IS_GNUCC)
+  option(ENABLE_COVERAGE "Enable coverage reporting for GCC/Clang" OFF)
+
+  if (ENABLE_COVERAGE)
+    message(STATUS "Building with coverage reporting for GCC/Clang.")
+    add_compile_options(--coverage -O0)
+    link_libraries(--coverage)
+  endif()
+endif()
+
 if(NOT UNIX)
   message(FATAL_ERROR "Currently this driver only supports Linux!")
 endif()

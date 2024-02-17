@@ -29,10 +29,14 @@ jobs:
           sudo apt-get install -y can-utils iproute2 linux-modules-extra-$(uname -r)
           sudo apt-get install -y python3 python3-pybind11
           sudo apt-get install -y libboost-all-dev libgmock-dev libgtest-dev
+      - name: Install gcovr
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcovr
       - name: Create build folder
         run: mkdir ${GITHUB_WORKSPACE}/build
       - name: Run CMake
-        run: cmake -B ${GITHUB_WORKSPACE}/build -S ${GITHUB_WORKSPACE} -D PYTHON_BINDINGS=on -D BUILD_TESTING=on
+        run: cmake -B ${GITHUB_WORKSPACE}/build -S ${GITHUB_WORKSPACE} -D PYTHON_BINDINGS=on -D BUILD_TESTING=on  -D ENABLE_COVERAGE=on
       - name: Compile with Make
         run: make -j $(nproc) -C ${GITHUB_WORKSPACE}/build
       - name: Set-up virtual CAN interface for loopback tests
@@ -42,8 +46,14 @@ jobs:
           sudo ip link set up ${VCAN_IFNAME}
       - name: Run tests
         run: (cd ${GITHUB_WORKSPACE}/build && ctest)
+      - name: Generate code coverage report
+        run: gcovr -j $(nproc) --filter ${GITHUB_WORKSPACE}/include --filter ${GITHUB_WORKSPACE}/src --print-summary --xml-pretty --xml ${GITHUB_WORKSPACE}/build/coverage.xml
+      - name: Update Codecov code coverage report
+        uses: codecov/codecov-action@v4
+        with:
+          files: ${GITHUB_WORKSPACE}/build/coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Remove virtual CAN interface
         run: |
           sudo ip link set down ${VCAN_IFNAME}
           sudo ip link delete ${VCAN_IFNAME}
-
