@@ -58,7 +58,7 @@ This will use the `setup.py` to invoke CMake and install the bindings as a C++ l
 
 ### 1.3 Building with ROS 2
 
-For **building and installingthis package with ROS 2** open a new terminal on then top-level folder of your Colcon workspace (e.g. `colcon_ws`) and execute the following command:
+For **building and installing this package with ROS 2** open a new terminal on then top-level folder of your Colcon workspace (e.g. `colcon_ws`) and execute the following command:
 
 ```bash
 $ colcon build --cmake-args -D PYTHON_BINDINGS=on -D BUILD_TESTING=on
