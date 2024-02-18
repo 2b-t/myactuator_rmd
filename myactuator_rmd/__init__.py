@@ -1,7 +1,7 @@
 """
 @file __init__.py
 @mainpage
-   Imports all submodules; taken from https://stackoverflow.com/a/3365846
+   Import Python bindings from myactuator_rmd_py
 @author
    Tobit Flatscher (github.com/2b-t)
 """
