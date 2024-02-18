@@ -39,6 +39,7 @@ $ mkdir build
 $ cd build
 $ cmake .. -D PYTHON_BINDINGS=on
 $ make -j $(nproc)
+$ sudo make install
 ```
 
 The flag `PYTHON_BINDINGS` (defaults to `off`) builds the Python bindings additionally to the C++ library. In case you are only interested in using the C++ library feel free to leave it off. When building the Python bindings like this they will be compiled to a shared library but not be installed. This means you will either have to install the library manually or you will only be able to import them locally inside the `build` folder. 
@@ -67,15 +68,6 @@ where the two flags following `--cmake-args` are optional.
 
 ## 2. Using the C++ library
 
-For linking to the C++ library **install the library with Make** as follows
-
-```bash
-$ cd build
-$ cmake .. # Add the flags of your choice here
-$ make
-$ sudo make install
-```
-
 In case Ament is installed on your system but you want to install the package with CMake only, please make sure that your ROS 2 workspace was not sourced before running the installation.
 
 In your CMake package you can then find the package and link to it as follows:
@@ -98,7 +90,7 @@ A minimal example for the `main.cpp` can be found below:
 #include <cstdlib>
 #include <iostream>
 
-#include <myactuator_rmd/driver.hpp>
+#include <myactuator_rmd/myactuator_rmd.hpp>
 
 
 int main() {
