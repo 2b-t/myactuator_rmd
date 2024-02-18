@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <string>
 #include <sstream>
+#include <tuple>
 
 #include <pybind11/chrono.h>
 #include <pybind11/pybind11.h>
@@ -26,10 +27,38 @@
 #include "myactuator_rmd/can/exceptions.hpp"
 #include "myactuator_rmd/can/frame.hpp"
 #include "myactuator_rmd/can/node.hpp"
+#include "myactuator_rmd/actuator_constants.hpp"
 #include "myactuator_rmd/driver.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 #include "myactuator_rmd/io.hpp"
 
+
+namespace myactuator_rmd {
+  namespace bindings {
+
+    /**\fn declareActuator
+     * \brief
+     *    Helper function for declaring the actuator constants for a given actuator
+     * 
+     * \tparam T
+     *    The class containing the actuator constants
+     * \param[in] m
+     *    Pybind11 module that the actuator constants should be declared into
+     * \param[in] class_name
+     *    Class name of the corresponding Python bindings
+    */
+    template<typename T>
+    void declareActuator(pybind11::module& m, std::string const& class_name) {
+      pybind11::class_<T>(m, class_name.c_str())
+        .def_readonly_static("reducer_ratio", &T::reducer_ratio)
+        .def_readonly_static("speed_constant", &T::speed_constant)
+        .def_readonly_static("torque_constant", &T::torque_constant)
+        .def_readonly_static("rotor_inertia", &T::rotor_inertia);
+      return;
+    }
+
+  }
+}
 
 PYBIND11_MODULE(myactuator_rmd_py, m) {
 
@@ -175,5 +204,19 @@ PYBIND11_MODULE(myactuator_rmd_py, m) {
   pybind11::register_exception<myactuator_rmd::can::BusOffError>(m_can, "BusOffError");
   pybind11::register_exception<myactuator_rmd::can::BusError>(m_can, "BusError");
   pybind11::register_exception<myactuator_rmd::can::ControllerRestartedError>(m_can, "ControllerRestartedError");
+
+  auto m_actuator_constants = m.def_submodule("actuator_constants", "Submodule for actuator constants");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X10S2V3>(m_actuator_constants, "X10S2V3");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X4V3>(m_actuator_constants, "X4V3");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X6V3>(m_actuator_constants, "X6V3");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X8ProV2>(m_actuator_constants, "X8ProV2");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X8S2V3>(m_actuator_constants, "X8S2V3");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X6V2>(m_actuator_constants, "X6V2");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X8V2>(m_actuator_constants, "X8V2");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X10V3>(m_actuator_constants, "X10V3");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X4V2>(m_actuator_constants, "X4V2");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X6S2V2>(m_actuator_constants, "X6S2V2");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X8HV3>(m_actuator_constants, "X8HV3");
+  myactuator_rmd::bindings::declareActuator<myactuator_rmd::X8ProHV3>(m_actuator_constants, "X8ProHV3");
 
 }
