@@ -10,8 +10,6 @@
 #define MYACTUATOR_RMD__MYACTUATOR_RMD
 #pragma once
 
-#include <cstdint>
-
 #include "myactuator_rmd/actuator_constants.hpp"
 #include "myactuator_rmd/driver.hpp"
 #include "myactuator_rmd/exceptions.hpp"
