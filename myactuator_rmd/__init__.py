@@ -1,8 +1,9 @@
 """
-Author: Tobit Flatscher (github.com/2b-t)
-
-Imports all submodules
-Taken from https://stackoverflow.com/a/3365846
+@file __init__.py
+@mainpage
+   Imports all submodules; taken from https://stackoverflow.com/a/3365846
+@author
+   Tobit Flatscher (github.com/2b-t)
 """
 
 import pkgutil

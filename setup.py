@@ -1,8 +1,9 @@
 """
-Author: Tobit Flatscher (github.com/2b-t)
-
-Make pip package management system invoke CMake
-Taken from https://github.com/pybind/cmake_example
+@file setup.py
+@mainpage
+   Make pip package management system invoke CMake; Adapted from https://github.com/pybind/cmake_example
+@author
+   Tobit Flatscher (github.com/2b-t)
 """
 
 import os
