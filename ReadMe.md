@@ -110,15 +110,15 @@ int main() {
 $ python3
 Python 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from myactuator_rmd_py import Actuator
->>> actuator = Actuator("can0", 1)
+>>> import myactuator_rmd_py as rmd
+>>> actuator = rmd.Actuator("can0", 1)
 >>> actuator.getVersionDate()
 2023020601
 >>> actuator.sendPositionAbsoluteSetpoint(180.0, 500.0)
 >>> actuator.shutdownMotor()
 ```
 
-In case you installed the package through ROS 2 the shared library will be inside the `myactuator_rmd` package so you need to import with `from myactuator_rmd.myactuator_rmd_py import Actuator`.
+In case you installed the package through ROS 2 the shared library will be located inside the `myactuator_rmd` package. Therefore you will need to import it with `import myactuator_rmd.myactuator_rmd_py as rmd`.
 
 For more information you might also inspect the contents of the module inside Python 3 with `help(myactuator_rmd_py)`.
 
