@@ -42,7 +42,9 @@ $ make -j $(nproc)
 $ sudo make install
 ```
 
-The flag `PYTHON_BINDINGS` (defaults to `off`) builds the Python bindings additionally to the C++ library. In case you are only interested in using the C++ library feel free to leave it off. When building the Python bindings like this they will be compiled to a shared library but not be installed. This means you will either have to install the library manually or you will only be able to import them locally inside the `build` folder. 
+The flag `PYTHON_BINDINGS` (defaults to `off`) builds the Python bindings additionally to the C++ library. In case you are only interested in using the C++ library feel free to leave it off. When building the Python bindings like this they will be compiled to a shared library but not be installed. This means you will either have to install the library manually or you will only be able to import them locally inside the `build` folder.
+
+For uninstalling the package again you can use [the following command](https://gitlab.kitware.com/cmake/community/-/wikis/FAQ#can-i-do-make-uninstall-with-cmake) `$ xargs rm < install_manifest.txt`.
 
 ### 1.2 Installing Python package
 
@@ -140,7 +142,7 @@ $ sudo ip link add dev vcan_test type vcan
 $ sudo ip link set up vcan_test
 ```
 
-Additionally there is a CMake flag `SETUP_TEST_IFNAME` that - if set to `on` - automatically sets up the virtual CAN interface for you but this requires the following command to be run as `sudo`.
+Additionally there is a CMake flag `SETUP_TEST_IFNAME` that - if set to `on` - automatically sets up the virtual CAN interface for you but this requires the following command to be run as `sudo`. Finally for coverage reports with GCC you might use the flag `ENABLE_COVERAGE` but this will compile the code without optimizations.
 
 Finally you can **launch all the tests** with the following command:
 
