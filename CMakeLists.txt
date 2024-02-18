@@ -32,7 +32,7 @@ add_library(myactuator_rmd SHARED
   src/can/utilities.cpp
   src/protocol/requests.cpp
   src/protocol/responses.cpp
-  src/driver.cpp
+  src/actuator.cpp
 )
 target_include_directories(myactuator_rmd PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -88,8 +88,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     test/protocol/responses_test.cpp
     test/mock/actuator_adaptor.cpp
     test/mock/actuator_mock.cpp
-    test/mock/driver_actuator_test.cpp
-    test/driver_test.cpp
+    test/mock/actuator_actuator_mock_test.cpp
+    test/actuator_test.cpp
     test/run_tests.cpp
   )
   target_compile_definitions(run_tests PUBLIC NDEBUG)

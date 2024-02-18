@@ -23,7 +23,7 @@ namespace myactuator_rmd {
 
     /**\class ActuatorAdaptor
      * \brief
-     *    Counter-part to the driver and parent class of the mock that can be used for testing the driver
+     *    Counter-part to the actuator and parent class of the mock that can be used for testing the driver
      *    over a (virtual) CAN network interface
     */
     class ActuatorAdaptor: protected myactuator_rmd::Node<AddressOffset::response,AddressOffset::request> {
@@ -52,7 +52,7 @@ namespace myactuator_rmd {
          * \param[in] ifname
          *    The name of the (virtual) CAN network interface that should be used as a loopback device
          * \param[in] actuator_id
-         *    The actuator id for driver and actuator
+         *    The actuator id for the actuator and the actuator mock
         */
         ActuatorAdaptor(std::string const& ifname, std::uint32_t const actuator_id);
         ActuatorAdaptor() = delete;

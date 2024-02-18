@@ -1,13 +1,13 @@
 /**
- * \file driver.hpp
+ * \file actuator.hpp
  * \mainpage
  *    Contains the main driver
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__DRIVER
-#define MYACTUATOR_RMD__DRIVER
+#ifndef MYACTUATOR_RMD__ACTUATOR
+#define MYACTUATOR_RMD__ACTUATOR
 #pragma once
 
 #include <chrono>
@@ -28,13 +28,13 @@
 
 namespace myactuator_rmd {
 
-  /**\class Driver
+  /**\class Actuator
    * \brief
-   *    Driver for commanding the MyActuator RMD actuator series
+   *    Actuator for commanding the MyActuator RMD actuator series
   */
-  class Driver: protected Node<AddressOffset::request,AddressOffset::response> {
+  class Actuator: protected Node<AddressOffset::request,AddressOffset::response> {
     public:
-      /**\fn Driver
+      /**\fn Actuator
        * \brief
        *    Class constructor
        * 
@@ -43,12 +43,12 @@ namespace myactuator_rmd {
        * \param[in] actuator_id
        *    The actuator id [1, 32]
       */
-      Driver(std::string const& ifname, std::uint32_t const actuator_id);
-      Driver() = delete;
-      Driver(Driver const&) = delete;
-      Driver& operator = (Driver const&) = default;
-      Driver(Driver&&) = default;
-      Driver& operator = (Driver&&) = default;
+      Actuator(std::string const& ifname, std::uint32_t const actuator_id);
+      Actuator() = delete;
+      Actuator(Actuator const&) = delete;
+      Actuator& operator = (Actuator const&) = default;
+      Actuator(Actuator&&) = default;
+      Actuator& operator = (Actuator&&) = default;
 
       /**\fn getAcceleration
        * \brief
@@ -377,4 +377,4 @@ namespace myactuator_rmd {
 
 }
 
-#endif // MYACTUATOR_RMD__DRIVER
+#endif // MYACTUATOR_RMD__ACTUATOR

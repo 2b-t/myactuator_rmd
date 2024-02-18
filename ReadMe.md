@@ -94,8 +94,8 @@ A minimal example for the `main.cpp` can be found below:
 
 
 int main() {
-  myactuator_rmd::Driver driver {"can0", 1};
-  std::cout << driver.getVersionDate() << std::endl;
+  myactuator_rmd::Actuator actuator {"can0", 1};
+  std::cout << actuator.getVersionDate() << std::endl;
   return EXIT_SUCCESS;
 }
 ```
@@ -110,15 +110,15 @@ int main() {
 $ python3
 Python 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from myactuator_rmd_py import Driver
->>> driver = Driver("can0", 1)
->>> driver.getVersionDate()
+>>> from myactuator_rmd_py import Actuator
+>>> actuator = Actuator("can0", 1)
+>>> actuator.getVersionDate()
 2023020601
->>> driver.sendPositionAbsoluteSetpoint(180.0, 500.0)
->>> driver.shutdownMotor()
+>>> actuator.sendPositionAbsoluteSetpoint(180.0, 500.0)
+>>> actuator.shutdownMotor()
 ```
 
-In case you installed the package through ROS 2 the shared library will be inside the `myactuator_rmd` package so you need to import with `from myactuator_rmd.myactuator_rmd_py import Driver`.
+In case you installed the package through ROS 2 the shared library will be inside the `myactuator_rmd` package so you need to import with `from myactuator_rmd.myactuator_rmd_py import Actuator`.
 
 For more information you might also inspect the contents of the module inside Python 3 with `help(myactuator_rmd_py)`.
 

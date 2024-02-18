@@ -36,7 +36,7 @@ namespace myactuator_rmd {
          * \param[in] ifname
          *    The name of the (virtual) CAN network interface that should be used as a loopback device
          * \param[in] actuator_id
-         *    The actuator id for driver and actuator
+         *    The actuator id for the actuator and the actuator mock
         */
         ActuatorMock(std::string const& ifname, std::uint32_t const actuator_id);
         ActuatorMock() = delete;

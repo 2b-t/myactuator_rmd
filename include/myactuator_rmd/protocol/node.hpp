@@ -23,7 +23,7 @@ namespace myactuator_rmd {
 
   /**\class Node
    * \brief
-   *    Base class for the driver as well as the actuator mock
+   *    Base class for the actuator as well as the actuator mock
   */
   template <std::uint32_t SEND_ID_OFFSET, std::uint32_t RECEIVE_ID_OFFSET>
   class Node: protected can::Node {
