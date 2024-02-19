@@ -271,11 +271,12 @@ namespace myactuator_rmd {
        * \param[in] torque
        *    The desired torque in [Nm]
        * \param[in] torque_constant
-       *    The motor's torque constant [Nm/A], depends on the model of the motor
+       *    The motor's torque constant [Nm/A], depends on the model of the motor, refer to actuator_constants.hpp
+       *    for the torque constant of your actuator
        * \return
        *    Feedback control message containing actuator position, velocity, torque and temperature
       */
-      Feedback sendTorqueSetpoint(float const torque, float const torque_constant = 2.09);
+      Feedback sendTorqueSetpoint(float const torque, float const torque_constant);
 
       /**\fn sendVelocitySetpoint
        * \brief
