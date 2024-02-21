@@ -74,7 +74,7 @@ namespace myactuator_rmd {
         throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting socket timeout");
       }
       return;
-    } 
+    }
 
     void Node::setRecvTimeout(std::chrono::microseconds const& timeout) {
       struct ::timeval const recv_timeout {myactuator_rmd::toTimeval(timeout)};
@@ -82,7 +82,7 @@ namespace myactuator_rmd {
         throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Error setting socket timeout");
       }
       return;
-    } 
+    }
 
     void Node::setErrorFilters(bool const is_signal_errors) {
       // See https://github.com/linux-can/can-utils/blob/master/include/linux/can/error.h
