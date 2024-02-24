@@ -16,7 +16,7 @@
 #include <pybind11/stl.h>
 
 #include "myactuator_rmd/actuator_state/acceleration_type.hpp"
-#include "myactuator_rmd/actuator_state/baud_rate.hpp"
+#include "myactuator_rmd/actuator_state/can_baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/error_code.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
@@ -27,8 +27,10 @@
 #include "myactuator_rmd/can/exceptions.hpp"
 #include "myactuator_rmd/can/frame.hpp"
 #include "myactuator_rmd/can/node.hpp"
+#include "myactuator_rmd/driver/can_driver.hpp"
+#include "myactuator_rmd/driver/driver.hpp"
 #include "myactuator_rmd/actuator_constants.hpp"
-#include "myactuator_rmd/actuator.hpp"
+#include "myactuator_rmd/actuator_interface.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 #include "myactuator_rmd/io.hpp"
 
@@ -63,41 +65,43 @@ namespace myactuator_rmd {
 PYBIND11_MODULE(myactuator_rmd_py, m) {
 
   m.doc() = "MyActuator RMD  main module";
-  pybind11::class_<myactuator_rmd::Actuator>(m, "Actuator")
-    .def(pybind11::init<std::string const&, std::uint32_t>())
-    .def("getAcceleration", &myactuator_rmd::Actuator::getAcceleration)
-    .def("getCanId", &myactuator_rmd::Actuator::getCanId)
-    .def("getControllerGains", &myactuator_rmd::Actuator::getControllerGains)
-    .def("getControlMode", &myactuator_rmd::Actuator::getControlMode)
-    .def("getMotorModel", &myactuator_rmd::Actuator::getMotorModel)
-    .def("getMotorPower", &myactuator_rmd::Actuator::getMotorPower)
-    .def("getMotorStatus1", &myactuator_rmd::Actuator::getMotorStatus1)
-    .def("getMotorStatus2", &myactuator_rmd::Actuator::getMotorStatus2)
-    .def("getMotorStatus3", &myactuator_rmd::Actuator::getMotorStatus3)
-    .def("getMultiTurnAngle", &myactuator_rmd::Actuator::getMultiTurnAngle)
-    .def("getMultiTurnEncoderPosition", &myactuator_rmd::Actuator::getMultiTurnEncoderPosition)
-    .def("getMultiTurnEncoderOriginalPosition", &myactuator_rmd::Actuator::getMultiTurnEncoderOriginalPosition)
-    .def("getMultiTurnEncoderZeroOffset", &myactuator_rmd::Actuator::getMultiTurnEncoderZeroOffset)
-    .def("getRuntime", &myactuator_rmd::Actuator::getRuntime)
-    .def("getSingleTurnAngle", &myactuator_rmd::Actuator::getSingleTurnAngle)
-    .def("getSingleTurnEncoderPosition", &myactuator_rmd::Actuator::getSingleTurnEncoderPosition)
-    .def("getVersionDate", &myactuator_rmd::Actuator::getVersionDate)
-    .def("lockBrake", &myactuator_rmd::Actuator::lockBrake)
-    .def("releaseBrake", &myactuator_rmd::Actuator::releaseBrake)
-    .def("reset", &myactuator_rmd::Actuator::reset)
-    .def("sendCurrentSetpoint", &myactuator_rmd::Actuator::sendCurrentSetpoint)
-    .def("sendPositionAbsoluteSetpoint", &myactuator_rmd::Actuator::sendPositionAbsoluteSetpoint)
-    .def("sendTorqueSetpoint", &myactuator_rmd::Actuator::sendTorqueSetpoint)
-    .def("sendVelocitySetpoint", &myactuator_rmd::Actuator::sendVelocitySetpoint)
-    .def("setAcceleration", &myactuator_rmd::Actuator::setAcceleration)
-    .def("setBaudRate", &myactuator_rmd::Actuator::setBaudRate)
-    .def("setCanId", &myactuator_rmd::Actuator::setCanId)
-    .def("setControllerGains", &myactuator_rmd::Actuator::setControllerGains)
-    .def("setCurrentPositionAsEncoderZero", &myactuator_rmd::Actuator::setCurrentPositionAsEncoderZero)
-    .def("setEncoderZero", &myactuator_rmd::Actuator::setEncoderZero)
-    .def("setTimeout", &myactuator_rmd::Actuator::setTimeout)
-    .def("shutdownMotor", &myactuator_rmd::Actuator::shutdownMotor)
-    .def("stopMotor", &myactuator_rmd::Actuator::stopMotor);
+  pybind11::class_<myactuator_rmd::CanDriver>(m, "CanDriver")
+    .def(pybind11::init<std::string const&>());
+  pybind11::class_<myactuator_rmd::ActuatorInterface>(m, "ActuatorInterface")
+    .def(pybind11::init<myactuator_rmd::Driver&, std::uint32_t>())
+    .def("getAcceleration", &myactuator_rmd::ActuatorInterface::getAcceleration)
+    .def("getCanId", &myactuator_rmd::ActuatorInterface::getCanId)
+    .def("getControllerGains", &myactuator_rmd::ActuatorInterface::getControllerGains)
+    .def("getControlMode", &myactuator_rmd::ActuatorInterface::getControlMode)
+    .def("getMotorModel", &myactuator_rmd::ActuatorInterface::getMotorModel)
+    .def("getMotorPower", &myactuator_rmd::ActuatorInterface::getMotorPower)
+    .def("getMotorStatus1", &myactuator_rmd::ActuatorInterface::getMotorStatus1)
+    .def("getMotorStatus2", &myactuator_rmd::ActuatorInterface::getMotorStatus2)
+    .def("getMotorStatus3", &myactuator_rmd::ActuatorInterface::getMotorStatus3)
+    .def("getMultiTurnAngle", &myactuator_rmd::ActuatorInterface::getMultiTurnAngle)
+    .def("getMultiTurnEncoderPosition", &myactuator_rmd::ActuatorInterface::getMultiTurnEncoderPosition)
+    .def("getMultiTurnEncoderOriginalPosition", &myactuator_rmd::ActuatorInterface::getMultiTurnEncoderOriginalPosition)
+    .def("getMultiTurnEncoderZeroOffset", &myactuator_rmd::ActuatorInterface::getMultiTurnEncoderZeroOffset)
+    .def("getRuntime", &myactuator_rmd::ActuatorInterface::getRuntime)
+    .def("getSingleTurnAngle", &myactuator_rmd::ActuatorInterface::getSingleTurnAngle)
+    .def("getSingleTurnEncoderPosition", &myactuator_rmd::ActuatorInterface::getSingleTurnEncoderPosition)
+    .def("getVersionDate", &myactuator_rmd::ActuatorInterface::getVersionDate)
+    .def("lockBrake", &myactuator_rmd::ActuatorInterface::lockBrake)
+    .def("releaseBrake", &myactuator_rmd::ActuatorInterface::releaseBrake)
+    .def("reset", &myactuator_rmd::ActuatorInterface::reset)
+    .def("sendCurrentSetpoint", &myactuator_rmd::ActuatorInterface::sendCurrentSetpoint)
+    .def("sendPositionAbsoluteSetpoint", &myactuator_rmd::ActuatorInterface::sendPositionAbsoluteSetpoint)
+    .def("sendTorqueSetpoint", &myactuator_rmd::ActuatorInterface::sendTorqueSetpoint)
+    .def("sendVelocitySetpoint", &myactuator_rmd::ActuatorInterface::sendVelocitySetpoint)
+    .def("setAcceleration", &myactuator_rmd::ActuatorInterface::setAcceleration)
+    .def("setCanBaudRate", &myactuator_rmd::ActuatorInterface::setCanBaudRate)
+    .def("setCanId", &myactuator_rmd::ActuatorInterface::setCanId)
+    .def("setControllerGains", &myactuator_rmd::ActuatorInterface::setControllerGains)
+    .def("setCurrentPositionAsEncoderZero", &myactuator_rmd::ActuatorInterface::setCurrentPositionAsEncoderZero)
+    .def("setEncoderZero", &myactuator_rmd::ActuatorInterface::setEncoderZero)
+    .def("setTimeout", &myactuator_rmd::ActuatorInterface::setTimeout)
+    .def("shutdownMotor", &myactuator_rmd::ActuatorInterface::shutdownMotor)
+    .def("stopMotor", &myactuator_rmd::ActuatorInterface::stopMotor);
   pybind11::register_exception<myactuator_rmd::Exception>(m, "ActuatorException");
   pybind11::register_exception<myactuator_rmd::ProtocolException>(m, "ProtocolException");
   pybind11::register_exception<myactuator_rmd::ValueRangeException>(m, "ValueRangeException");
@@ -108,9 +112,9 @@ PYBIND11_MODULE(myactuator_rmd_py, m) {
     .value("POSITION_PLANNING_DECELERATION", myactuator_rmd::AccelerationType::POSITION_PLANNING_DECELERATION)
     .value("VELOCITY_PLANNING_ACCELERATION", myactuator_rmd::AccelerationType::VELOCITY_PLANNING_ACCELERATION)
     .value("VELOCITY_PLANNING_DECELERATION", myactuator_rmd::AccelerationType::VELOCITY_PLANNING_DECELERATION);
-  pybind11::enum_<myactuator_rmd::BaudRate>(m_actuator_state, "BaudRate")
-    .value("KBPS500", myactuator_rmd::BaudRate::KBPS500)
-    .value("MBPS1", myactuator_rmd::BaudRate::MBPS1);
+  pybind11::enum_<myactuator_rmd::CanBaudRate>(m_actuator_state, "CanBaudRate")
+    .value("KBPS500", myactuator_rmd::CanBaudRate::KBPS500)
+    .value("MBPS1", myactuator_rmd::CanBaudRate::MBPS1);
   pybind11::enum_<myactuator_rmd::ControlMode>(m_actuator_state, "ControlMode")
     .value("NONE", myactuator_rmd::ControlMode::NONE)
     .value("CURRENT", myactuator_rmd::ControlMode::CURRENT)

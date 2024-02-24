@@ -1,13 +1,13 @@
 /**
- * \file actuator.hpp
+ * \file actuator_interface.hpp
  * \mainpage
- *    Contains the main driver
+ *    Contains the interface to a single actuator
  * \author
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__ACTUATOR
-#define MYACTUATOR_RMD__ACTUATOR
+#ifndef MYACTUATOR_RMD__ACTUATOR_INTERFACE
+#define MYACTUATOR_RMD__ACTUATOR_INTERFACE
 #pragma once
 
 #include <chrono>
@@ -15,40 +15,39 @@
 #include <string>
 
 #include "myactuator_rmd/actuator_state/acceleration_type.hpp"
-#include "myactuator_rmd/actuator_state/baud_rate.hpp"
+#include "myactuator_rmd/actuator_state/can_baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/feedback.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_1.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_2.hpp"
 #include "myactuator_rmd/actuator_state/motor_status_3.hpp"
-#include "myactuator_rmd/protocol/address_offset.hpp"
-#include "myactuator_rmd/protocol/node.hpp"
+#include "myactuator_rmd/driver/driver.hpp"
 
 
 namespace myactuator_rmd {
 
-  /**\class Actuator
+  /**\class ActuatorInterface
    * \brief
    *    Actuator for commanding the MyActuator RMD actuator series
   */
-  class Actuator: protected Node<AddressOffset::request,AddressOffset::response> {
+  class ActuatorInterface {
     public:
-      /**\fn Actuator
+      /**\fn ActuatorInterface
        * \brief
        *    Class constructor
        * 
-       * \param[in] ifname
-       *    The name of the network interface that should communicated over
+       * \param[in] driver
+       *    The driver communicating over the network interface
        * \param[in] actuator_id
        *    The actuator id [1, 32]
       */
-      Actuator(std::string const& ifname, std::uint32_t const actuator_id);
-      Actuator() = delete;
-      Actuator(Actuator const&) = delete;
-      Actuator& operator = (Actuator const&) = default;
-      Actuator(Actuator&&) = default;
-      Actuator& operator = (Actuator&&) = default;
+      ActuatorInterface(Driver& driver, std::uint32_t const actuator_id);
+      ActuatorInterface() = delete;
+      ActuatorInterface(ActuatorInterface const&) = default;
+      ActuatorInterface& operator = (ActuatorInterface const&) = default;
+      ActuatorInterface(ActuatorInterface&&) = default;
+      ActuatorInterface& operator = (ActuatorInterface&&) = default;
 
       /**\fn getAcceleration
        * \brief
@@ -300,14 +299,14 @@ namespace myactuator_rmd {
       */
       void setAcceleration(std::uint32_t const acceleration, AccelerationType const mode);
 
-      /**\fn setBaudRate
+      /**\fn setCanBaudRate
        * \brief
-       *    Set the communication Baud rate
+       *    Set the communication Baud rate for CAN bus
        * 
        * \param[in] baud_rate
        *    Communication Baud rate that the actuator should operator with
       */
-      void setBaudRate(BaudRate const baud_rate);
+      void setCanBaudRate(CanBaudRate const baud_rate);
 
       /**\fn setCanId
        * \brief
@@ -374,8 +373,12 @@ namespace myactuator_rmd {
        *    Stop the motor if running closed loop command
       */
       void stopMotor();
+
+    protected:
+      Driver& driver_;
+      std::uint32_t actuator_id_;
   };
 
 }
 
-#endif // MYACTUATOR_RMD__ACTUATOR
+#endif // MYACTUATOR_RMD__ACTUATOR_INTERFACE

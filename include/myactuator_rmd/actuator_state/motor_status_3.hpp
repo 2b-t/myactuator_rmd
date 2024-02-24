@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__MOTOR_STATUS_3
-#define MYACTUATOR_RMD__MOTOR_STATUS_3
+#ifndef MYACTUATOR_RMD__ACTUATOR_STATE__MOTOR_STATUS_3
+#define MYACTUATOR_RMD__ACTUATOR_STATE__MOTOR_STATUS_3
 #pragma once
 
 
@@ -54,4 +54,4 @@ namespace myactuator_rmd {
 
 }
 
-#endif // MYACTUATOR_RMD__MOTOR_STATUS_3
+#endif // MYACTUATOR_RMD__ACTUATOR_STATE__MOTOR_STATUS_3

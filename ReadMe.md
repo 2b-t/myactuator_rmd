@@ -96,7 +96,8 @@ A minimal example for the `main.cpp` can be found below:
 
 
 int main() {
-  myactuator_rmd::Actuator actuator {"can0", 1};
+  myactuator_rmd::CanDriver driver {"can0"};
+  myactuator_rmd::Actuator actuator {driver, 1};
   std::cout << actuator.getVersionDate() << std::endl;
   return EXIT_SUCCESS;
 }
@@ -113,7 +114,8 @@ $ python3
 Python 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import myactuator_rmd_py as rmd
->>> actuator = rmd.Actuator("can0", 1)
+>>> driver = rmd.CanDriver("can0")
+>>> actuator = rmd.Actuator(driver, 1)
 >>> actuator.getVersionDate()
 2023020601
 >>> actuator.sendPositionAbsoluteSetpoint(180.0, 500.0)

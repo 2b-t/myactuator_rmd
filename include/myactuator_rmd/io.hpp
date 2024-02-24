@@ -14,7 +14,7 @@
 #include <ostream>
 
 #include "myactuator_rmd/actuator_state/acceleration_type.hpp"
-#include "myactuator_rmd/actuator_state/baud_rate.hpp"
+#include "myactuator_rmd/actuator_state/can_baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/control_mode.hpp"
 #include "myactuator_rmd/actuator_state/error_code.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
@@ -46,13 +46,13 @@ namespace myactuator_rmd {
     return os;
   }
 
-  inline std::ostream& operator << (std::ostream& os, BaudRate const& baud_rate) noexcept {
+  inline std::ostream& operator << (std::ostream& os, CanBaudRate const& baud_rate) noexcept {
     os << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<std::uint16_t>(baud_rate) << std::dec;
     switch(baud_rate) {
-      case BaudRate::KBPS500:
+      case CanBaudRate::KBPS500:
         os << " (500 kbps)";
         break;
-      case BaudRate::MBPS1:
+      case CanBaudRate::MBPS1:
         os << " (1 Mbps)";
         break;
       default:

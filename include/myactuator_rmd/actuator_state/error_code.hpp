@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__ERROR_CODE
-#define MYACTUATOR_RMD__ERROR_CODE
+#ifndef MYACTUATOR_RMD__ACTUATOR_STATE__ERROR_CODE
+#define MYACTUATOR_RMD__ACTUATOR_STATE__ERROR_CODE
 #pragma once
 
 #include <cstdint>
@@ -36,4 +36,4 @@ namespace myactuator_rmd {
 
 }
 
-#endif // MYACTUATOR_RMD__ERROR_CODE
+#endif // MYACTUATOR_RMD__ACTUATOR_STATE__ERROR_CODE

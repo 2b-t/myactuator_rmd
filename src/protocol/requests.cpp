@@ -5,8 +5,8 @@
 #include <cstring>
 #include <string>
 
-#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/acceleration_type.hpp"
+#include "myactuator_rmd/actuator_state/can_baud_rate.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
@@ -53,14 +53,14 @@ namespace myactuator_rmd {
     return static_cast<AccelerationType>(getAs<std::uint8_t>(1));
   }
 
-  SetBaudRateRequest::SetBaudRateRequest(BaudRate const baud_rate)
+  SetCanBaudRateRequest::SetCanBaudRateRequest(CanBaudRate const baud_rate)
   : SingleMotorRequest{} {
     setAt(static_cast<std::uint8_t>(baud_rate), 7);
     return;
   }
 
-  BaudRate SetBaudRateRequest::getBaudRate() const noexcept {
-    return static_cast<BaudRate>(getAs<std::uint8_t>(7));
+  CanBaudRate SetCanBaudRateRequest::getBaudRate() const noexcept {
+    return static_cast<CanBaudRate>(getAs<std::uint8_t>(7));
   }
 
   SetEncoderZeroRequest::SetEncoderZeroRequest(std::int32_t const encoder_offset)

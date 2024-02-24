@@ -32,7 +32,7 @@ add_library(myactuator_rmd SHARED
   src/can/utilities.cpp
   src/protocol/requests.cpp
   src/protocol/responses.cpp
-  src/actuator.cpp
+  src/actuator_interface.cpp
 )
 target_include_directories(myactuator_rmd PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 #include <system_error>
+#include <vector>
 
 #include <linux/can.h>
 #include <linux/can/error.h>
@@ -54,15 +55,19 @@ namespace myactuator_rmd {
       return;
     }
 
-    void Node::setRecvFilter(std::uint32_t const& can_id, bool const is_invert) {
-      struct ::can_filter filter[1] {};
-      if (is_invert) {
-        filter[0].can_id = can_id | CAN_INV_FILTER;;
-      } else {
-        filter[0].can_id = can_id;
+    void Node::setRecvFilter(std::vector<std::uint32_t> const& can_ids, bool const is_invert) {
+      std::vector<struct ::can_filter> filters {};
+      filters.resize(can_ids.size());
+      for (std::size_t i = 0; i < can_ids.size(); ++i) {
+        auto const& can_id {can_ids[i]};
+        if (is_invert) {
+          filters[i].can_id = can_id | CAN_INV_FILTER;;
+        } else {
+          filters[i].can_id = can_id;
+        }
+        filters[i].can_mask = CAN_SFF_MASK;
       }
-      filter[0].can_mask = CAN_SFF_MASK;
-      if (::setsockopt(socket_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter, sizeof(filter)) < 0) {
+      if (::setsockopt(socket_, SOL_CAN_RAW, CAN_RAW_FILTER, filters.data(), sizeof(::can_filter)*filters.size()) < 0) {
         throw SocketException(errno, std::generic_category(), "Interface '" + ifname_ + "' - Could not configure read filter");
       }
       return;

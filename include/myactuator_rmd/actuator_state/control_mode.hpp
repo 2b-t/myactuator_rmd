@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__CONTROL_MODE
-#define MYACTUATOR_RMD__CONTROL_MODE
+#ifndef MYACTUATOR_RMD__ACTUATOR_STATE__CONTROL_MODE
+#define MYACTUATOR_RMD__ACTUATOR_STATE__CONTROL_MODE
 #pragma once
 
 #include <cstdint>
@@ -28,4 +28,4 @@ namespace myactuator_rmd {
 
 }
 
-#endif // MYACTUATOR_RMD__CONTROL_MODE
+#endif // MYACTUATOR_RMD__ACTUATOR_STATE__CONTROL_MODE

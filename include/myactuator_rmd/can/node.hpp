@@ -14,6 +14,7 @@
 #include <chrono>
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #include "myactuator_rmd/can/frame.hpp"
 
@@ -63,12 +64,12 @@ namespace myactuator_rmd {
          * \brief
          *    Set a filter for receiving CAN frames only for specific IDs
          * 
-         * \param[in] can_id
+         * \param[in] can_ids
          *    The CAN id that should be accepted (discarded if \p is_invert set to true)
          * \param[in] is_invert
          *    Invert the CAN id filter: If set to true all messages of the given ID are discarded
         */
-        void setRecvFilter(std::uint32_t const& can_id, bool const is_invert = false);
+        void setRecvFilter(std::vector<std::uint32_t> const& can_ids, bool const is_invert = false);
 
         /**\fn setSendTimeout
          * \brief

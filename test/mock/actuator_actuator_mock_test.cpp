@@ -5,6 +5,7 @@
 #include <string>
 #include <thread>
 
+#include "myactuator_rmd/driver/can_driver.hpp"
 #include "actuator_mock.hpp"
 
 
@@ -12,7 +13,7 @@ namespace myactuator_rmd {
   namespace test {
 
     ActuatorActuatorMockTest::ActuatorActuatorMockTest(std::string const& ifname, std::uint32_t const actuator_id)
-    : actuator_{ifname, actuator_id}, actuator_mock_{ifname, actuator_id}, mock_thread_{} {
+    : driver_{ifname}, actuator_{driver_, actuator_id}, actuator_mock_{ifname, actuator_id}, mock_thread_{} {
       return;
     }
 

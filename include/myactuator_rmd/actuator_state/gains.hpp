@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__GAINS
-#define MYACTUATOR_RMD__GAINS
+#ifndef MYACTUATOR_RMD__ACTUATOR_STATE__GAINS
+#define MYACTUATOR_RMD__ACTUATOR_STATE__GAINS
 #pragma once
 
 #include <cstdint>
@@ -107,4 +107,4 @@ namespace myactuator_rmd {
 
 }
 
-#endif // MYACTUATOR_RMD__GAINS
+#endif // MYACTUATOR_RMD__ACTUATOR_STATE__GAINS

@@ -13,8 +13,8 @@
 #include <chrono>
 #include <cstdint>
 
-#include "myactuator_rmd/actuator_state/baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/acceleration_type.hpp"
+#include "myactuator_rmd/actuator_state/can_baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
 #include "myactuator_rmd/protocol/single_motor_message.hpp"
@@ -151,17 +151,17 @@ namespace myactuator_rmd {
       AccelerationType getMode() const noexcept;
   };
 
-  /**\class SetBaudRateRequest
+  /**\class SetCanBaudRateRequest
    * \brief
    *    Request for setting the Baud rate of the actuator
   */
-  class SetBaudRateRequest: public SingleMotorRequest<CommandType::COMMUNICATION_BAUD_RATE_SETTING> {
+  class SetCanBaudRateRequest: public SingleMotorRequest<CommandType::COMMUNICATION_BAUD_RATE_SETTING> {
     public:
-      SetBaudRateRequest(BaudRate const baud_rate);
-      SetBaudRateRequest(SetBaudRateRequest const&) = default;
-      SetBaudRateRequest& operator = (SetBaudRateRequest const&) = default;
-      SetBaudRateRequest(SetBaudRateRequest&&) = default;
-      SetBaudRateRequest& operator = (SetBaudRateRequest&&) = default;
+      SetCanBaudRateRequest(CanBaudRate const baud_rate);
+      SetCanBaudRateRequest(SetCanBaudRateRequest const&) = default;
+      SetCanBaudRateRequest& operator = (SetCanBaudRateRequest const&) = default;
+      SetCanBaudRateRequest(SetCanBaudRateRequest&&) = default;
+      SetCanBaudRateRequest& operator = (SetCanBaudRateRequest&&) = default;
       using SingleMotorRequest::SingleMotorRequest;
 
       /**\fn getBaudRate
@@ -172,7 +172,7 @@ namespace myactuator_rmd {
        *    The Baud rate that the actuator should be using
       */
       [[nodiscard]]
-      BaudRate getBaudRate() const noexcept;
+      CanBaudRate getBaudRate() const noexcept;
   };
 
   /**\class SetEncoderZeroRequest

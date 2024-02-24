@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__MOTOR_STATUS_1
-#define MYACTUATOR_RMD__MOTOR_STATUS_1
+#ifndef MYACTUATOR_RMD__ACTUATOR_STATE__MOTOR_STATUS_1
+#define MYACTUATOR_RMD__ACTUATOR_STATE__MOTOR_STATUS_1
 #pragma once
 
 #include "myactuator_rmd/actuator_state/error_code.hpp"
@@ -55,4 +55,4 @@ namespace myactuator_rmd {
 
 }
 
-#endif // MYACTUATOR_RMD__MOTOR_STATUS_1
+#endif // MYACTUATOR_RMD__ACTUATOR_STATE__MOTOR_STATUS_1

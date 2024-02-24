@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 
 #include "myactuator_rmd/actuator_state/acceleration_type.hpp"
-#include "myactuator_rmd/actuator_state/baud_rate.hpp"
+#include "myactuator_rmd/actuator_state/can_baud_rate.hpp"
 #include "myactuator_rmd/actuator_state/gains.hpp"
 #include "myactuator_rmd/protocol/requests.hpp"
 
@@ -26,16 +26,16 @@ namespace myactuator_rmd {
       EXPECT_EQ(is_write, false);
     }
 
-    TEST(SetBaudRate0RequestTest, parsing) {
-      myactuator_rmd::SetBaudRateRequest const request {{0xB4, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00}};
-      BaudRate const baud_rate {request.getBaudRate()};
-      EXPECT_EQ(baud_rate, BaudRate::KBPS500);
+    TEST(SetCanBaudRate0RequestTest, parsing) {
+      myactuator_rmd::SetCanBaudRateRequest const request {{0xB4, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00}};
+      CanBaudRate const baud_rate {request.getBaudRate()};
+      EXPECT_EQ(baud_rate, CanBaudRate::KBPS500);
     }
 
-    TEST(SetBaudRate1RequestTest, parsing) {
-      myactuator_rmd::SetBaudRateRequest const request {{0xB4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}};
-      BaudRate const baud_rate {request.getBaudRate()};
-      EXPECT_EQ(baud_rate, BaudRate::MBPS1);
+    TEST(SetCanBaudRate1RequestTest, parsing) {
+      myactuator_rmd::SetCanBaudRateRequest const request {{0xB4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}};
+      CanBaudRate const baud_rate {request.getBaudRate()};
+      EXPECT_EQ(baud_rate, CanBaudRate::MBPS1);
     }
 
     TEST(SetEncoderZeroRequestTest, parsing) {

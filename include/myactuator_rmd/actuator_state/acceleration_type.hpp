@@ -6,8 +6,8 @@
  *    Tobit Flatscher (github.com/2b-t)
 */
 
-#ifndef MYACTUATOR_RMD__ACCELERATION_TYPE
-#define MYACTUATOR_RMD__ACCELERATION_TYPE
+#ifndef MYACTUATOR_RMD__ACTUATOR_STATE__ACCELERATION_TYPE
+#define MYACTUATOR_RMD__ACTUATOR_STATE__ACCELERATION_TYPE
 #pragma once
 
 #include <cstdint>
@@ -29,4 +29,4 @@ namespace myactuator_rmd {
 
 }
 
-#endif // MYACTUATOR_RMD__ACCELERATION_TYPE
+#endif // MYACTUATOR_RMD__ACTUATOR_STATE__ACCELERATION_TYPE

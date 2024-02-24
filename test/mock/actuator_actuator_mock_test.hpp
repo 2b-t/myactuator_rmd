@@ -16,14 +16,15 @@
 
 #include <gtest/gtest.h>
 
-#include "myactuator_rmd/actuator.hpp"
+#include "myactuator_rmd/driver/can_driver.hpp"
+#include "myactuator_rmd/actuator_interface.hpp"
 #include "actuator_mock.hpp"
 
 
 namespace myactuator_rmd {
   namespace test {
 
-    /**\class DriverActuatorTest
+    /**\class ActuatorActuatorMockTest
      * \brief
      *    Test fixture for testing the communication with a mock of the actual actuator through a
      *    (virtual) CAN loopback interface
@@ -58,7 +59,8 @@ namespace myactuator_rmd {
         void TearDown() override;
 
       protected:
-        myactuator_rmd::Actuator actuator_;
+        myactuator_rmd::CanDriver driver_;
+        myactuator_rmd::ActuatorInterface actuator_;
         ActuatorMock actuator_mock_;
         std::thread mock_thread_;
     };

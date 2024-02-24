@@ -5,8 +5,8 @@
 #include <string>
 
 #include "myactuator_rmd/can/frame.hpp"
+#include "myactuator_rmd/driver/can_driver.hpp"
 #include "myactuator_rmd/protocol/command_type.hpp"
-#include "myactuator_rmd/protocol/node.hpp"
 #include "myactuator_rmd/protocol/responses.hpp"
 #include "myactuator_rmd/exceptions.hpp"
 
@@ -20,7 +20,7 @@ namespace myactuator_rmd {
       
       if (data[0] == myactuator_rmd::CommandType::READ_SYSTEM_SOFTWARE_VERSION_DATE) {
         myactuator_rmd::GetVersionDateResponse const response {getVersionDate()};
-        send(response);
+        send(response, actuator_id_);
       } else {
         throw myactuator_rmd::Exception("Unrecognized request");
       }
@@ -28,7 +28,8 @@ namespace myactuator_rmd {
     }
 
     ActuatorAdaptor::ActuatorAdaptor(std::string const& ifname, std::uint32_t const actuator_id)
-    : Node{ifname, actuator_id} {
+    : CanNode{ifname}, actuator_id_{actuator_id} {
+      this->addId(actuator_id_);
       return;
     }
 

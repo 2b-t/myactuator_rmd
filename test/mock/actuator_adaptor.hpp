@@ -13,8 +13,8 @@
 #include <cstdint>
 #include <string>
 
-#include "myactuator_rmd/protocol/address_offset.hpp"
-#include "myactuator_rmd/protocol/node.hpp"
+#include "myactuator_rmd/driver/can_address_offset.hpp"
+#include "myactuator_rmd/driver/can_node.hpp"
 #include "myactuator_rmd/protocol/responses.hpp"
 
 
@@ -26,7 +26,7 @@ namespace myactuator_rmd {
      *    Counter-part to the actuator and parent class of the mock that can be used for testing the driver
      *    over a (virtual) CAN network interface
     */
-    class ActuatorAdaptor: protected myactuator_rmd::Node<AddressOffset::response,AddressOffset::request> {
+    class ActuatorAdaptor: protected myactuator_rmd::CanNode<CanAddressOffset::response,CanAddressOffset::request> {
       public:
         /**\fn handleRequest
          * \brief
@@ -60,6 +60,8 @@ namespace myactuator_rmd {
         ActuatorAdaptor& operator = (ActuatorAdaptor const&) = default;
         ActuatorAdaptor(ActuatorAdaptor&&) = default;
         ActuatorAdaptor& operator = (ActuatorAdaptor&&) = default;
+
+        std::uint32_t actuator_id_;
     };
 
   }

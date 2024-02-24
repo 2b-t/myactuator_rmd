@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
   } else if (vm.count("receive") && !vm.count("send")) {
     if (vm.count("can_id")) {
       std::uint32_t const id {static_cast<std::uint32_t>(std::stoul(can_id, nullptr, 16))};
-      node.setRecvFilter(id);
+      node.setRecvFilter({id});
     }
     while (true) {
       auto const frame {node.read()};
