@@ -10,6 +10,7 @@
 #define MYACTUATOR_RMD__DRIVER__CAN_NODE
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <string>
 #include <vector>

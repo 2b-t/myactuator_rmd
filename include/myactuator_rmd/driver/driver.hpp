@@ -10,6 +10,7 @@
 #define MYACTUATOR_RMD__DRIVER__DRIVER
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <vector>
 
