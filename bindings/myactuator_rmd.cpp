@@ -65,7 +65,8 @@ namespace myactuator_rmd {
 PYBIND11_MODULE(myactuator_rmd_py, m) {
 
   m.doc() = "MyActuator RMD  main module";
-  pybind11::class_<myactuator_rmd::CanDriver>(m, "CanDriver")
+  pybind11::class_<myactuator_rmd::Driver>(m, "Driver");
+  pybind11::class_<myactuator_rmd::CanDriver, myactuator_rmd::Driver>(m, "CanDriver")
     .def(pybind11::init<std::string const&>());
   pybind11::class_<myactuator_rmd::ActuatorInterface>(m, "ActuatorInterface")
     .def(pybind11::init<myactuator_rmd::Driver&, std::uint32_t>())
