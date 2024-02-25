@@ -1,6 +1,6 @@
 # MyActuator RMD set-up
 
-Author: [Tobit Flatscher](https://github.com/2b-t) (May 2023)
+Author: [Tobit Flatscher](https://github.com/2b-t) (2023 - 2024)
 
 
 
