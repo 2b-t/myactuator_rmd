@@ -64,7 +64,7 @@ namespace myactuator_rmd {
 
 PYBIND11_MODULE(myactuator_rmd_py, m) {
 
-  m.doc() = "MyActuator RMD  main module";
+  m.doc() = "Python bindings for MyActuator RMD-X actuator series";
   pybind11::class_<myactuator_rmd::Driver>(m, "Driver");
   pybind11::class_<myactuator_rmd::CanDriver, myactuator_rmd::Driver>(m, "CanDriver")
     .def(pybind11::init<std::string const&>());
@@ -197,7 +197,7 @@ PYBIND11_MODULE(myactuator_rmd_py, m) {
     .def(pybind11::init<std::string const&>())
     .def("setRecvFilter", &myactuator_rmd::can::Node::setRecvFilter)
     .def("read", &myactuator_rmd::can::Node::read)
-    .def("write", static_cast<void (myactuator_rmd::can::Node::*)(myactuator_rmd::can::Frame const&)>(&myactuator_rmd::can::Node::write));
+    .def("write", pybind11::overload_cast<myactuator_rmd::can::Frame const&>(&myactuator_rmd::can::Node::write));
   pybind11::register_exception<myactuator_rmd::can::SocketException>(m_can, "SocketException");
   pybind11::register_exception<myactuator_rmd::can::Exception>(m_can, "CanException");
   pybind11::register_exception<myactuator_rmd::can::TxTimeoutError>(m_can, "TxTimeoutError");
