@@ -244,7 +244,7 @@ namespace myactuator_rmd {
        *    Send a current set-point to the actuator
        *
        * \param[in] current
-       *    The current set-point in Ampere [-20.00, 20.00]
+       *    The current set-point in Ampere
        * \return
        *    Feedback control message containing actuator position, velocity, torque and temperature
       */
@@ -255,9 +255,9 @@ namespace myactuator_rmd {
        *    Send an absolute position set-point to the actuator additionally specifying a maximum velocity
        *
        * \param[in] position
-       *    The position set-point in degree [-360.00, 360.00]
+       *    The position set-point in degree
        * \param[in] max_speed
-       *    The maximum speed for the motion in degree per second [-1320.0, 1320.0]
+       *    The maximum speed for the motion in degree per second
        * \return
        *    Feedback control message containing actuator position, velocity, torque and temperature
       */
@@ -282,7 +282,7 @@ namespace myactuator_rmd {
        *    Send a velocity set-point to the actuator
        *
        * \param[in] speed
-       *    The speed set-point in degree per second [-1320.00, 1320.00]
+       *    The speed set-point in degree per second
        * \return
        *    Feedback control message containing actuator position, velocity, torque and temperature
       */

@@ -272,9 +272,9 @@ namespace myactuator_rmd {
        *    Class constructor
        * 
        * \param[in] position
-       *    The position set-point in degree [0.00, 360.00]
+       *    The position set-point in degree
        * \param[in] max_speed
-       *    The maximum speed for the motion in degree per second [0.0, 1320.0]
+       *    The maximum speed for the motion in degree per second
       */
       SetPositionAbsoluteRequest(float const position, float const max_speed);
       SetPositionAbsoluteRequest() = delete;
@@ -289,7 +289,7 @@ namespace myactuator_rmd {
        *    Get the maximum speed
        * 
        * \return
-       *    The maximum speed for the motion in degree per second [-1320.0, 1320.0]
+       *    The maximum speed for the motion in degree per second
       */
       [[nodiscard]]
       float getMaxSpeed() const noexcept;
@@ -299,7 +299,7 @@ namespace myactuator_rmd {
        *    Get the position
        * 
        * \return
-       *    The position set-point in degree [-360.00, 360.00]
+       *    The position set-point in degree
       */
       [[nodiscard]]
       float getPosition() const noexcept;
@@ -348,7 +348,7 @@ namespace myactuator_rmd {
        *    Class constructor
        * 
        * \param[in] current
-       *    The current set-point in Ampere [-20.00, 20.00]
+       *    The current set-point in Ampere
       */
       SetTorqueRequest(float const current);
       SetTorqueRequest() = delete;
@@ -363,7 +363,7 @@ namespace myactuator_rmd {
        *    Get the torque current
        * 
        * \return
-       *    The torque current in Ampere [-20.00, 20.00]
+       *    The torque current in Ampere
       */
       [[nodiscard]]
       float getTorqueCurrent() const noexcept;
@@ -380,7 +380,7 @@ namespace myactuator_rmd {
        *    Class constructor
        * 
        * \param[in] speed
-       *    The velocity set-point in degree per second [-1320.00, 1320.00]
+       *    The velocity set-point in degree per second
       */
       SetVelocityRequest(float const speed);
       SetVelocityRequest() = delete;
@@ -395,7 +395,7 @@ namespace myactuator_rmd {
        *    Get the velocity set-point
        * 
        * \return
-       *    The speed for the motion in degree per second [-1320.0, 1320.0]
+       *    The speed for the motion in degree per second
       */
       [[nodiscard]]
       float getSpeed() const noexcept;
