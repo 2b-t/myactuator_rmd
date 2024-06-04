@@ -9,6 +9,8 @@ Author: [Tobit Flatscher](https://github.com/2b-t) (2023 - 2024)
 ## 0. Overview
 This repository holds a **CAN driver software development kit** (SDK) for the [**MyActuator RMD X actuator series**](https://www.myactuator.com/rmd-x) written in modern C++17 using [Linux's SocketCAN](https://docs.kernel.org/networking/can.html). The driver SDK is also exposed to Python through Python bindings generated with [pybind11](https://github.com/pybind/pybind11).
 
+For the [`ros2_control` integration](https://control.ros.org/humble/index.html) please refer to [this repository](https://github.com/2b-t/myactuator_rmd_ros).
+
 
 
 ## 1. Installation
