@@ -12,6 +12,8 @@
 
 #include <array>
 #include <cstdint>
+#include <ios>
+#include <sstream>
 
 #include "myactuator_rmd/protocol/command_type.hpp"
 #include "myactuator_rmd/protocol/message.hpp"
@@ -49,7 +51,9 @@ namespace myactuator_rmd {
   constexpr SingleMotorMessage<C>::SingleMotorMessage(std::array<std::uint8_t,8> const& data)
   : Message{data} {
     if (data[0] != C) {
-      throw ProtocolException("Unexpected response");
+      std::stringstream ss {};
+      ss << std::showbase << std::hex << static_cast<std::uint16_t>(data[0]);
+      throw ProtocolException("Unexpected response '" + ss.str() + "'");
     }
     return;
   }
