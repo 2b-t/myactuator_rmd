@@ -294,6 +294,8 @@ namespace myactuator_rmd {
        * 
        * \param[in] acceleration
        *    The desired acceleration/deceleration in dps with a resolution of 1 dps/s [100, 60000]
+       *    For continuous motions the acceleration should be set to the value 0, see 
+       *    https://github.com/2b-t/myactuator_rmd/issues/10#issuecomment-2195847459
        * \param[in] mode
        *    The mode of the desired acceleration/deceleration to be set
       */

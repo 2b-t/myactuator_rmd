@@ -36,7 +36,7 @@ namespace myactuator_rmd {
 
   SetAccelerationRequest::SetAccelerationRequest(std::uint32_t const acceleration, AccelerationType const mode)
   : SingleMotorRequest{} {
-    if ((acceleration < 100) || (acceleration > 60000)) {
+    if ((acceleration != 0) && ((acceleration < 100) || (acceleration > 60000))) {
       throw ValueRangeException("Acceleration value '" + std::to_string(acceleration) + "' out of range [100, 60000]");
     }
     auto const acceleration_type {static_cast<std::uint8_t>(mode)};
