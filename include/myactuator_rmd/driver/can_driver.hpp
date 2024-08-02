@@ -18,6 +18,23 @@
 
 namespace myactuator_rmd {
 
+  // Namespace motion_mode so that it does not collide with the existing one
+  namespace motion_mode {
+
+    class ActuatorInterface;
+    
+    // Use the different send and receive offsets here:
+    class CanDriver: public CanNode<0x400,0x500> {
+      public:
+        CanDriver(std::string const& ifname)
+        : CanNode{ifname} {
+          return;
+        }
+
+        friend ActuatorInterface;
+    };
+  }
+
   class ActuatorInterface;
 
   /**\class CanDriver

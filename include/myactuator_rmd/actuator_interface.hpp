@@ -27,6 +27,19 @@
 
 namespace myactuator_rmd {
 
+  namespace motion_mode {
+    class ActuatorInterface {
+      public:
+        ActuatorInterface(Driver& driver, std::uint32_t const actuator_id);
+
+        void motionModeControl(float const p_des, float const v_des, std::uint16_t const kp, std::uint16_t const kd, float const t_ff);
+
+      protected:
+        Driver& driver_;
+        std::uint32_t actuator_id_;
+    };
+  }
+
   /**\class ActuatorInterface
    * \brief
    *    Actuator for commanding the MyActuator RMD actuator series

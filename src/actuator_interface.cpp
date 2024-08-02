@@ -19,6 +19,22 @@
 
 namespace myactuator_rmd {
 
+  namespace motion_mode {
+    ActuatorInterface::ActuatorInterface(Driver& driver, std::uint32_t const actuator_id)
+    : driver_{driver}, actuator_id_{actuator_id} {
+      driver.addId(actuator_id); // Make the actuator listen to the responses
+      return;
+    }
+    
+    // Please double check the data types, I did not check in detail if the following types make sense
+    void ActuatorInterface::motionModeControl(float const p_des, float const v_des, std::uint16_t const kp, std::uint16_t const kd, float const t_ff) {
+      MotionModeControlRequest const request {p_des, v_des, kp, kd, t_ff};
+      // [[maybe_unused]] MotionModeControlResponse const response {driver_.sendRecv(request, actuator_id_)};
+      driver_.sendRecv(request, actuator_id_);
+      return;
+    }
+  }
+
   ActuatorInterface::ActuatorInterface(Driver& driver, std::uint32_t const actuator_id)
   : driver_{driver}, actuator_id_{actuator_id} {
     driver.addId(actuator_id); // Make the actuator listen to the responses

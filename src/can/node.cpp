@@ -147,7 +147,7 @@ namespace myactuator_rmd {
     void Node::write(std::uint32_t const can_id, std::array<std::uint8_t,8> const& data) {
       struct ::can_frame frame {};
       frame.can_id = can_id;
-      frame.len = 8;
+      frame.can_dlc = 8;
       std::copy(std::begin(data), std::end(data), std::begin(frame.data));
       if (::write(socket_, &frame, sizeof(struct ::can_frame)) != sizeof(struct ::can_frame)) {
         std::ostringstream ss {};

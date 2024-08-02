@@ -21,6 +21,15 @@
 
 
 namespace myactuator_rmd {
+
+  namespace motion_mode {
+    class MotionModeControlRequest: public
+    Message{
+      public:
+      MotionModeControlRequest(float const p_des, float const v_des, std::uint16_t const kp, std::uint16_t const kd, float const t_ff);
+      using Message::Message;
+    };
+  }
   
   using GetAccelerationRequest = SingleMotorRequest<CommandType::READ_ACCELERATION>;
   using GetControllerGainsRequest = SingleMotorRequest<CommandType::READ_PID_PARAMETERS>;

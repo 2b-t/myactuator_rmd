@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <cstring>
 #include <string>
+#include <bitset>
+#include <array>
 
 #include "myactuator_rmd/actuator_state/acceleration_type.hpp"
 #include "myactuator_rmd/actuator_state/can_baud_rate.hpp"
@@ -12,6 +14,59 @@
 
 
 namespace myactuator_rmd {
+
+  namespace motion_mode {
+    MotionModeControlRequest::MotionModeControlRequest(float const p_des,    float const v_des, std::uint16_t const kp, std::uint16_t const kd, float const t_ff)
+    : Message{} {
+      // Convert from float radians to uint16_t for data field.
+      // Position -12.5 rad to 12.5 rad, int 0 to 65535.
+      auto const p_int {static_cast<std::uint16_t>((p_des + 12.5f) * 2621.4f)};
+      // Velocity -45 rad/s to 45 rad/s, int 0 to 4095 (12-bit).
+      auto const v_int {static_cast<std::uint16_t>((v_des + 45.0f) * 45.5f)};
+      // Ff-torque -24 Nm to 24 Nm, int 0 to 4095 (12-bit).
+      auto const t_int {static_cast<std::uint16_t>((t_ff + 24.0f) * 85.3125f)};
+
+      // Create bitsets for each parameter. 
+      std::bitset<16> const p_bit {p_int};
+      std::bitset<12> const v_bit {v_int};
+      std::bitset<12> const kp_bit {kp};
+      std::bitset<12> const kd_bit {kd};
+      std::bitset<12> const t_bit {t_int};
+      
+      // std::cout << "p_bit\t" << p_bit << std::endl;
+      // std::cout << "v_bit\t" << v_bit << std::endl;
+      // std::cout << "kp_bit\t" << kp_bit << std::endl;
+      // std::cout << "kd_bit\t" << kd_bit << std::endl;
+      // std::cout << "t_bit\t" << t_bit << std::endl;
+
+      // Create bitset for entire message.
+      std::bitset<64> bit_msg {};
+
+      // Copy parameter bitsets to message bitset.
+      for (std::size_t i = 0; i < 16; ++i) {
+        bit_msg.set(i + 48, p_bit.test(i));
+      }
+      for (std::size_t i = 0; i < 12; ++i) {
+        bit_msg.set(i + 36, v_bit.test(i));
+        bit_msg.set(i + 24, kp_bit.test(i));
+        bit_msg.set(i + 12, kd_bit.test(i));
+        bit_msg.set(i, t_bit.test(i));
+      }
+
+      // std::cout << "bit msg\t" << bit_msg << std::endl;
+      // std::cout << std::endl;
+
+      // Taken from https://stackoverflow.com/a/58979953
+      std::bitset<64> const mask {0xff};
+      // std::array<std::uint8_t, 8> msg {};
+      for (std::size_t i = 0; i < bit_msg.size()/8; ++i) {
+        Message::data_.at(Message::data_.size() - 1 - i) = static_cast<std::uint8_t>(((bit_msg >> (8*i)) & mask).to_ulong());
+      }
+
+      // Message::data_ = msg;
+      return;
+    }
+  }
 
   bool CanIdRequest::isWrite() const noexcept {
     return (getAs<std::uint8_t>(2) == 0) ? true : false;

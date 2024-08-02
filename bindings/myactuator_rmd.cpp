@@ -68,7 +68,17 @@ namespace myactuator_rmd {
 PYBIND11_MODULE(myactuator_rmd_py, m) {
 
   m.doc() = "Python bindings for MyActuator RMD-X actuator series";
+
   pybind11::class_<myactuator_rmd::Driver>(m, "Driver");
+  
+  // New bindings for motion mode.  
+  pybind11::class_<myactuator_rmd::motion_mode::CanDriver, myactuator_rmd::Driver>(m, "MotionCanDriver")
+    .def(pybind11::init<std::string const&>());
+  pybind11::class_<myactuator_rmd::motion_mode::ActuatorInterface>(m, "MotionActuatorInterface") 
+    .def(pybind11::init<myactuator_rmd::Driver&, std::uint32_t>())
+    .def("motionModeControl", &myactuator_rmd::motion_mode::ActuatorInterface::motionModeControl);
+  // end of new
+  
   pybind11::class_<myactuator_rmd::CanDriver, myactuator_rmd::Driver>(m, "CanDriver")
     .def(pybind11::init<std::string const&>());
   pybind11::class_<myactuator_rmd::ActuatorInterface>(m, "ActuatorInterface")
