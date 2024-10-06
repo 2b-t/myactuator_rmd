@@ -80,6 +80,9 @@ In your CMake package you can then find the package and link to it as follows:
 cmake_minimum_required(VERSION 3.20)
 project(your_project)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 find_package(myactuator_rmd REQUIRED)
 
 add_executable(your_node
