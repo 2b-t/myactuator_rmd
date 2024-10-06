@@ -34,7 +34,7 @@ After having installed its dependencies you will have to install the driver SDK 
 
 ### 1.1 Building the C++ library
 
-For **building the C++ driver SDK** open a new terminal inside this folder and execute the following commands
+For **building the C++ driver SDK** open a new terminal inside this folder and execute the following commands. On older versions of Linux the build might fail with the error message `error: 'const struct can_frame' has no member named 'len'` and you will have to apply the code modification discussed in [issue #5](https://github.com/2b-t/myactuator_rmd/issues/5).
 
 ```bash
 $ mkdir build
