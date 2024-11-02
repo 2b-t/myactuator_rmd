@@ -19,9 +19,6 @@ if(NOT UNIX)
   message(FATAL_ERROR "Currently this driver only supports Linux!")
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
 find_package(ament_cmake QUIET)
 if(ament_cmake_FOUND)
   message(STATUS "Ament CMake detected.")
@@ -34,12 +31,17 @@ add_library(myactuator_rmd SHARED
   src/protocol/responses.cpp
   src/actuator_interface.cpp
 )
+target_compile_features(myactuator_rmd PUBLIC
+  cxx_std_17
+)
 target_include_directories(myactuator_rmd PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
 set(MYACTUATOR_RMD_LIBRARIES "")
-target_link_libraries(myactuator_rmd ${MYACTUATOR_RMD_LIBRARIES})
+target_link_libraries(myactuator_rmd PUBLIC 
+  ${MYACTUATOR_RMD_LIBRARIES}
+)
 install(
   DIRECTORY include/
   DESTINATION include/
@@ -52,22 +54,29 @@ install(TARGETS myactuator_rmd
 )
 
 if(PYTHON_BINDINGS)
-  find_package(Python REQUIRED COMPONENTS Interpreter Development)
+  find_package(Python REQUIRED COMPONENTS
+    Development  
+    Interpreter
+  )
   find_package(pybind11 CONFIG REQUIRED)
 
   pybind11_add_module(myactuator_rmd_py
     bindings/myactuator_rmd.cpp
   )
+  target_compile_features(myactuator_rmd_py PUBLIC
+    cxx_std_17
+  )
   target_link_libraries(myactuator_rmd_py PUBLIC
     myactuator_rmd
+  )
+
+  install(TARGETS myactuator_rmd_py
+    DESTINATION ${PYTHON_INSTALL_DIR}/${PROJECT_NAME}
   )
   if(ament_cmake_FOUND)
     find_package(ament_cmake_python REQUIRED)
     ament_python_install_package(${PROJECT_NAME})
   endif()
-  install(TARGETS myactuator_rmd_py
-    DESTINATION ${PYTHON_INSTALL_DIR}/${PROJECT_NAME}
-  )
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
@@ -78,7 +87,13 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     add_executable(can_node
       test/can_node.cpp
     )
-    target_link_libraries(can_node ${Boost_PROGRAM_OPTIONS_LIBRARY} myactuator_rmd)
+    target_compile_features(can_node PUBLIC
+      cxx_std_17
+    )
+    target_link_libraries(can_node PUBLIC
+      Boost::program_options
+      myactuator_rmd
+    )
   endif()
 
   find_package(GTest REQUIRED)
@@ -92,9 +107,14 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     test/actuator_test.cpp
     test/run_tests.cpp
   )
+  target_compile_features(run_tests PUBLIC
+    cxx_std_17
+  )
   target_compile_definitions(run_tests PUBLIC NDEBUG)
   set(MYACTUATOR_RMD_TEST_LIBRARIES myactuator_rmd GTest::gmock GTest::gtest pthread)
-  target_link_libraries(run_tests ${MYACTUATOR_RMD_TEST_LIBRARIES})
+  target_link_libraries(run_tests PUBLIC
+    ${MYACTUATOR_RMD_TEST_LIBRARIES}
+  )
   gtest_discover_tests(run_tests
     TEST_SUFFIX .noArgs
     TEST_LIST noArgsTests
@@ -108,7 +128,10 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
 endif()
 
 if(ament_cmake_FOUND)
-  ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
+  ament_export_targets(
+    ${PROJECT_NAME}Targets
+    HAS_LIBRARY_TARGET
+  )
   ament_package()
 else()
   include(GNUInstallDirs)
