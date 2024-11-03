@@ -5,7 +5,7 @@ option(PYTHON_BINDINGS "Building Python bindings" OFF)
 option(BUILD_TESTING "Build unit and integration tests" OFF)
 option(SETUP_TEST_IFNAME "Set-up the test VCAN interface automatically" OFF)
 
-if(CMAKE_COMPILER_IS_GNUCC AND BUILD_TESTING)
+if(CMAKE_COMPILER_IS_GNUCXX AND BUILD_TESTING)
   option(ENABLE_COVERAGE "Enable coverage reporting for GCC/Clang" OFF)
 
   if(ENABLE_COVERAGE)
