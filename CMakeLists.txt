@@ -5,10 +5,10 @@ option(PYTHON_BINDINGS "Building Python bindings" OFF)
 option(BUILD_TESTING "Build unit and integration tests" OFF)
 option(SETUP_TEST_IFNAME "Set-up the test VCAN interface automatically" OFF)
 
-if (CMAKE_COMPILER_IS_GNUCC AND BUILD_TESTING)
+if(CMAKE_COMPILER_IS_GNUCC AND BUILD_TESTING)
   option(ENABLE_COVERAGE "Enable coverage reporting for GCC/Clang" OFF)
 
-  if (ENABLE_COVERAGE)
+  if(ENABLE_COVERAGE)
     message(STATUS "Building with coverage reporting for GCC/Clang.")
     add_compile_options(--coverage -O0)
     link_libraries(--coverage)
@@ -42,8 +42,7 @@ set(MYACTUATOR_RMD_LIBRARIES "")
 target_link_libraries(myactuator_rmd PUBLIC 
   ${MYACTUATOR_RMD_LIBRARIES}
 )
-install(
-  DIRECTORY include/
+install(DIRECTORY include/
   DESTINATION include/
 )
 install(TARGETS myactuator_rmd
@@ -83,7 +82,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   enable_testing()
 
   find_package(Boost 1.40.0 QUIET COMPONENTS program_options)
-  if (Boost_PROGRAM_OPTIONS_FOUND)
+  if(Boost_PROGRAM_OPTIONS_FOUND)
     add_executable(can_node
       test/can_node.cpp
     )
@@ -121,15 +120,14 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   )
   set_tests_properties(${noArgsTests} PROPERTIES TIMEOUT 10)
 
-  if (SETUP_TEST_IFNAME)
+  if(SETUP_TEST_IFNAME)
     set(VCAN_IFNAME "vcan_test")
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CTestCustom.cmake.in ${CMAKE_BINARY_DIR}/CTestCustom.cmake)
   endif()
 endif()
 
 if(ament_cmake_FOUND)
-  ament_export_targets(
-    ${PROJECT_NAME}Targets
+  ament_export_targets(${PROJECT_NAME}Targets
     HAS_LIBRARY_TARGET
   )
   ament_package()
