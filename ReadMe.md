@@ -25,7 +25,7 @@ $ sudo apt-get install -y can-utils iproute2 linux-modules-extra-$(uname -r)
 In case you want to use the Python bindings you will have to additionally install [Python 3](https://www.python.org/downloads/), [pip](https://pypi.org/project/pip/) and [pybind11](https://pybind11.readthedocs.io/en/stable/):
 
 ```bash
-$ sudo apt-get install -y python3 python3-pip python3-pybind11
+$ sudo apt-get install -y python3 python3-pip python3-pybind11 python3-setuptools
 ```
 
 After having installed its dependencies you will have to install the driver SDK either as a C++ library or Python package as described in the following steps. Both will use CMake to compile the C++ code.
