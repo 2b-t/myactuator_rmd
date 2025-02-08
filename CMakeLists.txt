@@ -53,7 +53,7 @@ install(TARGETS myactuator_rmd
 )
 
 if(PYTHON_BINDINGS)
-  find_package(Python REQUIRED COMPONENTS
+  find_package(Python3 REQUIRED COMPONENTS
     Development  
     Interpreter
   )

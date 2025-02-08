@@ -30,7 +30,7 @@ class CMakeBuild(build_ext):
 
         cmake_args = [
             f"-D CMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}{os.sep}",
-            f"-D PYTHON_EXECUTABLE={sys.executable}",
+            f"-D Python3_EXECUTABLE={sys.executable}",
             f"-D CMAKE_BUILD_TYPE={cfg}",
             f"-D PYTHON_BINDINGS=on"
         ]
