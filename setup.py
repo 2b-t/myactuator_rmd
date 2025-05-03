@@ -32,7 +32,8 @@ class CMakeBuild(build_ext):
             f"-D CMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}{os.sep}",
             f"-D Python3_EXECUTABLE={sys.executable}",
             f"-D CMAKE_BUILD_TYPE={cfg}",
-            f"-D PYTHON_BINDINGS=on"
+            f"-D PYTHON_BINDINGS=on",
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
         ]
         build_args = []
         if "CMAKE_ARGS" in os.environ:
