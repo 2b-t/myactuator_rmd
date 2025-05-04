@@ -49,17 +49,18 @@ fi
 # --- Installation Steps ---
 echo "Starting installation of myactuator_rmd_py..."
 
-# 1. Install/Upgrade pybind11 (using --user to match previous successful install)
-echo "Installing/upgrading pybind11..."
-python3 -m pip install --upgrade pybind11 --user
+# 1. Install/Upgrade required packages (using --user to match previous successful install)
+echo "Installing/upgrading required packages..."
+python3 -m pip install --upgrade pip wheel build pybind11 setuptools --user
 
-# 2. Install the package
-echo "Building and installing myactuator_rmd_py from $PROJECT_DIR..."
-# Use --user install. Export CMAKE_COMMAND for the pip subprocess.
+# 2. Build the wheel
+echo "Building wheel for myactuator_rmd_py from $PROJECT_DIR..."
 export CMAKE_COMMAND="$CMAKE_CMD"
-# We keep the deprecated --global-option as it worked with the current setup.py.
-# Consider updating to --config-settings if setup.py/build system is modernized.
-python3 -m pip install . --user --global-option=build_ext
+python3 -m pip wheel . --no-deps -w dist/
+
+# 3. Install the wheel
+echo "Installing the wheel..."
+python3 -m pip install --user --force-reinstall dist/myactuator_rmd_py*.whl
 
 echo ""
 echo "Installation of myactuator_rmd_py completed successfully!"
