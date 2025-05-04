@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 project(myactuator_rmd VERSION 0.0.1)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 option(PYTHON_BINDINGS "Building Python bindings" OFF)
 option(BUILD_TESTING "Build unit and integration tests" OFF)
 option(SETUP_TEST_IFNAME "Set-up the test VCAN interface automatically" OFF)
@@ -39,7 +42,26 @@ target_include_directories(myactuator_rmd PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 set(MYACTUATOR_RMD_LIBRARIES "")
-target_link_libraries(myactuator_rmd PUBLIC 
+
+# --- Check for CAN frame member name ---
+include(CheckCXXSourceCompiles)
+check_cxx_source_compiles("
+#include <linux/can.h>
+int main() {
+  struct can_frame frame;
+  frame.can_dlc = 0;
+  return 0;
+}" HAVE_CAN_DLC)
+
+if(HAVE_CAN_DLC)
+  message(STATUS "Detected can_frame.can_dlc member - using this field name.")
+  target_compile_definitions(myactuator_rmd PUBLIC HAVE_CAN_DLC)
+else()
+  message(STATUS "Using can_frame.len member for newer Linux CAN versions.")
+endif()
+# --------------------------------------
+
+target_link_libraries(myactuator_rmd PUBLIC
   ${MYACTUATOR_RMD_LIBRARIES}
 )
 install(DIRECTORY include/
@@ -57,7 +79,24 @@ if(PYTHON_BINDINGS)
     Development  
     Interpreter
   )
-  find_package(pybind11 CONFIG REQUIRED)
+
+  # --- Dynamically find pybind11 CMake directory ---
+  execute_process(
+      COMMAND "${Python3_EXECUTABLE}" -m pybind11 --cmakedir
+      OUTPUT_VARIABLE PYBIND11_CMAKE_DIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      RESULT_VARIABLE PYBIND11_RESULT
+      ERROR_QUIET
+  )
+  if(PYBIND11_RESULT EQUAL 0 AND IS_DIRECTORY "${PYBIND11_CMAKE_DIR}")
+      set(pybind11_DIR "${PYBIND11_CMAKE_DIR}")
+      message(STATUS "Found pybind11 CMake dir via Python: ${pybind11_DIR}")
+  else()
+       message(WARNING "Could not find pybind11 CMake dir via 'python3 -m pybind11 --cmakedir'. Falling back to standard find_package.")
+  endif()
+  # -------------------------------------------------
+
+  find_package(pybind11 REQUIRED)
 
   pybind11_add_module(myactuator_rmd_py
     bindings/myactuator_rmd.cpp
@@ -65,6 +104,10 @@ if(PYTHON_BINDINGS)
   target_compile_features(myactuator_rmd_py PUBLIC
     cxx_std_17
   )
+  # Add HAVE_CAN_DLC definition if needed by bindings (unlikely, but for completeness)
+  if(HAVE_CAN_DLC)
+    target_compile_definitions(myactuator_rmd_py PUBLIC HAVE_CAN_DLC)
+  endif()
   target_link_libraries(myactuator_rmd_py PUBLIC
     myactuator_rmd
   )

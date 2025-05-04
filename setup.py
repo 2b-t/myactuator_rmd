@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import shutil
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
@@ -32,7 +33,8 @@ class CMakeBuild(build_ext):
             f"-D CMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}{os.sep}",
             f"-D Python3_EXECUTABLE={sys.executable}",
             f"-D CMAKE_BUILD_TYPE={cfg}",
-            f"-D PYTHON_BINDINGS=on"
+            f"-D PYTHON_BINDINGS=on",
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
         ]
         build_args = []
         if "CMAKE_ARGS" in os.environ:
@@ -53,7 +55,24 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
         )
 
+        # Copy the .pyi file to the build directory
+        src_pyi = Path('myactuator_rmd_py.pyi')
+        dst_pyi = Path(extdir) / 'myactuator_rmd_py.pyi'
+        shutil.copy(src_pyi, dst_pyi)
+
 setup(
+    name="myactuator_rmd_py",
+    version="0.2.0",
+    author="Tobit Flatscher",
+    author_email="",
+    description="Python bindings for MyActuator RMD actuators",
+    long_description="Python bindings for the MyActuator RMD actuator series using CAN communication",
+    url="https://github.com/2b-t/myactuator_rmd",
     ext_modules=[CMakeExtension("myactuator_rmd_py")],
-    cmdclass={"build_ext": CMakeBuild}
+    cmdclass={"build_ext": CMakeBuild},
+    # Include .pyi files for use with type checking
+    package_data={"": ["*.pyi"]},
+    include_package_data=True,
+    zip_safe=False,
+    python_requires=">=3.6",
 )
