@@ -54,11 +54,10 @@ int main() {
 }" HAVE_CAN_DLC)
 
 if(HAVE_CAN_DLC)
-  message(STATUS "Detected can_frame.can_dlc member.")
+  message(STATUS "Detected can_frame.can_dlc member which means we are using an older Linux CAN implementation.")
   target_compile_definitions(myactuator_rmd PUBLIC HAVE_CAN_DLC)
 else()
-  message(STATUS "Using can_frame.len member.")
-  # Assuming 'len' is the alternative, no specific define needed unless code requires it
+  message(STATUS "Using can_frame.len member for newer Linux CAN versions.")
 endif()
 # --------------------------------------
 
