@@ -54,7 +54,7 @@ int main() {
 }" HAVE_CAN_DLC)
 
 if(HAVE_CAN_DLC)
-  message(STATUS "Detected can_frame.can_dlc member which means we are using an older Linux CAN implementation.")
+  message(STATUS "Detected can_frame.can_dlc member - using this field name.")
   target_compile_definitions(myactuator_rmd PUBLIC HAVE_CAN_DLC)
 else()
   message(STATUS "Using can_frame.len member for newer Linux CAN versions.")
