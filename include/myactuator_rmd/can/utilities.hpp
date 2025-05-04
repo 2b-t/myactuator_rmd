@@ -13,7 +13,6 @@
 #include <chrono>
 #include <ostream>
 #include <ratio>
-#include <string>
 
 #include <linux/can.h>
 #include <sys/time.h>
